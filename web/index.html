@@ -1,0 +1,315 @@
+<!DOCTYPE html><html lang="en"><head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Infinitum LIVE Creator Network - Your Premier Destination for LIVE Talent. Official app for iOS, Android, and Web.">
+  <meta name="keywords" content="Infinitum LIVE, Creator Network, TikTok Agency, Live Streaming, Content Creators">
+  <meta name="author" content="Infinitum Imagery LLC">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#6366F1">
+  
+  <!-- Apple iOS Meta Tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Infinitum LIVE">
+  <meta name="apple-itunes-app" content="app-id=APP_ID">
+  
+  <!-- Mobile Web App Meta Tags -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Infinitum LIVE Creator Network">
+  <meta property="og:description" content="Your Premier Destination for LIVE Talent">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://infinitumlive.com/">
+  <meta property="og:image" content="icons/Icon-512.png">
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Infinitum LIVE Creator Network">
+  <meta name="twitter:description" content="Your Premier Destination for LIVE Talent">
+  <meta name="twitter:image" content="icons/Icon-512.png">
+  
+  <title>Infinitum LIVE Creator Network</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/Icon-192.png">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #F8FAFC;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #0F172A 100%);
+      background-size: 200% 200%;
+      animation: gradientShift 8s ease infinite;
+      color: #6366F1;
+      position: relative;
+      overflow: hidden;
+    }
+    .loading::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+      animation: pulse 4s ease-in-out infinite;
+    }
+    .loading-content {
+      text-align: center;
+      z-index: 1;
+      position: relative;
+    }
+    .logo-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 40px;
+    }
+    .logo-circle {
+      width: 120px;
+      height: 120px;
+      border: 3px solid #6366F1;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 1.5s linear infinite;
+      position: absolute;
+    }
+    .logo-inner {
+      width: 100px;
+      height: 100px;
+      border: 3px solid #8B5CF6;
+      border-bottom-color: transparent;
+      border-radius: 50%;
+      animation: spinReverse 1s linear infinite;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+    .loading-title {
+      font-size: 42px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0 0 10px 0;
+      letter-spacing: 4px;
+      animation: fadeInUp 1s ease;
+      text-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+    }
+    .loading-subtitle {
+      font-size: 18px;
+      color: #8B5CF6;
+      margin: 0 0 40px 0;
+      letter-spacing: 2px;
+      animation: fadeInUp 1.2s ease;
+    }
+    .loading-bar {
+      width: 300px;
+      height: 4px;
+      background: rgba(99, 102, 241, 0.2);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0 auto;
+      position: relative;
+    }
+    .loading-progress {
+      height: 100%;
+      background: linear-gradient(90deg, #6366F1 0%, #8B5CF6 50%, #EC4899 100%);
+      border-radius: 10px;
+      animation: loadingProgress 2s ease-in-out infinite;
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes spinReverse {
+      0% { transform: rotate(360deg); }
+      100% { transform: rotate(0deg); }
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes loadingProgress {
+      0% { width: 0%; }
+      50% { width: 70%; }
+      100% { width: 100%; }
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.1); }
+    }
+    @media (prefers-color-scheme: light) {
+      .loading {
+        background: linear-gradient(135deg, #F8FAFC 0%, #E2E8F0 50%, #F8FAFC 100%);
+        background-size: 200% 200%;
+      }
+    }
+  </style>
+  <style id="splash-screen-style">
+    html {
+      height: 100%
+    }
+
+    body {
+      margin: 0;
+      min-height: 100%;
+      background-color: #F8FAFC;
+          background-size: 100% 100%;
+    }
+
+    .center {
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+
+    .contain {
+      display:block;
+      width:100%; height:100%;
+      object-fit: contain;
+    }
+
+    .stretch {
+      display:block;
+      width:100%; height:100%;
+    }
+
+    .cover {
+      display:block;
+      width:100%; height:100%;
+      object-fit: cover;
+    }
+
+    .bottom {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      -ms-transform: translate(-50%, 0);
+      transform: translate(-50%, 0);
+    }
+
+    .bottomLeft {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    }
+
+    .bottomRight {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+  </style>
+  <script id="splash-screen-script">
+    function removeSplashFromWeb() {
+      document.getElementById("splash")?.remove();
+      document.getElementById("splash-branding")?.remove();
+      document.body.style.background = "transparent";
+    }
+  </script>
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+</head>
+<body>
+  <picture id="splash">
+      <source srcset="splash/img/light-1x.png 1x, splash/img/light-2x.png 2x, splash/img/light-3x.png 3x, splash/img/light-4x.png 4x" media="(prefers-color-scheme: light)">
+      <source srcset="splash/img/dark-1x.png 1x, splash/img/dark-2x.png 2x, splash/img/dark-3x.png 3x, splash/img/dark-4x.png 4x" media="(prefers-color-scheme: dark)">
+      <img class="center" aria-hidden="true" src="splash/img/light-1x.png" alt="">
+  </picture>
+  <div id="loading" class="loading">
+    <div class="loading-content">
+      <div class="logo-container">
+        <div class="logo-circle"></div>
+        <div class="logo-inner"></div>
+      </div>
+      <h1 class="loading-title">INFINITUM LIVE</h1>
+      <p class="loading-subtitle">Creator Network</p>
+      <div class="loading-bar">
+        <div class="loading-progress"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Hide loading when Flutter loads
+    window.addEventListener('flutter-first-frame', function() {
+      const loading = document.getElementById('loading');
+      if (loading) {
+        loading.style.display = 'none';
+      }
+    });
+    
+    window.addEventListener('load', function(ev) {
+      if (typeof _flutter !== 'undefined' && _flutter.loader) {
+        _flutter.loader.loadEntrypoint({
+          onEntrypointLoaded: function(engineInitializer) {
+            engineInitializer.initializeEngine().then(function(appRunner) {
+              appRunner.runApp();
+            }).catch(function(error) {
+              console.error('Error initializing Flutter:', error);
+              const loading = document.getElementById('loading');
+              if (loading) {
+                loading.innerHTML = '<p style="color: red;">Error loading app. Please refresh.</p>';
+              }
+            });
+          }
+        });
+      } else {
+        // Retry after a short delay
+        setTimeout(function() {
+          if (typeof _flutter !== 'undefined' && _flutter.loader) {
+            _flutter.loader.loadEntrypoint({
+              onEntrypointLoaded: function(engineInitializer) {
+                engineInitializer.initializeEngine().then(function(appRunner) {
+                  appRunner.runApp();
+                }).catch(function(error) {
+                  console.error('Error initializing Flutter:', error);
+                  const loading = document.getElementById('loading');
+                  if (loading) {
+                    loading.innerHTML = '<p style="color: red;">Error loading app. Please refresh.</p>';
+                  }
+                });
+              }
+            });
+          } else {
+            const loading = document.getElementById('loading');
+            if (loading) {
+              loading.innerHTML = '<p style="color: red;">Failed to load Flutter. Please refresh.</p>';
+            }
+          }
+        }, 100);
+      }
+    });
+  </script>
+  <script src="flutter.js" defer=""></script>
+
+
+
+</body></html>

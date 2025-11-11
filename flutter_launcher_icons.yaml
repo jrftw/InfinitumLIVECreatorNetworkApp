@@ -1,0 +1,21 @@
+# Filename: flutter_launcher_icons.yaml
+# Purpose: Configuration for generating app icons for all platforms
+# Author: Kevin Doyle Jr. / Infinitum Imagery LLC
+# Last Modified: 2025-01-27
+# Dependencies: flutter_launcher_icons package
+# Platform Compatibility: iOS, Android, Web
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  web:
+    generate: true
+    image_path: "assets/images/app_logo.png"
+    background_color: "#F8FAFC"
+    theme_color: "#6366F1"
+  image_path: "assets/images/app_logo.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/images/app_logo.png"
+  remove_alpha_ios: true
+  min_sdk_android: 21
+

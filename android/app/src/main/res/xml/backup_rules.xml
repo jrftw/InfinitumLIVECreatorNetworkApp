@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Filename: backup_rules.xml
+  Purpose: Backup rules for Android app data
+  Author: Kevin Doyle Jr. / Infinitum Imagery LLC
+  Last Modified: 2025-01-27
+  Platform Compatibility: Android
+-->
+<full-backup-content>
+    <!-- Exclude sensitive data from backup -->
+    <exclude domain="sharedpref" path="flutter." />
+</full-backup-content>
+

@@ -1,0 +1,18 @@
+# Filename: flutter_native_splash.yaml
+# Purpose: Configuration for generating native splash screens for all platforms
+# Author: Kevin Doyle Jr. / Infinitum Imagery LLC
+# Last Modified: 2025-01-27
+# Dependencies: flutter_native_splash package
+# Platform Compatibility: iOS, Android, Web
+
+flutter_native_splash:
+  color: "#F8FAFC"
+  image: assets/images/app_logo.png
+  android: true
+  ios: true
+  web: true
+  android_12:
+    image: assets/images/app_logo.png
+    color: "#F8FAFC"
+  fullscreen: true
+
