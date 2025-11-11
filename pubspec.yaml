@@ -18,7 +18,7 @@ dependencies:
   cached_network_image: ^3.3.0
   shimmer: ^3.0.0
   shared_preferences: ^2.2.2
-  package_info_plus: ^5.0.1
+  package_info_plus: ^9.0.0
 
 dev_dependencies:
   flutter_test:
