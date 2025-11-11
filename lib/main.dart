@@ -10,7 +10,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:infinitum_live_creator_network/core/app_config.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/core/version_manager.dart';
@@ -107,6 +106,19 @@ class _InfinitumLiveAppState extends State<InfinitumLiveApp> {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: _themeMode,
+      // Performance optimizations
+      builder: (context, child) {
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            // Enable smooth scrolling
+            textScaler: MediaQuery.of(context).textScaler.clamp(
+              minScaleFactor: 0.8,
+              maxScaleFactor: 1.2,
+            ),
+          ),
+          child: child!,
+        );
+      },
       home: SplashScreen(
         onThemeModeChanged: _updateThemeMode,
       ),

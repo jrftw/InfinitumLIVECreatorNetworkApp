@@ -12,6 +12,7 @@ import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/models/announcement_model.dart';
 import 'package:infinitum_live_creator_network/services/api_service.dart';
 import 'package:infinitum_live_creator_network/utils/url_launcher_util.dart';
+import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:intl/intl.dart';
 
@@ -93,16 +94,16 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
   }
   
   Widget _buildShimmerCard() {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    
     return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: Card(
+      baseColor: isDark ? Colors.grey[800]! : Colors.grey[300]!,
+      highlightColor: isDark ? Colors.grey[700]! : Colors.grey[100]!,
+      child: GlassCardWidget(
+        padding: const EdgeInsets.all(16),
         child: Container(
           height: 150,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-          ),
         ),
       ),
     );
@@ -164,6 +165,7 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
     }
     
     return ListView.builder(
+      physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.all(16),
       itemCount: _announcements.length,
       itemBuilder: (context, index) {
@@ -189,79 +191,71 @@ class _AnnouncementCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     
-    return Card(
-      elevation: announcement.isImportant ? 4 : 2,
-      color: announcement.isImportant
-          ? theme.colorScheme.primaryContainer
-          : null,
-      child: InkWell(
+    return RepaintBoundary(
+      child: GlassCardWidget(
         onTap: announcement.link != null
             ? () => _openLink(context, announcement.link!)
             : null,
-        borderRadius: BorderRadius.circular(16),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header
-              Row(
-                children: [
-                  if (announcement.isImportant)
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.error,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        'IMPORTANT',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
+        padding: const EdgeInsets.all(16),
+        backgroundColor: announcement.isImportant
+            ? theme.colorScheme.primary.withOpacity(0.15)
+            : null,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header
+            Row(
+              children: [
+                if (announcement.isImportant)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.error,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      'IMPORTANT',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  if (announcement.isImportant) const SizedBox(width: 8),
-                  if (announcement.date != null)
-                    Text(
-                      _formatDate(announcement.date!),
-                      style: theme.textTheme.bodySmall,
-                    ),
-                  const Spacer(),
-                  if (announcement.link != null)
-                    Icon(
-                      Icons.open_in_new,
-                      size: 16,
-                      color: theme.colorScheme.primary,
-                    ),
-                ],
+                  ),
+                if (announcement.isImportant) const SizedBox(width: 8),
+                if (announcement.date != null)
+                  Text(
+                    _formatDate(announcement.date!),
+                    style: theme.textTheme.bodySmall,
+                  ),
+                const Spacer(),
+                if (announcement.link != null)
+                  Icon(
+                    Icons.open_in_new,
+                    size: 16,
+                    color: theme.colorScheme.primary,
+                  ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            // Title
+            Text(
+              announcement.title,
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
               ),
-              
-              const SizedBox(height: 12),
-              
-              // Title
-              Text(
-                announcement.title,
-                style: theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              
-              const SizedBox(height: 8),
-              
-              // Content
-              Text(
-                announcement.content,
-                style: theme.textTheme.bodyMedium,
-                maxLines: 5,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 8),
+            // Content
+            Text(
+              announcement.content,
+              style: theme.textTheme.bodyMedium,
+              maxLines: 5,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
       ),
     );

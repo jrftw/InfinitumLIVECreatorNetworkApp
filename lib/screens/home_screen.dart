@@ -12,10 +12,10 @@ import 'package:infinitum_live_creator_network/core/app_config.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/screens/about_screen.dart';
 import 'package:infinitum_live_creator_network/screens/announcements_screen.dart';
-import 'package:infinitum_live_creator_network/screens/apply_screen.dart';
 import 'package:infinitum_live_creator_network/screens/statistics_screen.dart';
 import 'package:infinitum_live_creator_network/utils/url_launcher_util.dart';
 import 'package:infinitum_live_creator_network/widgets/app_logo_widget.dart';
+import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
 
 // MARK: - Home Screen
 class HomeScreen extends StatefulWidget {
@@ -46,36 +46,42 @@ class _HomeScreenState extends State<HomeScreen> {
         index: _selectedIndex,
         children: _pages,
       ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _selectedIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-          Logger.logInfo('Navigated to index: $index', tag: 'HomeScreen');
-        },
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.analytics_outlined),
-            selectedIcon: Icon(Icons.analytics),
-            label: 'Statistics',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.notifications_outlined),
-            selectedIcon: Icon(Icons.notifications),
-            label: 'Announcements',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.info_outline),
-            selectedIcon: Icon(Icons.info),
-            label: 'About',
-          ),
-        ],
+      bottomNavigationBar: GlassContainerWidget(
+        margin: const EdgeInsets.all(16),
+        borderRadius: BorderRadius.circular(30),
+        blurIntensity: 20.0,
+        opacity: 0.3,
+        child: NavigationBar(
+          selectedIndex: _selectedIndex,
+          onDestinationSelected: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+            Logger.logInfo('Navigated to index: $index', tag: 'HomeScreen');
+          },
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.home_outlined),
+              selectedIcon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.analytics_outlined),
+              selectedIcon: Icon(Icons.analytics),
+              label: 'Statistics',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.notifications_outlined),
+              selectedIcon: Icon(Icons.notifications),
+              label: 'Announcements',
+            ),
+            NavigationDestination(
+              icon: Icon(Icons.info_outline),
+              selectedIcon: Icon(Icons.info),
+              label: 'About',
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -88,20 +94,24 @@ class _HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     
     return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
       slivers: [
-        // MARK: - App Bar
+        // MARK: - App Bar with Liquid Glass
         SliverAppBar(
-          expandedHeight: 200,
+          expandedHeight: 220,
           floating: false,
           pinned: true,
           flexibleSpace: FlexibleSpaceBar(
             title: Text(
               AppConfig.appName,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
                 fontSize: 20,
+                letterSpacing: -0.3,
+                color: isDark ? Colors.white : Colors.black,
               ),
             ),
             centerTitle: true,
@@ -110,10 +120,15 @@ class _HomePage extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [
-                    theme.colorScheme.primary,
-                    theme.colorScheme.secondary,
-                  ],
+                  colors: isDark
+                      ? [
+                          theme.colorScheme.primary.withOpacity(0.3),
+                          theme.colorScheme.secondary.withOpacity(0.2),
+                        ]
+                      : [
+                          theme.colorScheme.primary.withOpacity(0.15),
+                          theme.colorScheme.secondary.withOpacity(0.1),
+                        ],
                 ),
               ),
               child: const Center(
@@ -132,11 +147,14 @@ class _HomePage extends StatelessWidget {
           sliver: SliverList(
             delegate: SliverChildListDelegate([
               // Tools & Services
-              Text(
-                'Tools & Services',
-                style: theme.textTheme.headlineMedium,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  'Tools & Services',
+                  style: theme.textTheme.headlineMedium,
+                ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               _QuickLinkCard(
                 title: 'Merch',
                 subtitle: 'Shop Infinitum LIVE apparel',
@@ -158,14 +176,17 @@ class _HomePage extends StatelessWidget {
                 url: AppConfig.shadowBanCheckerUrl,
               ),
               
-              const SizedBox(height: 24),
+              const SizedBox(height: 32),
               
               // Quick Links
-              Text(
-                'Quick Links',
-                style: theme.textTheme.headlineMedium,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  'Quick Links',
+                  style: theme.textTheme.headlineMedium,
+                ),
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 8),
               _QuickLinkCard(
                 title: 'View Dashboard',
                 subtitle: 'Access your creator dashboard',
@@ -187,7 +208,7 @@ class _HomePage extends StatelessWidget {
                 url: AppConfig.websiteUrl,
               ),
               
-              const SizedBox(height: 24),
+              const SizedBox(height: 32),
             ]),
           ),
         ),
@@ -214,15 +235,8 @@ class _QuickLinkCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     
-    return Card(
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: theme.colorScheme.primary.withOpacity(0.1),
-          child: Icon(icon, color: theme.colorScheme.primary),
-        ),
-        title: Text(title),
-        subtitle: Text(subtitle),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+    return RepaintBoundary(
+      child: GlassCardWidget(
         onTap: () async {
           Logger.logInfo('Opening URL: $url', tag: 'HomeScreen');
           final launched = await UrlLauncherUtil.launchUrl(
@@ -239,6 +253,48 @@ class _QuickLinkCard extends StatelessWidget {
             );
           }
         },
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                icon,
+                color: theme.colorScheme.primary,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle,
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+              color: theme.colorScheme.primary,
+            ),
+          ],
+        ),
       ),
     );
   }

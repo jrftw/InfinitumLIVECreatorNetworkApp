@@ -12,6 +12,7 @@ import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/models/creator_stats_model.dart';
 import 'package:infinitum_live_creator_network/services/api_service.dart';
 import 'package:infinitum_live_creator_network/widgets/stat_card_widget.dart';
+import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
 import 'package:shimmer/shimmer.dart';
 
 // MARK: - Statistics Screen
@@ -78,6 +79,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   // MARK: - Loading State
   Widget _buildLoadingState() {
     return ListView(
+      physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.all(16),
       children: [
         _buildShimmerCard(),
@@ -88,16 +90,16 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   }
   
   Widget _buildShimmerCard() {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    
     return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: Card(
+      baseColor: isDark ? Colors.grey[800]! : Colors.grey[300]!,
+      highlightColor: isDark ? Colors.grey[700]! : Colors.grey[100]!,
+      child: GlassCardWidget(
+        padding: const EdgeInsets.all(20),
         child: Container(
           height: 120,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-          ),
         ),
       ),
     );
@@ -145,6 +147,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     }
     
     return ListView(
+      physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.all(16),
       children: [
         // Header
@@ -185,35 +188,33 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         const SizedBox(height: 16),
         
         // Detailed Stats
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Detailed Statistics',
-                  style: theme.textTheme.headlineSmall,
-                ),
-                const SizedBox(height: 16),
-                _StatRow(
-                  label: 'Total TikTok Creators',
-                  value: _stats!.totalCreators.toString(),
-                ),
+        GlassCardWidget(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Detailed Statistics',
+                style: theme.textTheme.headlineSmall,
+              ),
+              const SizedBox(height: 16),
+              _StatRow(
+                label: 'Total TikTok Creators',
+                value: _stats!.totalCreators.toString(),
+              ),
+              const Divider(),
+              _StatRow(
+                label: 'Favorited LIVE Creators',
+                value: _stats!.favoritedCreators.toString(),
+              ),
+              if (_stats!.lastUpdated != null) ...[
                 const Divider(),
                 _StatRow(
-                  label: 'Favorited LIVE Creators',
-                  value: _stats!.favoritedCreators.toString(),
+                  label: 'Last Updated',
+                  value: _formatDate(_stats!.lastUpdated!),
                 ),
-                if (_stats!.lastUpdated != null) ...[
-                  const Divider(),
-                  _StatRow(
-                    label: 'Last Updated',
-                    value: _formatDate(_stats!.lastUpdated!),
-                  ),
-                ],
               ],
-            ),
+            ],
           ),
         ),
         

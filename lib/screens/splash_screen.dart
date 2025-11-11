@@ -8,11 +8,11 @@
  */
 
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/screens/home_screen.dart';
 import 'package:infinitum_live_creator_network/widgets/app_logo_widget.dart';
+import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
 
 // MARK: - Splash Screen
 class SplashScreen extends StatefulWidget {
@@ -88,19 +88,26 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              theme.colorScheme.primary.withOpacity(0.1),
-              theme.colorScheme.secondary.withOpacity(0.1),
-              theme.scaffoldBackgroundColor,
-            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: isDark
+                ? [
+                    theme.colorScheme.primary.withOpacity(0.2),
+                    theme.colorScheme.secondary.withOpacity(0.15),
+                    theme.scaffoldBackgroundColor,
+                  ]
+                : [
+                    theme.colorScheme.primary.withOpacity(0.1),
+                    theme.colorScheme.secondary.withOpacity(0.08),
+                    theme.scaffoldBackgroundColor,
+                  ],
           ),
         ),
         child: SafeArea(
@@ -112,29 +119,35 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   opacity: _fadeAnimation.value,
                   child: Transform.scale(
                     scale: _scaleAnimation.value,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // Logo
-                        const AppLogoWidget(
-                          size: 200,
-                          showShadow: true,
-                        ),
-                        
-                        const SizedBox(height: 32),
-                        
-                        // Loading indicator
-                        SizedBox(
-                          width: 40,
-                          height: 40,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              theme.colorScheme.primary,
-                            ),
-                            strokeWidth: 3,
+                    child: GlassCardWidget(
+                      padding: const EdgeInsets.all(40),
+                      borderRadius: BorderRadius.circular(30),
+                      blurIntensity: 15.0,
+                      opacity: 0.2,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // Logo
+                          const AppLogoWidget(
+                            size: 180,
+                            showShadow: true,
                           ),
-                        ),
-                      ],
+                          
+                          const SizedBox(height: 32),
+                          
+                          // Loading indicator
+                          SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: CircularProgressIndicator(
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                theme.colorScheme.primary,
+                              ),
+                              strokeWidth: 3,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );

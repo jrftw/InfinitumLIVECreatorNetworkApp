@@ -14,6 +14,7 @@ import 'package:infinitum_live_creator_network/core/version_manager.dart';
 import 'package:infinitum_live_creator_network/services/theme_preferences_service.dart';
 import 'package:infinitum_live_creator_network/utils/url_launcher_util.dart';
 import 'package:infinitum_live_creator_network/widgets/app_logo_widget.dart';
+import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
 
 // MARK: - About Screen
 class AboutScreen extends StatefulWidget {
@@ -98,13 +99,13 @@ class _AboutScreenState extends State<AboutScreen> {
         ],
       ),
       body: ListView(
+        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.all(16),
         children: [
           // MARK: - Company Header
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
+          GlassCardWidget(
+            padding: const EdgeInsets.all(20),
+            child: Column(
                 children: [
                   const AppLogoWidget(
                     size: 120,
@@ -124,16 +125,14 @@ class _AboutScreenState extends State<AboutScreen> {
                   ),
                 ],
               ),
-            ),
           ),
           
           const SizedBox(height: 16),
           
           // MARK: - About Section
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
+          GlassCardWidget(
+            padding: const EdgeInsets.all(20),
+            child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -171,16 +170,14 @@ class _AboutScreenState extends State<AboutScreen> {
                   ),
                 ],
               ),
-            ),
           ),
           
           const SizedBox(height: 16),
           
           // MARK: - Service Regions
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
+          GlassCardWidget(
+            padding: const EdgeInsets.all(20),
+            child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -204,16 +201,14 @@ class _AboutScreenState extends State<AboutScreen> {
                   )),
                 ],
               ),
-            ),
           ),
           
           const SizedBox(height: 16),
           
           // MARK: - Contact Information
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
+          GlassCardWidget(
+            padding: const EdgeInsets.all(20),
+            child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -241,16 +236,14 @@ class _AboutScreenState extends State<AboutScreen> {
                   ),
                 ],
               ),
-            ),
           ),
           
           const SizedBox(height: 16),
           
           // MARK: - Quick Links
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
+          GlassCardWidget(
+            padding: const EdgeInsets.all(20),
+            child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -277,16 +270,14 @@ class _AboutScreenState extends State<AboutScreen> {
                   ),
                 ],
               ),
-            ),
           ),
           
           const SizedBox(height: 16),
           
           // MARK: - Legal & Privacy
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
+          GlassCardWidget(
+            padding: const EdgeInsets.all(20),
+            child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -313,16 +304,14 @@ class _AboutScreenState extends State<AboutScreen> {
                   ),
                 ],
               ),
-            ),
           ),
           
           const SizedBox(height: 16),
           
           // MARK: - Third-Party Acknowledgments
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
+          GlassCardWidget(
+            padding: const EdgeInsets.all(20),
+            child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -350,16 +339,14 @@ class _AboutScreenState extends State<AboutScreen> {
                   ),
                 ],
               ),
-            ),
           ),
           
           const SizedBox(height: 16),
           
           // MARK: - App Information
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
+          GlassCardWidget(
+            padding: const EdgeInsets.all(20),
+            child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -388,7 +375,6 @@ class _AboutScreenState extends State<AboutScreen> {
                   ),
                 ],
               ),
-            ),
           ),
           
           const SizedBox(height: 24),
