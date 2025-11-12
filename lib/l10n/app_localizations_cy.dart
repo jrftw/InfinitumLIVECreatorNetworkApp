@@ -183,6 +183,18 @@ class AppLocalizationsCy extends AppLocalizations {
   String get settings => 'Settings';
 
   @override
+  String get adTracking => 'Ad Tracking';
+
+  @override
+  String get adTrackingDescription => 'Allow personalized ads based on your activity';
+
+  @override
+  String get adTrackingEnabled => 'Ad Tracking Enabled';
+
+  @override
+  String get adTrackingDisabled => 'Ad Tracking Disabled';
+
+  @override
   String get systemLanguage => 'System Language';
 
   @override

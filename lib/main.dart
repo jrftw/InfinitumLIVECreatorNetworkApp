@@ -19,6 +19,7 @@ import 'package:infinitum_live_creator_network/services/preload_service.dart';
 import 'package:infinitum_live_creator_network/services/theme_preferences_service.dart';
 import 'package:infinitum_live_creator_network/services/language_preferences_service.dart';
 import 'package:infinitum_live_creator_network/services/terms_acceptance_service.dart';
+import 'package:infinitum_live_creator_network/services/tracking_preferences_service.dart';
 import 'package:infinitum_live_creator_network/theme/app_theme.dart';
 import 'package:infinitum_live_creator_network/utils/platform_util.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -66,6 +67,7 @@ void _initializeServices() {
       await ThemePreferencesService.initialize();
       await LanguagePreferencesService.initialize();
       await TermsAcceptanceService.initialize();
+      await TrackingPreferencesService.initialize();
       await PreloadService().initialize();
       Logger.logInfo('All services initialized successfully', tag: 'Main');
     } catch (e, stackTrace) {

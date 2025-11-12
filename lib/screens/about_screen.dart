@@ -23,6 +23,9 @@ import 'package:infinitum_live_creator_network/screens/benefits/requirements_scr
 import 'package:infinitum_live_creator_network/screens/benefits/pay_explained_screen.dart';
 import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
 import 'package:infinitum_live_creator_network/services/language_preferences_service.dart';
+import 'package:infinitum_live_creator_network/services/tracking_preferences_service.dart';
+import 'package:infinitum_live_creator_network/utils/platform_util.dart';
+import 'package:infinitum_live_creator_network/utils/tracking_permission_util.dart';
 
 // MARK: - About Screen
 class AboutScreen extends StatefulWidget {
@@ -36,6 +39,13 @@ class AboutScreen extends StatefulWidget {
 }
 
 class _AboutScreenState extends State<AboutScreen> {
+  
+  @override
+  void initState() {
+    super.initState();
+    // Initialize tracking preferences service if not already initialized
+    TrackingPreferencesService.initialize();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -72,6 +82,9 @@ class _AboutScreenState extends State<AboutScreen> {
               } else if (value == 'lang_selector') {
                 // Show language selector dialog
                 _showLanguageSelector(context);
+              } else if (value == 'toggle_tracking') {
+                // Toggle ad tracking
+                _toggleAdTracking(context);
               }
             },
             itemBuilder: (BuildContext context) {
@@ -156,6 +169,42 @@ class _AboutScreenState extends State<AboutScreen> {
                     ],
                   ),
                 ),
+                // Ad Tracking toggle (only on mobile platforms)
+                if (PlatformUtil.isMobile) ...[
+                  const PopupMenuDivider(),
+                  PopupMenuItem<String>(
+                    value: 'toggle_tracking',
+                    child: Row(
+                      children: [
+                        const Icon(Icons.ads_click, size: 20),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(l10n.adTracking),
+                              const SizedBox(height: 2),
+                              Text(
+                                l10n.adTrackingDescription,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Switch(
+                          value: TrackingPreferencesService.trackingEnabled ?? false,
+                          onChanged: (value) {
+                            _toggleAdTracking(context, newValue: value);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ];
             },
           ),
@@ -655,6 +704,75 @@ class _AboutScreenState extends State<AboutScreen> {
           },
         );
       },
+    );
+  }
+  
+  // MARK: - Ad Tracking Toggle
+  void _toggleAdTracking(BuildContext context, {bool? newValue}) async {
+    final currentValue = TrackingPreferencesService.trackingEnabled ?? false;
+    final targetValue = newValue ?? !currentValue;
+    
+    // Update the preference
+    await TrackingPreferencesService.setTrackingEnabled(targetValue);
+    
+    // Update UI
+    setState(() {});
+    
+    // On iOS, if enabling tracking, request permission immediately
+    if (targetValue && PlatformUtil.isIOS) {
+      // Request tracking permission
+      final status = await TrackingPermissionUtil.requestTrackingPermission();
+      
+      // Update preference based on permission result
+      if (status != null) {
+        // Status: 0=notDetermined, 1=restricted, 2=denied, 3=authorized
+        if (status == 2) {
+          // User denied, update preference to false
+          await TrackingPreferencesService.setTrackingEnabled(false);
+          setState(() {});
+        } else if (status == 3) {
+          // User authorized, keep preference as true
+          await TrackingPreferencesService.setTrackingEnabled(true);
+          setState(() {});
+        }
+      }
+      
+      // Show info message
+      if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              status == 3 ? l10n.adTrackingEnabled : l10n.adTrackingDisabled,
+              style: const TextStyle(color: Colors.white),
+            ),
+            duration: const Duration(seconds: 2),
+            backgroundColor: status == 3 
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.secondary,
+          ),
+        );
+      }
+    } else if (!targetValue) {
+      // Show info that tracking is disabled
+      if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              l10n.adTrackingDisabled,
+              style: const TextStyle(color: Colors.white),
+            ),
+            duration: const Duration(seconds: 2),
+            backgroundColor: Theme.of(context).colorScheme.secondary,
+          ),
+        );
+      }
+    }
+    
+    Logger.logInfo(
+      'Ad tracking preference updated to: $targetValue',
+      tag: 'AboutScreen',
     );
   }
   

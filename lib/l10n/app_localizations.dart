@@ -731,6 +731,30 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settings;
 
+  /// No description provided for @adTracking.
+  ///
+  /// In en, this message translates to:
+  /// **'Ad Tracking'**
+  String get adTracking;
+
+  /// No description provided for @adTrackingDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow personalized ads based on your activity'**
+  String get adTrackingDescription;
+
+  /// No description provided for @adTrackingEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Ad Tracking Enabled'**
+  String get adTrackingEnabled;
+
+  /// No description provided for @adTrackingDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Ad Tracking Disabled'**
+  String get adTrackingDisabled;
+
   /// No description provided for @systemLanguage.
   ///
   /// In en, this message translates to:
