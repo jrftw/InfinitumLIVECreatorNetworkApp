@@ -190,14 +190,18 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
     // Show ad if loaded
     if (_isAdLoaded && _bannerAd != null) {
       try {
+        final adHeight = widget.adSize?.height.toDouble() ?? AdSize.banner.height.toDouble();
+        final adWidth = widget.adSize?.width.toDouble() ?? AdSize.banner.width.toDouble();
         return Container(
           alignment: widget.alignment,
           margin: widget.margin,
           width: double.infinity,
-          constraints: BoxConstraints(
-            minHeight: widget.adSize?.height.toDouble() ?? AdSize.banner.height.toDouble(),
+          height: adHeight,
+          child: SizedBox(
+            width: adWidth,
+            height: adHeight,
+            child: AdWidget(ad: _bannerAd!),
           ),
-          child: AdWidget(ad: _bannerAd!),
         );
       } catch (e) {
         Logger.logError(
@@ -236,10 +240,12 @@ class BannerAdContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final adHeight = adSize?.height.toDouble() ?? AdSize.banner.height.toDouble();
     
     return Container(
       margin: margin ?? const EdgeInsets.symmetric(vertical: 8),
       padding: const EdgeInsets.symmetric(vertical: 8),
+      height: adHeight + 16, // Add padding height
       decoration: BoxDecoration(
         color: backgroundColor ?? 
             (isDark 
@@ -247,10 +253,13 @@ class BannerAdContainer extends StatelessWidget {
                 : Colors.black.withOpacity(0.05)),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: BannerAdWidget(
-        adSize: adSize,
-        alignment: alignment,
-        showTestAds: showTestAds,
+      child: Center(
+        child: BannerAdWidget(
+          adSize: adSize,
+          alignment: alignment,
+          showTestAds: showTestAds,
+          margin: EdgeInsets.zero, // Remove margin when inside container
+        ),
       ),
     );
   }
