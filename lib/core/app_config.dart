@@ -2,7 +2,7 @@
  * Filename: app_config.dart
  * Purpose: Centralized application configuration constants
  * Author: Kevin Doyle Jr. / Infinitum Imagery LLC
- * Last Modified: 2025-01-27
+ * Last Modified: 2025-11-12
  * Dependencies: None
  * Platform Compatibility: iOS, Android, Web
  */
@@ -32,6 +32,15 @@ class AppConfig {
   static const String merchUrl = 'https://infinitumlive.com/apparel/#!/';
   static const String estimateEarningsUrl = 'https://infinitumlive.com/estimated-earnings/';
   static const String shadowBanCheckerUrl = 'https://infinitumlive.com/shadow-ban-checker/';
+  
+  // Application Links
+  static const String howToApplyUrl = 'https://infinitumlive.com/how-to-apply/';
+  static const String creatorPreCheckUrl = 'https://infinitumlive.com/creator-pre-check/';
+  static const String tiktokShopUrl = 'https://infinitumlive.com/tiktok-shop/';
+  static const String favoritedLiveApplyUrl = 'https://infinitumlive.com/apply-as-favorited-live-creator/';
+  
+  // Community Links
+  static const String discordCommunityUrl = 'https://discord.gg/tMCg9WqDT9';
   
   // Legal & Compliance Links
   static const String privacyPolicyUrl = 'https://infinitumlive.com/privacy';

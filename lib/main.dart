@@ -14,6 +14,7 @@ import 'package:infinitum_live_creator_network/core/app_config.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/core/version_manager.dart';
 import 'package:infinitum_live_creator_network/screens/splash_screen.dart';
+import 'package:infinitum_live_creator_network/services/preload_service.dart';
 import 'package:infinitum_live_creator_network/services/theme_preferences_service.dart';
 import 'package:infinitum_live_creator_network/theme/app_theme.dart';
 
@@ -38,6 +39,9 @@ void main() {
   // Initialize services in background (non-blocking)
   _initializeServices();
   
+  // Pre-load data immediately in background
+  _preloadData();
+  
   // Run app immediately
   runApp(const InfinitumLiveApp());
 }
@@ -49,6 +53,7 @@ void _initializeServices() {
     try {
       await VersionManager.initialize();
       await ThemePreferencesService.initialize();
+      await PreloadService().initialize();
       Logger.logInfo('All services initialized successfully', tag: 'Main');
     } catch (e, stackTrace) {
       Logger.logError(
@@ -58,6 +63,19 @@ void _initializeServices() {
         tag: 'Main',
       );
       // Don't rethrow - app should continue even if services fail
+    }
+  });
+}
+
+// MARK: - Data Preloading
+void _preloadData() {
+  // Pre-load all data in background immediately
+  Future.microtask(() async {
+    try {
+      await PreloadService().preloadAll();
+    } catch (e) {
+      Logger.logError('Failed to preload data', error: e, tag: 'Main');
+      // Don't block app startup if preload fails
     }
   });
 }

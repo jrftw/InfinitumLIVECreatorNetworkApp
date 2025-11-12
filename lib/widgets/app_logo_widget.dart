@@ -47,6 +47,8 @@ class AppLogoWidget extends StatelessWidget {
         child: Image.asset(
           'assets/images/app_logo.png',
           fit: BoxFit.contain,
+          // Ensure transparent background is preserved
+          colorBlendMode: BlendMode.dstOver,
           errorBuilder: (context, error, stackTrace) {
             return Icon(
               Icons.live_tv,

@@ -2,7 +2,7 @@
  * Filename: home_screen.dart
  * Purpose: Main home screen with navigation and overview
  * Author: Kevin Doyle Jr. / Infinitum Imagery LLC
- * Last Modified: 2025-01-27
+ * Last Modified: 2025-11-12
  * Dependencies: flutter/material.dart, widgets, other screens
  * Platform Compatibility: iOS, Android, Web
  */
@@ -41,46 +41,64 @@ class _HomeScreenState extends State<HomeScreen> {
   // MARK: - Build Method
   @override
   Widget build(BuildContext context) {
+    // Get safe area padding for iOS home indicator optimization (iPhone X and later)
+    final mediaQuery = MediaQuery.of(context);
+    final bottomPadding = mediaQuery.padding.bottom;
+    
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
         children: _pages,
       ),
-      bottomNavigationBar: GlassContainerWidget(
-        margin: const EdgeInsets.all(16),
-        borderRadius: BorderRadius.circular(30),
-        blurIntensity: 20.0,
-        opacity: 0.3,
-        child: NavigationBar(
-          selectedIndex: _selectedIndex,
-          onDestinationSelected: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-            Logger.logInfo('Navigated to index: $index', tag: 'HomeScreen');
-          },
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.home_outlined),
-              selectedIcon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.analytics_outlined),
-              selectedIcon: Icon(Icons.analytics),
-              label: 'Statistics',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.notifications_outlined),
-              selectedIcon: Icon(Icons.notifications),
-              label: 'Announcements',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.info_outline),
-              selectedIcon: Icon(Icons.info),
-              label: 'About',
-            ),
-          ],
+      bottomNavigationBar: SafeArea(
+        // SafeArea automatically handles home indicator spacing on iOS
+        // Only apply minimum bottom padding to ensure proper spacing
+        minimum: EdgeInsets.only(
+          bottom: bottomPadding > 0 ? 0 : 8, // Use safe area if available, otherwise small margin
+        ),
+        child: GlassContainerWidget(
+          // Optimized margin for iOS 16+ liquid glass design
+          // Horizontal margin creates floating effect, bottom margin works with SafeArea
+          margin: EdgeInsets.only(
+            left: 16,
+            right: 16,
+            bottom: bottomPadding > 0 ? 8 : 16, // Smaller bottom margin when safe area exists
+            top: 0,
+          ),
+          borderRadius: BorderRadius.circular(28),
+          blurIntensity: 25.0,
+          opacity: 0.25,
+          child: NavigationBar(
+            selectedIndex: _selectedIndex,
+            onDestinationSelected: (index) {
+              setState(() {
+                _selectedIndex = index;
+              });
+              Logger.logInfo('Navigated to index: $index', tag: 'HomeScreen');
+            },
+            destinations: const [
+              NavigationDestination(
+                icon: Icon(Icons.home_outlined),
+                selectedIcon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.analytics_outlined),
+                selectedIcon: Icon(Icons.analytics),
+                label: 'Statistics',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.notifications_outlined),
+                selectedIcon: Icon(Icons.notifications),
+                label: 'Announcements',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.info_outline),
+                selectedIcon: Icon(Icons.info),
+                label: 'About',
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -104,40 +122,73 @@ class _HomePage extends StatelessWidget {
           expandedHeight: 220,
           floating: false,
           pinned: true,
-          flexibleSpace: FlexibleSpaceBar(
-            title: Text(
-              AppConfig.appName,
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 20,
-                letterSpacing: -0.3,
-                color: isDark ? Colors.white : Colors.black,
-              ),
-            ),
-            centerTitle: true,
-            background: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: isDark
-                      ? [
-                          theme.colorScheme.primary.withOpacity(0.3),
-                          theme.colorScheme.secondary.withOpacity(0.2),
-                        ]
-                      : [
-                          theme.colorScheme.primary.withOpacity(0.15),
-                          theme.colorScheme.secondary.withOpacity(0.1),
-                        ],
+          flexibleSpace: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              // Calculate collapse percentage (0.0 = fully expanded, 1.0 = fully collapsed)
+              final collapsePercentage = (1.0 - (constraints.maxHeight / 220)).clamp(0.0, 1.0);
+              final isCollapsed = collapsePercentage > 0.5;
+              
+              return FlexibleSpaceBar(
+                titlePadding: EdgeInsets.only(
+                  bottom: isCollapsed ? 16 : 0,
+                  left: 16,
+                  right: 16,
                 ),
-              ),
-              child: const Center(
-                child: AppLogoWidget(
-                  size: 120,
-                  showShadow: true,
+                title: isCollapsed
+                    ? Text(
+                        AppConfig.appName,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20,
+                          letterSpacing: -0.3,
+                          color: isDark ? Colors.white : Colors.black,
+                        ),
+                        textAlign: TextAlign.center,
+                      )
+                    : const SizedBox.shrink(),
+                centerTitle: true,
+                background: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: isDark
+                          ? [
+                              theme.colorScheme.primary.withOpacity(0.2),
+                              theme.colorScheme.secondary.withOpacity(0.15),
+                            ]
+                          : [
+                              theme.colorScheme.primary.withOpacity(0.1),
+                              theme.colorScheme.secondary.withOpacity(0.08),
+                            ],
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 40), // Space for status bar
+                      const AppLogoWidget(
+                        size: 140,
+                        showShadow: true,
+                      ),
+                      const SizedBox(height: 16), // Space between logo and text
+                      // Title text positioned below logo (only when expanded)
+                      if (!isCollapsed)
+                        Text(
+                          AppConfig.appName,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                            letterSpacing: -0.3,
+                            color: isDark ? Colors.white : Colors.black,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                    ],
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
         ),
         
@@ -196,7 +247,7 @@ class _HomePage extends StatelessWidget {
               const SizedBox(height: 12),
               _QuickLinkCard(
                 title: 'Onboarding',
-                subtitle: 'Join the network',
+                subtitle: 'Start your onboarding process',
                 icon: Icons.person_add,
                 url: AppConfig.onboardingUrl,
               ),
@@ -206,6 +257,34 @@ class _HomePage extends StatelessWidget {
                 subtitle: 'Visit infinitumlive.com',
                 icon: Icons.language,
                 url: AppConfig.websiteUrl,
+              ),
+              const SizedBox(height: 12),
+              _QuickLinkCard(
+                title: 'How to Apply',
+                subtitle: 'Learn how to join the network',
+                icon: Icons.how_to_reg,
+                url: AppConfig.howToApplyUrl,
+              ),
+              const SizedBox(height: 12),
+              _QuickLinkCard(
+                title: 'Apply for TikTok LIVE Creator Network',
+                subtitle: 'Join the TikTok LIVE Creator Network',
+                icon: Icons.video_library,
+                url: AppConfig.creatorPreCheckUrl,
+              ),
+              const SizedBox(height: 12),
+              _QuickLinkCard(
+                title: 'Apply for TikTok Shop Agency',
+                subtitle: 'Apply for TikTok Shop partnership',
+                icon: Icons.store,
+                url: AppConfig.tiktokShopUrl,
+              ),
+              const SizedBox(height: 12),
+              _QuickLinkCard(
+                title: 'Apply for Favorited LIVE Agency',
+                subtitle: 'Join the Favorited LIVE Creator Network',
+                icon: Icons.favorite,
+                url: AppConfig.favoritedLiveApplyUrl,
               ),
               
               const SizedBox(height: 32),
@@ -257,16 +336,27 @@ class _QuickLinkCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 48,
-              height: 48,
+              width: 52,
+              height: 52,
               decoration: BoxDecoration(
-                color: theme.colorScheme.primary.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(12),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    theme.colorScheme.primary.withOpacity(0.2),
+                    theme.colorScheme.primary.withOpacity(0.1),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: theme.colorScheme.primary.withOpacity(0.2),
+                  width: 1,
+                ),
               ),
               child: Icon(
                 icon,
                 color: theme.colorScheme.primary,
-                size: 24,
+                size: 26,
               ),
             ),
             const SizedBox(width: 16),

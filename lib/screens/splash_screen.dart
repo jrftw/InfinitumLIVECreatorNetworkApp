@@ -34,10 +34,10 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   void initState() {
     super.initState();
     
-    // Setup animations
+    // Setup animations - faster for instant feel
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 600),
     );
     
     _fadeAnimation = Tween<double>(
@@ -70,7 +70,9 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   
   // MARK: - Navigation
   void _navigateToHome() {
-    Timer(const Duration(seconds: 3), () {
+    // Navigate immediately - no artificial delay
+    // Data is pre-loaded in background, so app is ready instantly
+    Future.microtask(() {
       if (mounted) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
@@ -99,13 +101,13 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
             end: Alignment.bottomRight,
             colors: isDark
                 ? [
-                    theme.colorScheme.primary.withOpacity(0.2),
-                    theme.colorScheme.secondary.withOpacity(0.15),
+                    theme.colorScheme.primary.withOpacity(0.15),
+                    theme.colorScheme.secondary.withOpacity(0.1),
                     theme.scaffoldBackgroundColor,
                   ]
                 : [
-                    theme.colorScheme.primary.withOpacity(0.1),
-                    theme.colorScheme.secondary.withOpacity(0.08),
+                    theme.colorScheme.primary.withOpacity(0.08),
+                    theme.colorScheme.secondary.withOpacity(0.05),
                     theme.scaffoldBackgroundColor,
                   ],
           ),
@@ -120,31 +122,17 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   child: Transform.scale(
                     scale: _scaleAnimation.value,
                     child: GlassCardWidget(
-                      padding: const EdgeInsets.all(40),
-                      borderRadius: BorderRadius.circular(30),
-                      blurIntensity: 15.0,
+                      padding: const EdgeInsets.all(48),
+                      borderRadius: BorderRadius.circular(32),
+                      blurIntensity: 25.0,
                       opacity: 0.2,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // Logo
+                          // Logo with enhanced shadow
                           const AppLogoWidget(
-                            size: 180,
+                            size: 200,
                             showShadow: true,
-                          ),
-                          
-                          const SizedBox(height: 32),
-                          
-                          // Loading indicator
-                          SizedBox(
-                            width: 40,
-                            height: 40,
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                theme.colorScheme.primary,
-                              ),
-                              strokeWidth: 3,
-                            ),
                           ),
                         ],
                       ),

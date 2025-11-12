@@ -37,16 +37,27 @@ class StatCardWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 48,
-              height: 48,
+              width: 52,
+              height: 52,
               decoration: BoxDecoration(
-                color: cardColor.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(12),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    cardColor.withOpacity(0.25),
+                    cardColor.withOpacity(0.15),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(
+                  color: cardColor.withOpacity(0.3),
+                  width: 1,
+                ),
               ),
               child: Icon(
                 icon,
                 color: cardColor,
-                size: 24,
+                size: 26,
               ),
             ),
             const SizedBox(height: 16),

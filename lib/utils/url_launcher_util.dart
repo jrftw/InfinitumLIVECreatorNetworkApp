@@ -24,7 +24,31 @@ class UrlLauncherUtil {
     url_launcher.LaunchMode? mode,
   }) async {
     try {
-      final uri = Uri.parse(url);
+      // Clean and validate URL
+      final cleanedUrl = url.trim();
+      
+      // Check if URL looks like an array representation (starts with [)
+      if (cleanedUrl.startsWith('[') && cleanedUrl.endsWith(']')) {
+        // Try to extract first URL from array-like string
+        final match = RegExp(r'https?://[^\s,\]]+').firstMatch(cleanedUrl);
+        if (match != null) {
+          final extractedUrl = match.group(0);
+          if (extractedUrl != null) {
+            Logger.logInfo('Extracted URL from array: $extractedUrl', tag: 'UrlLauncherUtil');
+            return launchUrl(extractedUrl, context: context, title: title, mode: mode);
+          }
+        }
+        Logger.logError('Invalid URL format (array): $url', tag: 'UrlLauncherUtil');
+        return false;
+      }
+      
+      // Validate URL format
+      if (!cleanedUrl.startsWith('http://') && !cleanedUrl.startsWith('https://')) {
+        Logger.logError('Invalid URL scheme: $url', tag: 'UrlLauncherUtil');
+        return false;
+      }
+      
+      final uri = Uri.parse(cleanedUrl);
       
       // On web platform, use default browser behavior
       if (kIsWeb) {

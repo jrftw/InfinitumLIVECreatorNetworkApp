@@ -2,15 +2,18 @@
  * Filename: statistics_screen.dart
  * Purpose: Screen displaying creator statistics and network metrics
  * Author: Kevin Doyle Jr. / Infinitum Imagery LLC
- * Last Modified: 2025-01-27
+ * Last Modified: 2025-11-12
  * Dependencies: flutter/material.dart, api_service.dart, models, widgets
  * Platform Compatibility: iOS, Android, Web
  */
 
 import 'package:flutter/material.dart';
+import 'package:infinitum_live_creator_network/core/app_config.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/models/creator_stats_model.dart';
 import 'package:infinitum_live_creator_network/services/api_service.dart';
+import 'package:infinitum_live_creator_network/services/preload_service.dart';
+import 'package:infinitum_live_creator_network/utils/url_launcher_util.dart';
 import 'package:infinitum_live_creator_network/widgets/stat_card_widget.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
 import 'package:shimmer/shimmer.dart';
@@ -38,23 +41,41 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   
   // MARK: - Data Loading
   Future<void> _loadStatistics() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
+    // Try to load from cache first for instant display
+    final cachedStats = PreloadService().getCachedStats();
+    if (cachedStats != null && mounted) {
+      setState(() {
+        _stats = cachedStats;
+        _isLoading = false;
+        _errorMessage = null;
+      });
+    } else {
+      setState(() {
+        _isLoading = true;
+        _errorMessage = null;
+      });
+    }
     
+    // Then fetch fresh data in background
     try {
       final stats = await _apiService.fetchCreatorStats();
-      setState(() {
-        _stats = stats;
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _stats = stats;
+          _isLoading = false;
+        });
+      }
     } catch (e) {
       Logger.logError('Failed to load statistics', error: e, tag: 'StatisticsScreen');
-      setState(() {
-        _errorMessage = 'Failed to load statistics. Please try again later.';
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          // Only show error if we don't have cached data
+          if (_stats == null) {
+            _errorMessage = 'Failed to load statistics. Please try again later.';
+          }
+          _isLoading = false;
+        });
+      }
     }
   }
   
@@ -214,6 +235,76 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   value: _formatDate(_stats!.lastUpdated!),
                 ),
               ],
+              const SizedBox(height: 16),
+              const Divider(),
+              const SizedBox(height: 8),
+              // Discord Community Link
+              InkWell(
+                onTap: () async {
+                  Logger.logInfo('Opening Discord community link', tag: 'StatisticsScreen');
+                  await UrlLauncherUtil.launchUrl(
+                    AppConfig.discordCommunityUrl,
+                    context: context,
+                    title: 'Discord Community',
+                  );
+                },
+                borderRadius: BorderRadius.circular(12),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              theme.colorScheme.primary.withOpacity(0.2),
+                              theme.colorScheme.primary.withOpacity(0.1),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: theme.colorScheme.primary.withOpacity(0.2),
+                            width: 1,
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.chat_bubble_outline,
+                          color: theme.colorScheme.primary,
+                          size: 22,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Join the Discord Community',
+                              style: theme.textTheme.bodyLarge?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Connect with other creators',
+                              style: theme.textTheme.bodySmall,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ],
           ),
         ),

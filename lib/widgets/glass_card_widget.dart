@@ -35,8 +35,8 @@ class GlassCardWidget extends StatelessWidget {
     this.height,
     this.borderRadius,
     this.backgroundColor,
-    this.blurIntensity = 10.0,
-    this.opacity = 0.1,
+    this.blurIntensity = 20.0,
+    this.opacity = 0.15,
     this.border,
     this.boxShadow,
     this.onTap,
@@ -47,49 +47,83 @@ class GlassCardWidget extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     
-    // iOS 26 liquid glass colors
+    // iOS 26 liquid glass colors - enhanced for modern feel
     final defaultBackgroundColor = isDark
-        ? Colors.white.withOpacity(opacity)
-        : Colors.black.withOpacity(opacity * 0.5);
+        ? Colors.white.withOpacity(opacity * 0.15)
+        : Colors.white.withOpacity(0.7);
     
-    final defaultBorderRadius = borderRadius ?? BorderRadius.circular(20);
+    final defaultBorderRadius = borderRadius ?? BorderRadius.circular(24);
     
+    // Enhanced border for liquid glass effect
     final defaultBorder = border ?? Border.all(
       color: isDark
-          ? Colors.white.withOpacity(0.2)
-          : Colors.black.withOpacity(0.1),
-      width: 1.0,
+          ? Colors.white.withOpacity(0.18)
+          : Colors.white.withOpacity(0.8),
+      width: 1.5,
     );
     
+    // Enhanced shadow for depth and floating effect
     final defaultShadow = boxShadow ?? [
       BoxShadow(
         color: isDark
-            ? Colors.black.withOpacity(0.3)
-            : Colors.black.withOpacity(0.1),
-        blurRadius: 20,
-        offset: const Offset(0, 10),
+            ? Colors.black.withOpacity(0.4)
+            : Colors.black.withOpacity(0.08),
+        blurRadius: 30,
+        offset: const Offset(0, 8),
+        spreadRadius: 0,
+      ),
+      BoxShadow(
+        color: isDark
+            ? Colors.white.withOpacity(0.05)
+            : Colors.white.withOpacity(0.9),
+        blurRadius: 1,
+        offset: const Offset(0, -1),
+        spreadRadius: 0,
       ),
     ];
     
     Widget card = ClipRRect(
       borderRadius: defaultBorderRadius,
-      child: BackdropFilter(
-        filter: ImageFilter.blur(
-          sigmaX: blurIntensity,
-          sigmaY: blurIntensity,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: defaultBorderRadius,
+          boxShadow: defaultShadow,
         ),
-        child: Container(
-          width: width,
-          height: height,
-          padding: padding ?? const EdgeInsets.all(16),
-          margin: margin,
-          decoration: BoxDecoration(
-            color: backgroundColor ?? defaultBackgroundColor,
-            borderRadius: defaultBorderRadius,
-            border: defaultBorder,
-            boxShadow: defaultShadow,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: blurIntensity,
+            sigmaY: blurIntensity,
           ),
-          child: child,
+          child: Container(
+            width: width,
+            height: height,
+            padding: padding ?? const EdgeInsets.all(16),
+            margin: margin,
+            decoration: BoxDecoration(
+              color: backgroundColor ?? defaultBackgroundColor,
+              borderRadius: defaultBorderRadius,
+              border: defaultBorder,
+              // Add subtle gradient for liquid glass effect
+              gradient: isDark
+                  ? LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.white.withOpacity(opacity * 0.1),
+                        Colors.white.withOpacity(opacity * 0.05),
+                      ],
+                    )
+                  : LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.white.withOpacity(0.8),
+                        Colors.white.withOpacity(0.6),
+                      ],
+                    ),
+            ),
+            child: child,
+          ),
         ),
       ),
     );
@@ -128,8 +162,8 @@ class GlassContainerWidget extends StatelessWidget {
     this.height,
     this.borderRadius,
     this.backgroundColor,
-    this.blurIntensity = 10.0,
-    this.opacity = 0.1,
+    this.blurIntensity = 20.0,
+    this.opacity = 0.15,
     this.border,
     this.boxShadow,
   });
@@ -139,47 +173,82 @@ class GlassContainerWidget extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     
+    // iOS 26 liquid glass colors - enhanced for modern feel
     final defaultBackgroundColor = isDark
-        ? Colors.white.withOpacity(opacity)
-        : Colors.black.withOpacity(opacity * 0.5);
+        ? Colors.white.withOpacity(opacity * 0.15)
+        : Colors.white.withOpacity(0.7);
     
-    final defaultBorderRadius = borderRadius ?? BorderRadius.circular(20);
+    final defaultBorderRadius = borderRadius ?? BorderRadius.circular(24);
     
+    // Enhanced border for liquid glass effect
     final defaultBorder = border ?? Border.all(
       color: isDark
-          ? Colors.white.withOpacity(0.2)
-          : Colors.black.withOpacity(0.1),
-      width: 1.0,
+          ? Colors.white.withOpacity(0.18)
+          : Colors.white.withOpacity(0.8),
+      width: 1.5,
     );
     
+    // Enhanced shadow for depth and floating effect
     final defaultShadow = boxShadow ?? [
       BoxShadow(
         color: isDark
-            ? Colors.black.withOpacity(0.3)
-            : Colors.black.withOpacity(0.1),
-        blurRadius: 20,
-        offset: const Offset(0, 10),
+            ? Colors.black.withOpacity(0.4)
+            : Colors.black.withOpacity(0.08),
+        blurRadius: 30,
+        offset: const Offset(0, 8),
+        spreadRadius: 0,
+      ),
+      BoxShadow(
+        color: isDark
+            ? Colors.white.withOpacity(0.05)
+            : Colors.white.withOpacity(0.9),
+        blurRadius: 1,
+        offset: const Offset(0, -1),
+        spreadRadius: 0,
       ),
     ];
     
     return ClipRRect(
       borderRadius: defaultBorderRadius,
-      child: BackdropFilter(
-        filter: ImageFilter.blur(
-          sigmaX: blurIntensity,
-          sigmaY: blurIntensity,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: defaultBorderRadius,
+          boxShadow: defaultShadow,
         ),
-        child: Container(
-          width: width,
-          height: height,
-          margin: margin,
-          decoration: BoxDecoration(
-            color: backgroundColor ?? defaultBackgroundColor,
-            borderRadius: defaultBorderRadius,
-            border: defaultBorder,
-            boxShadow: defaultShadow,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: blurIntensity,
+            sigmaY: blurIntensity,
           ),
-          child: child,
+          child: Container(
+            width: width,
+            height: height,
+            margin: margin,
+            decoration: BoxDecoration(
+              color: backgroundColor ?? defaultBackgroundColor,
+              borderRadius: defaultBorderRadius,
+              border: defaultBorder,
+              // Add subtle gradient for liquid glass effect
+              gradient: isDark
+                  ? LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.white.withOpacity(opacity * 0.1),
+                        Colors.white.withOpacity(opacity * 0.05),
+                      ],
+                    )
+                  : LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.white.withOpacity(0.8),
+                        Colors.white.withOpacity(0.6),
+                      ],
+                    ),
+            ),
+            child: child,
+          ),
         ),
       ),
     );

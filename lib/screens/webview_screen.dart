@@ -2,7 +2,7 @@
  * Filename: webview_screen.dart
  * Purpose: In-app webview screen for displaying web content without leaving the app
  * Author: Kevin Doyle Jr. / Infinitum Imagery LLC
- * Last Modified: 2025-01-27
+ * Last Modified: 2025-11-12
  * Dependencies: flutter/material.dart, webview_flutter, logger.dart
  * Platform Compatibility: iOS, Android, Web
  */
@@ -11,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
+import 'package:infinitum_live_creator_network/core/app_config.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 
 // MARK: - WebView Screen
@@ -89,7 +90,21 @@ class _WebViewScreenState extends State<WebViewScreen> {
             });
           },
           onNavigationRequest: (NavigationRequest request) {
-            // Allow all navigation
+            // Validate URL to ensure it's from trusted domains
+            final navigationUrl = request.url;
+            final isAllowed = _isAllowedUrl(navigationUrl);
+            
+            if (!isAllowed) {
+              Logger.logInfo(
+                'Blocked navigation to untrusted URL: $navigationUrl',
+                tag: 'WebViewScreen',
+              );
+              // Block navigation to untrusted domains for security
+              // User can use "Open in Browser" button to open in external browser if needed
+              return NavigationDecision.prevent;
+            }
+            
+            // Allow navigation to trusted domains
             return NavigationDecision.navigate;
           },
         ),
@@ -219,6 +234,49 @@ class _WebViewScreenState extends State<WebViewScreen> {
         ),
       ),
     );
+  }
+  
+  // MARK: - URL Validation
+  /// Validates if a URL is from a trusted domain
+  bool _isAllowedUrl(String url) {
+    try {
+      final uri = Uri.parse(url);
+      final host = uri.host.toLowerCase();
+      
+      // List of allowed domains and subdomains
+      final allowedDomains = [
+        'infinitumlive.com',
+        'www.infinitumlive.com',
+        'infinitum-onboarding.web.app',
+        'view.infinitumlive.com',
+        'raw.githubusercontent.com', // For API endpoints
+        'github.com', // For GitHub content
+      ];
+      
+      // Check if host matches any allowed domain or is a subdomain
+      for (final domain in allowedDomains) {
+        if (host == domain || host.endsWith('.$domain')) {
+          return true;
+        }
+      }
+      
+      // Allow same-origin navigation (same domain as initial URL)
+      try {
+        final initialUri = Uri.parse(widget.url);
+        final initialHost = initialUri.host.toLowerCase();
+        if (host == initialHost || host.endsWith('.$initialHost')) {
+          return true;
+        }
+      } catch (e) {
+        // If initial URL parsing fails, continue with domain check
+      }
+      
+      return false;
+    } catch (e) {
+      Logger.logError('Error validating URL: $url', error: e, tag: 'WebViewScreen');
+      // If URL parsing fails, allow navigation (fail open for user experience)
+      return true;
+    }
   }
   
   // MARK: - Helper Methods

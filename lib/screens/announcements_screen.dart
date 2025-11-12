@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/models/announcement_model.dart';
 import 'package:infinitum_live_creator_network/services/api_service.dart';
+import 'package:infinitum_live_creator_network/services/preload_service.dart';
 import 'package:infinitum_live_creator_network/utils/url_launcher_util.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
 import 'package:shimmer/shimmer.dart';
@@ -39,25 +40,42 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
   
   // MARK: - Data Loading
   Future<void> _loadAnnouncements() async {
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
-    
-    try {
-      final response = await _apiService.fetchAnnouncements();
+    // Try to load from cache first for instant display
+    final cachedResponse = PreloadService().getCachedAnnouncements();
+    if (cachedResponse != null && mounted) {
       setState(() {
-        _announcements = response.announcements;
+        _announcements = cachedResponse.announcements;
         _isLoading = false;
         _errorMessage = null;
       });
+    } else {
+      setState(() {
+        _isLoading = true;
+        _errorMessage = null;
+      });
+    }
+    
+    // Then fetch fresh data in background
+    try {
+      final response = await _apiService.fetchAnnouncements();
+      if (mounted) {
+        setState(() {
+          _announcements = response.announcements;
+          _isLoading = false;
+          _errorMessage = null;
+        });
+      }
     } catch (e) {
       Logger.logError('Failed to load announcements', error: e, tag: 'AnnouncementsScreen');
-      setState(() {
-        // Use the error message from the exception if available, otherwise use generic message
-        _errorMessage = e.toString().replaceFirst('Exception: ', '');
-        _isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          // Only show error if we don't have cached data
+          if (_announcements.isEmpty) {
+            _errorMessage = e.toString().replaceFirst('Exception: ', '');
+          }
+          _isLoading = false;
+        });
+      }
     }
   }
   

@@ -29,6 +29,23 @@ class AnnouncementModel {
   
   // MARK: - JSON Serialization
   factory AnnouncementModel.fromJson(Map<String, dynamic> json) {
+    // Handle link field - can be a string, array, or null
+    String? link;
+    final linkValue = json['link'] ?? json['url'];
+    if (linkValue != null) {
+      if (linkValue is String) {
+        link = linkValue.trim().isEmpty ? null : linkValue;
+      } else if (linkValue is List) {
+        // If it's an array, take the first valid URL
+        for (var item in linkValue) {
+          if (item is String && item.trim().isNotEmpty) {
+            link = item.trim();
+            break;
+          }
+        }
+      }
+    }
+    
     return AnnouncementModel(
       id: json['id']?.toString() ?? DateTime.now().millisecondsSinceEpoch.toString(),
       title: json['title']?.toString() ?? 'Untitled',
@@ -40,7 +57,7 @@ class AnnouncementModel {
               : null,
       imageUrl: json['imageUrl']?.toString() ?? json['image']?.toString(),
       isImportant: json['isImportant'] == true || json['important'] == true,
-      link: json['link']?.toString() ?? json['url']?.toString(),
+      link: link,
     );
   }
   
