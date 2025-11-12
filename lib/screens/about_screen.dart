@@ -21,12 +21,15 @@ import 'package:infinitum_live_creator_network/screens/benefits/what_we_do_not_d
 import 'package:infinitum_live_creator_network/screens/benefits/talent_agreement_screen.dart';
 import 'package:infinitum_live_creator_network/screens/benefits/requirements_screen.dart';
 import 'package:infinitum_live_creator_network/screens/benefits/pay_explained_screen.dart';
+import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
+import 'package:infinitum_live_creator_network/services/language_preferences_service.dart';
 
 // MARK: - About Screen
 class AboutScreen extends StatefulWidget {
   final ValueChanged<ThemeMode>? onThemeModeChanged;
+  final ValueChanged<Locale?>? onLocaleChanged;
   
-  const AboutScreen({super.key, this.onThemeModeChanged});
+  const AboutScreen({super.key, this.onThemeModeChanged, this.onLocaleChanged});
   
   @override
   State<AboutScreen> createState() => _AboutScreenState();
@@ -41,66 +44,161 @@ class _AboutScreenState extends State<AboutScreen> {
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('About'),
+        title: Text(AppLocalizations.of(context)!.about),
         actions: [
-          // Theme mode switcher
-          PopupMenuButton<ThemeMode>(
-            icon: Icon(
-              currentThemeMode == ThemeMode.light
-                  ? Icons.light_mode
-                  : currentThemeMode == ThemeMode.dark
-                      ? Icons.dark_mode
-                      : Icons.brightness_auto,
-            ),
-            tooltip: 'Theme Mode',
-            onSelected: (ThemeMode mode) {
-              widget.onThemeModeChanged?.call(mode);
-              setState(() {});
+          // Settings menu with language and theme options
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.settings),
+            tooltip: AppLocalizations.of(context)!.settings,
+            onSelected: (String value) {
+              // Handle selection
+              if (value.startsWith('theme_')) {
+                final modeString = value.replaceFirst('theme_', '');
+                ThemeMode mode;
+                switch (modeString) {
+                  case 'light':
+                    mode = ThemeMode.light;
+                    break;
+                  case 'dark':
+                    mode = ThemeMode.dark;
+                    break;
+                  case 'system':
+                  default:
+                    mode = ThemeMode.system;
+                    break;
+                }
+                widget.onThemeModeChanged?.call(mode);
+                setState(() {});
+              } else if (value.startsWith('lang_')) {
+                final localeString = value.replaceFirst('lang_', '');
+                Locale? locale;
+                if (localeString == 'system') {
+                  locale = null;
+                } else {
+                  final parts = localeString.split('_');
+                  if (parts.length == 2) {
+                    locale = Locale(parts[0], parts[1]);
+                  } else {
+                    locale = Locale(parts[0]);
+                  }
+                }
+                widget.onLocaleChanged?.call(locale);
+                setState(() {});
+              }
             },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<ThemeMode>>[
-              PopupMenuItem<ThemeMode>(
-                value: ThemeMode.light,
-                child: Row(
-                  children: [
-                    const Icon(Icons.light_mode, size: 20),
-                    const SizedBox(width: 12),
-                    const Text('Light'),
-                    if (currentThemeMode == ThemeMode.light)
-                      const Spacer(),
-                    if (currentThemeMode == ThemeMode.light)
-                      const Icon(Icons.check, size: 20),
-                  ],
+            itemBuilder: (BuildContext context) {
+              final currentLocale = LanguagePreferencesService.locale;
+              final l10n = AppLocalizations.of(context)!;
+              
+              return <PopupMenuEntry<String>>[
+                // Language section header
+                PopupMenuItem<String>(
+                  enabled: false,
+                  child: Text(
+                    l10n.language,
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ),
-              PopupMenuItem<ThemeMode>(
-                value: ThemeMode.dark,
-                child: Row(
-                  children: [
-                    const Icon(Icons.dark_mode, size: 20),
-                    const SizedBox(width: 12),
-                    const Text('Dark'),
-                    if (currentThemeMode == ThemeMode.dark)
-                      const Spacer(),
-                    if (currentThemeMode == ThemeMode.dark)
-                      const Icon(Icons.check, size: 20),
-                  ],
+                const PopupMenuDivider(),
+                // System language option
+                PopupMenuItem<String>(
+                  value: 'lang_system',
+                  child: Row(
+                    children: [
+                      const Icon(Icons.language, size: 20),
+                      const SizedBox(width: 12),
+                      Text(l10n.systemLanguage),
+                      if (currentLocale == null) const Spacer(),
+                      if (currentLocale == null)
+                        const Icon(Icons.check, size: 20),
+                    ],
+                  ),
                 ),
-              ),
-              PopupMenuItem<ThemeMode>(
-                value: ThemeMode.system,
-                child: Row(
-                  children: [
-                    const Icon(Icons.brightness_auto, size: 20),
-                    const SizedBox(width: 12),
-                    const Text('Auto'),
-                    if (currentThemeMode == ThemeMode.system)
-                      const Spacer(),
-                    if (currentThemeMode == ThemeMode.system)
-                      const Icon(Icons.check, size: 20),
-                  ],
+                // Common languages
+                ...LanguagePreferencesService.commonLanguages.map((lang) {
+                  final isSelected = currentLocale != null &&
+                      currentLocale.languageCode == lang.locale.languageCode &&
+                      (currentLocale.countryCode == null ||
+                          currentLocale.countryCode == lang.locale.countryCode);
+                  final localeValue = lang.locale.countryCode != null
+                      ? 'lang_${lang.locale.languageCode}_${lang.locale.countryCode}'
+                      : 'lang_${lang.locale.languageCode}';
+                  
+                  return PopupMenuItem<String>(
+                    value: localeValue,
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 32), // Indent for alignment
+                        Expanded(
+                          child: Text(
+                            lang.displayName,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (isSelected) const Icon(Icons.check, size: 20),
+                      ],
+                    ),
+                  );
+                }),
+                const PopupMenuDivider(),
+                // Theme section header
+                PopupMenuItem<String>(
+                  enabled: false,
+                  child: Text(
+                    l10n.themeMode,
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                const PopupMenuDivider(),
+                // Theme options
+                PopupMenuItem<String>(
+                  value: 'theme_light',
+                  child: Row(
+                    children: [
+                      const Icon(Icons.light_mode, size: 20),
+                      const SizedBox(width: 12),
+                      Text(l10n.light),
+                      if (currentThemeMode == ThemeMode.light)
+                        const Spacer(),
+                      if (currentThemeMode == ThemeMode.light)
+                        const Icon(Icons.check, size: 20),
+                    ],
+                  ),
+                ),
+                PopupMenuItem<String>(
+                  value: 'theme_dark',
+                  child: Row(
+                    children: [
+                      const Icon(Icons.dark_mode, size: 20),
+                      const SizedBox(width: 12),
+                      Text(l10n.dark),
+                      if (currentThemeMode == ThemeMode.dark)
+                        const Spacer(),
+                      if (currentThemeMode == ThemeMode.dark)
+                        const Icon(Icons.check, size: 20),
+                    ],
+                  ),
+                ),
+                PopupMenuItem<String>(
+                  value: 'theme_system',
+                  child: Row(
+                    children: [
+                      const Icon(Icons.brightness_auto, size: 20),
+                      const SizedBox(width: 12),
+                      Text(l10n.auto),
+                      if (currentThemeMode == ThemeMode.system)
+                        const Spacer(),
+                      if (currentThemeMode == ThemeMode.system)
+                        const Icon(Icons.check, size: 20),
+                    ],
+                  ),
+                ),
+              ];
+            },
           ),
         ],
       ),
@@ -142,34 +240,34 @@ class _AboutScreenState extends State<AboutScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'About Infinitum',
+                    AppLocalizations.of(context)!.aboutInfinitum,
                     style: theme.textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Your Premier Destination for LIVE Talent',
+                    AppLocalizations.of(context)!.yourPremierDestination,
                     style: theme.textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'At Infinitum Imagery LLC we were officially founded on March 15, 2023 by ${AppConfig.founderHandle}, inspired by our founder\'s sincere commitment to uplift creators after witnessing the limited support offered by a previous agency from May 2022 to March 2023.',
+                    AppLocalizations.of(context)!.aboutInfinitumDescription(AppConfig.founderHandle),
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Since our earliest beginnings in 2023, we have proudly built a strong reputation for identifying and nurturing top-tier talent, forging meaningful connections with essential industry partners. Our mission is to empower every aspiring star by equipping them with robust tools, targeted resources, and caring, personalized guidance—ensuring that each individual is fully supported in reaching their highest potential.',
+                    AppLocalizations.of(context)!.aboutInfinitumDescription2,
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'We partner with leading platforms such as ${AppConfig.platformPartners.join(', ')}, continually expanding our network to maximize opportunities for our creators.',
+                    AppLocalizations.of(context)!.aboutInfinitumDescription3(AppConfig.platformPartners.join(', ')),
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Proudly founded, operated, and thriving in the heart of the United States! Based in ${AppConfig.location}.',
+                    AppLocalizations.of(context)!.aboutInfinitumDescription4(AppConfig.location),
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontStyle: FontStyle.italic,
                     ),
@@ -187,14 +285,14 @@ class _AboutScreenState extends State<AboutScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Benefits',
+                  AppLocalizations.of(context)!.benefits,
                   style: theme.textTheme.headlineSmall,
                 ),
                 const SizedBox(height: 16),
                 _BenefitsCard(
                   icon: Icons.info_outline,
-                  title: 'What We Do',
-                  description: 'Learn about our services and benefits across all platforms',
+                  title: AppLocalizations.of(context)!.whatWeDo,
+                  description: AppLocalizations.of(context)!.whatWeDoDescription,
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -208,8 +306,8 @@ class _AboutScreenState extends State<AboutScreen> {
                 const SizedBox(height: 12),
                 _BenefitsCard(
                   icon: Icons.person_outline,
-                  title: 'What Is Your Role',
-                  description: 'Understand your responsibilities and expectations as a creator',
+                  title: AppLocalizations.of(context)!.whatIsYourRole,
+                  description: AppLocalizations.of(context)!.whatIsYourRoleDescription,
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -223,8 +321,8 @@ class _AboutScreenState extends State<AboutScreen> {
                 const SizedBox(height: 12),
                 _BenefitsCard(
                   icon: Icons.block,
-                  title: 'What We DO NOT Do',
-                  description: 'Clear transparency about what we don\'t provide',
+                  title: AppLocalizations.of(context)!.whatWeDoNotDo,
+                  description: AppLocalizations.of(context)!.whatWeDoNotDoDescription,
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -238,8 +336,8 @@ class _AboutScreenState extends State<AboutScreen> {
                 const SizedBox(height: 12),
                 _BenefitsCard(
                   icon: Icons.description_outlined,
-                  title: 'Talent Agreement',
-                  description: 'Review the terms and agreements for TikTok LIVE membership',
+                  title: AppLocalizations.of(context)!.talentAgreement,
+                  description: AppLocalizations.of(context)!.talentAgreementDescription,
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -253,8 +351,8 @@ class _AboutScreenState extends State<AboutScreen> {
                 const SizedBox(height: 12),
                 _BenefitsCard(
                   icon: Icons.checklist_outlined,
-                  title: 'Requirements',
-                  description: 'View requirements for joining different Infinitum programs',
+                  title: AppLocalizations.of(context)!.requirements,
+                  description: AppLocalizations.of(context)!.requirementsDescription,
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
@@ -283,7 +381,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Service Regions',
+                    AppLocalizations.of(context)!.serviceRegions,
                     style: theme.textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 12),
@@ -314,26 +412,26 @@ class _AboutScreenState extends State<AboutScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Contact Information',
+                    AppLocalizations.of(context)!.contactInformation,
                     style: theme.textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 12),
                   _ContactItem(
                     icon: Icons.email,
-                    label: 'Support Email',
+                    label: AppLocalizations.of(context)!.supportEmailLabel,
                     value: AppConfig.supportEmail,
                     onTap: () => _launchEmail(context, AppConfig.supportEmail),
                   ),
                   const Divider(),
                   _ContactItem(
                     icon: Icons.account_circle,
-                    label: 'Official Account',
+                    label: AppLocalizations.of(context)!.officialAccountLabel,
                     value: AppConfig.officialAccount,
                   ),
                   const Divider(),
                   _ContactItem(
                     icon: Icons.access_time,
-                    label: 'Business Hours',
+                    label: AppLocalizations.of(context)!.businessHoursLabel,
                     value: AppConfig.businessHours,
                   ),
                 ],
@@ -349,25 +447,25 @@ class _AboutScreenState extends State<AboutScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Quick Links',
+                    AppLocalizations.of(context)!.quickLinks,
                     style: theme.textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 12),
                   _LinkItem(
                     icon: Icons.language,
-                    label: 'Website',
+                    label: AppLocalizations.of(context)!.website,
                     url: AppConfig.websiteUrl,
                   ),
                   const Divider(),
                   _LinkItem(
                     icon: Icons.person_add,
-                    label: 'Onboarding',
+                    label: AppLocalizations.of(context)!.onboarding,
                     url: AppConfig.onboardingUrl,
                   ),
                   const Divider(),
                   _LinkItem(
                     icon: Icons.dashboard,
-                    label: 'Creator Dashboard',
+                    label: AppLocalizations.of(context)!.creatorDashboard,
                     url: AppConfig.viewAppUrl,
                   ),
                 ],
@@ -383,25 +481,25 @@ class _AboutScreenState extends State<AboutScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Legal & Privacy',
+                    AppLocalizations.of(context)!.legalPrivacy,
                     style: theme.textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 12),
                   _LinkItem(
                     icon: Icons.privacy_tip,
-                    label: 'Privacy Policy',
+                    label: AppLocalizations.of(context)!.privacyPolicy,
                     url: AppConfig.privacyPolicyUrl,
                   ),
                   const Divider(),
                   _LinkItem(
                     icon: Icons.description,
-                    label: 'Terms of Service',
+                    label: AppLocalizations.of(context)!.termsOfService,
                     url: AppConfig.termsOfServiceUrl,
                   ),
                   const Divider(),
                   _LinkItem(
                     icon: Icons.cookie,
-                    label: 'Cookie Policy',
+                    label: AppLocalizations.of(context)!.cookiePolicy,
                     url: AppConfig.cookiePolicyUrl,
                   ),
                 ],
@@ -417,24 +515,24 @@ class _AboutScreenState extends State<AboutScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Third-Party Acknowledgments',
+                    AppLocalizations.of(context)!.thirdPartyAcknowledgments,
                     style: theme.textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'TikTok Partnership',
+                    AppLocalizations.of(context)!.tiktokPartnership,
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Infinitum LIVE Creator Network is an official third-party partner with TikTok. Infinitum Imagery LLC has been granted permission by TikTok to use the TikTok name and branding in its applications and products. This partnership is established to better serve and train creators within the TikTok creator ecosystem.',
+                    AppLocalizations.of(context)!.tiktokPartnershipDescription,
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'TikTok is a trademark of TikTok Inc. and/or its affiliates. The use of the TikTok name and branding in this application is done with explicit permission as an official third-party partner.',
+                    AppLocalizations.of(context)!.tiktokTrademark,
                     style: theme.textTheme.bodySmall?.copyWith(
                       fontStyle: FontStyle.italic,
                     ),
@@ -452,27 +550,27 @@ class _AboutScreenState extends State<AboutScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'App Information',
+                    AppLocalizations.of(context)!.appInformation,
                     style: theme.textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 12),
                   _InfoRow(
-                    label: 'Version',
+                    label: AppLocalizations.of(context)!.version,
                     value: VersionManager.getDisplayVersion(),
                   ),
                   const Divider(),
                   _InfoRow(
-                    label: 'Theme Mode',
+                    label: AppLocalizations.of(context)!.themeModeLabel,
                     value: ThemePreferencesService.getThemeModeLabel(currentThemeMode),
                   ),
                   const Divider(),
                   _InfoRow(
-                    label: 'Company',
+                    label: AppLocalizations.of(context)!.company,
                     value: AppConfig.companyName,
                   ),
                   const Divider(),
                   _InfoRow(
-                    label: 'Founded',
+                    label: AppLocalizations.of(context)!.founded,
                     value: AppConfig.foundedDate,
                   ),
                 ],
@@ -499,12 +597,12 @@ class _AboutScreenState extends State<AboutScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Contact Email'),
+        title: Text(AppLocalizations.of(context)!.contactEmail),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Email address:'),
+            Text(AppLocalizations.of(context)!.emailAddress),
             const SizedBox(height: 8),
             SelectableText(
               email,
@@ -515,7 +613,7 @@ class _AboutScreenState extends State<AboutScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Please use your email client to contact us.',
+              AppLocalizations.of(context)!.pleaseUseEmailClient,
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ],
@@ -523,7 +621,7 @@ class _AboutScreenState extends State<AboutScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Close'),
+            child: Text(AppLocalizations.of(context)!.close),
           ),
         ],
       ),
@@ -731,7 +829,7 @@ class _PayExplainedCardState extends State<_PayExplainedCard> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Pay Explained',
+                          AppLocalizations.of(context)!.payExplained,
                           style: widget.theme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -740,7 +838,7 @@ class _PayExplainedCardState extends State<_PayExplainedCard> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Learn how TikTok LIVE Creator Network pay model works',
+                          AppLocalizations.of(context)!.payExplainedDescription,
                           style: widget.theme.bodySmall,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,

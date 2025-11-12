@@ -17,6 +17,7 @@ import 'package:infinitum_live_creator_network/utils/url_launcher_util.dart';
 import 'package:infinitum_live_creator_network/widgets/stat_card_widget.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
 
 // MARK: - Statistics Screen
 class StatisticsScreen extends StatefulWidget {
@@ -68,13 +69,13 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     } catch (e) {
       Logger.logError('Failed to load statistics', error: e, tag: 'StatisticsScreen');
       if (mounted) {
-        setState(() {
-          // Only show error if we don't have cached data
-          if (_stats == null) {
-            _errorMessage = 'Failed to load statistics. Please try again later.';
-          }
-          _isLoading = false;
-        });
+            setState(() {
+              // Only show error if we don't have cached data
+              if (_stats == null) {
+                _errorMessage = AppLocalizations.of(context)!.errorFetchingCreatorStatistics;
+              }
+              _isLoading = false;
+            });
       }
     }
   }
@@ -84,7 +85,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Statistics'),
+        title: Text(AppLocalizations.of(context)!.statistics),
       ),
       body: RefreshIndicator(
         onRefresh: _loadStatistics,
@@ -143,7 +144,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              _errorMessage ?? 'An error occurred',
+              _errorMessage ?? AppLocalizations.of(context)!.anErrorOccurred,
               style: theme.textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
@@ -151,7 +152,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             ElevatedButton.icon(
               onPressed: _loadStatistics,
               icon: const Icon(Icons.refresh),
-              label: const Text('Retry'),
+              label: Text(AppLocalizations.of(context)!.retry),
             ),
           ],
         ),
@@ -164,7 +165,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     final theme = Theme.of(context);
     
     if (_stats == null) {
-      return const Center(child: Text('No statistics available'));
+      return Center(child: Text(AppLocalizations.of(context)!.noStatisticsAvailable));
     }
     
     return ListView(
@@ -173,12 +174,12 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
       children: [
         // Header
         Text(
-          'Creator Network Statistics',
+          AppLocalizations.of(context)!.creatorNetworkStatistics,
           style: theme.textTheme.headlineMedium,
         ),
         const SizedBox(height: 8),
         Text(
-          'Real-time data from our creator network',
+          AppLocalizations.of(context)!.realTimeDataFromNetwork,
           style: theme.textTheme.bodyMedium,
         ),
         const SizedBox(height: 24),
@@ -188,7 +189,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           children: [
             Expanded(
               child: StatCardWidget(
-                title: 'TikTok Creators',
+                title: AppLocalizations.of(context)!.tiktokCreators,
                 value: _stats!.formattedTotalCreators,
                 icon: Icons.people,
                 color: Colors.blue,
@@ -197,7 +198,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             const SizedBox(width: 12),
             Expanded(
               child: StatCardWidget(
-                title: 'Favorited Creators',
+                title: AppLocalizations.of(context)!.favoritedCreators,
                 value: _stats!.formattedFavoritedCreators,
                 icon: Icons.star,
                 color: Colors.purple,
@@ -215,24 +216,24 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Detailed Statistics',
+                AppLocalizations.of(context)!.detailedStatistics,
                 style: theme.textTheme.headlineSmall,
               ),
               const SizedBox(height: 16),
               _StatRow(
-                label: 'Total TikTok Creators',
+                label: AppLocalizations.of(context)!.totalTikTokCreators,
                 value: _stats!.totalCreators.toString(),
               ),
               const Divider(),
               _StatRow(
-                label: 'Favorited LIVE Creators',
+                label: AppLocalizations.of(context)!.favoritedLiveCreators,
                 value: _stats!.favoritedCreators.toString(),
               ),
               if (_stats!.lastUpdated != null) ...[
                 const Divider(),
                 _StatRow(
-                  label: 'Last Updated',
-                  value: _formatDate(_stats!.lastUpdated!),
+                  label: AppLocalizations.of(context)!.lastUpdated,
+                  value: _formatDate(context, _stats!.lastUpdated!),
                 ),
               ],
               const SizedBox(height: 16),
@@ -283,14 +284,14 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Join the Discord Community',
+                              AppLocalizations.of(context)!.joinDiscordCommunity,
                               style: theme.textTheme.bodyLarge?.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              'Connect with other creators',
+                              AppLocalizations.of(context)!.connectWithOtherCreators,
                               style: theme.textTheme.bodySmall,
                             ),
                           ],
@@ -313,7 +314,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     );
   }
   
-  String _formatDate(DateTime date) {
+  String _formatDate(BuildContext context, DateTime date) {
     return '${date.month}/${date.day}/${date.year} ${date.hour}:${date.minute.toString().padLeft(2, '0')}';
   }
 }

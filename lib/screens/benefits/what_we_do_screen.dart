@@ -9,6 +9,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
+import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
 
 // MARK: - What We Do Screen
 class WhatWeDoScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class WhatWeDoScreen extends StatelessWidget {
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('What We Do'),
+        title: Text(AppLocalizations.of(context)!.whatWeDo),
       ),
       body: ListView(
         physics: const BouncingScrollPhysics(),

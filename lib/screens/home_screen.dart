@@ -19,12 +19,14 @@ import 'package:infinitum_live_creator_network/widgets/app_logo_widget.dart';
 import 'package:infinitum_live_creator_network/widgets/banner_ad_widget.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
+import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
 
 // MARK: - Home Screen
 class HomeScreen extends StatefulWidget {
   final ValueChanged<ThemeMode>? onThemeModeChanged;
+  final ValueChanged<Locale?>? onLocaleChanged;
   
-  const HomeScreen({super.key, this.onThemeModeChanged});
+  const HomeScreen({super.key, this.onThemeModeChanged, this.onLocaleChanged});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -38,7 +40,10 @@ class _HomeScreenState extends State<HomeScreen> {
     const _HomePage(),
     const StatisticsScreen(),
     const AnnouncementsScreen(),
-    AboutScreen(onThemeModeChanged: widget.onThemeModeChanged),
+    AboutScreen(
+      onThemeModeChanged: widget.onThemeModeChanged,
+      onLocaleChanged: widget.onLocaleChanged,
+    ),
   ];
   
   // MARK: - Build Method
@@ -79,26 +84,26 @@ class _HomeScreenState extends State<HomeScreen> {
               });
               Logger.logInfo('Navigated to index: $index', tag: 'HomeScreen');
             },
-            destinations: const [
+            destinations: [
               NavigationDestination(
-                icon: Icon(Icons.home_outlined),
-                selectedIcon: Icon(Icons.home),
-                label: 'Home',
+                icon: const Icon(Icons.home_outlined),
+                selectedIcon: const Icon(Icons.home),
+                label: AppLocalizations.of(context)!.home,
               ),
               NavigationDestination(
-                icon: Icon(Icons.analytics_outlined),
-                selectedIcon: Icon(Icons.analytics),
-                label: 'Statistics',
+                icon: const Icon(Icons.analytics_outlined),
+                selectedIcon: const Icon(Icons.analytics),
+                label: AppLocalizations.of(context)!.statistics,
               ),
               NavigationDestination(
-                icon: Icon(Icons.notifications_outlined),
-                selectedIcon: Icon(Icons.notifications),
-                label: 'Announcements',
+                icon: const Icon(Icons.notifications_outlined),
+                selectedIcon: const Icon(Icons.notifications),
+                label: AppLocalizations.of(context)!.announcements,
               ),
               NavigationDestination(
-                icon: Icon(Icons.info_outline),
-                selectedIcon: Icon(Icons.info),
-                label: 'About',
+                icon: const Icon(Icons.info_outline),
+                selectedIcon: const Icon(Icons.info),
+                label: AppLocalizations.of(context)!.about,
               ),
             ],
           ),
@@ -204,28 +209,28 @@ class _HomePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Text(
-                  'Tools & Services',
+                  AppLocalizations.of(context)!.toolsAndServices,
                   style: theme.textTheme.headlineMedium,
                 ),
               ),
               const SizedBox(height: 8),
               _QuickLinkCard(
-                title: 'Merch',
-                subtitle: 'Shop Infinitum LIVE apparel',
+                title: AppLocalizations.of(context)!.merch,
+                subtitle: AppLocalizations.of(context)!.merchSubtitle,
                 icon: Icons.shopping_bag,
                 url: AppConfig.merchUrl,
               ),
               const SizedBox(height: 12),
               _QuickLinkCard(
-                title: 'Estimate Earnings',
-                subtitle: 'Calculate your potential earnings',
+                title: AppLocalizations.of(context)!.estimateEarnings,
+                subtitle: AppLocalizations.of(context)!.estimateEarningsSubtitle,
                 icon: Icons.calculate,
                 url: AppConfig.estimateEarningsUrl,
               ),
               const SizedBox(height: 12),
               _QuickLinkCard(
-                title: 'Shadow Ban Checker',
-                subtitle: 'Check if your account is shadow banned',
+                title: AppLocalizations.of(context)!.shadowBanChecker,
+                subtitle: AppLocalizations.of(context)!.shadowBanCheckerSubtitle,
                 icon: Icons.visibility_off,
                 url: AppConfig.shadowBanCheckerUrl,
               ),
@@ -236,14 +241,14 @@ class _HomePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Text(
-                  'Quick Links',
+                  AppLocalizations.of(context)!.quickLinks,
                   style: theme.textTheme.headlineMedium,
                 ),
               ),
               const SizedBox(height: 8),
               _QuickLinkCard(
-                title: 'View Dashboard (iView)',
-                subtitle: 'Access your InfiniView Creator Dashboard',
+                title: AppLocalizations.of(context)!.viewDashboard,
+                subtitle: AppLocalizations.of(context)!.viewDashboardSubtitle,
                 icon: Icons.dashboard,
                 url: !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS 
                     ? AppConfig.infiniviewAppStoreUrl 
@@ -252,43 +257,43 @@ class _HomePage extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               _QuickLinkCard(
-                title: 'Onboarding',
-                subtitle: 'Start your onboarding process',
+                title: AppLocalizations.of(context)!.onboarding,
+                subtitle: AppLocalizations.of(context)!.onboardingSubtitle,
                 icon: Icons.person_add,
                 url: AppConfig.onboardingUrl,
               ),
               const SizedBox(height: 12),
               _QuickLinkCard(
-                title: 'Website',
-                subtitle: 'Visit infinitumlive.com',
+                title: AppLocalizations.of(context)!.website,
+                subtitle: AppLocalizations.of(context)!.websiteSubtitle,
                 icon: Icons.language,
                 url: AppConfig.websiteUrl,
               ),
               const SizedBox(height: 12),
               _QuickLinkCard(
-                title: 'How to Apply',
-                subtitle: 'Learn how to join the network',
+                title: AppLocalizations.of(context)!.howToApply,
+                subtitle: AppLocalizations.of(context)!.howToApplySubtitle,
                 icon: Icons.how_to_reg,
                 url: AppConfig.howToApplyUrl,
               ),
               const SizedBox(height: 12),
               _QuickLinkCard(
-                title: 'Apply for TikTok LIVE Creator Network',
-                subtitle: 'Join the TikTok LIVE Creator Network',
+                title: AppLocalizations.of(context)!.applyTikTokLive,
+                subtitle: AppLocalizations.of(context)!.applyTikTokLiveSubtitle,
                 icon: Icons.video_library,
                 url: AppConfig.creatorPreCheckUrl,
               ),
               const SizedBox(height: 12),
               _QuickLinkCard(
-                title: 'Apply for TikTok Shop Agency',
-                subtitle: 'Apply for TikTok Shop partnership',
+                title: AppLocalizations.of(context)!.applyTikTokShop,
+                subtitle: AppLocalizations.of(context)!.applyTikTokShopSubtitle,
                 icon: Icons.store,
                 url: AppConfig.tiktokShopUrl,
               ),
               const SizedBox(height: 12),
               _QuickLinkCard(
-                title: 'Apply for Favorited LIVE Agency',
-                subtitle: 'Join the Favorited LIVE Creator Network',
+                title: AppLocalizations.of(context)!.applyFavoritedLive,
+                subtitle: AppLocalizations.of(context)!.applyFavoritedLiveSubtitle,
                 icon: Icons.favorite,
                 url: AppConfig.favoritedLiveApplyUrl,
               ),
@@ -346,7 +351,7 @@ class _QuickLinkCard extends StatelessWidget {
                 if (!launched && context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Could not open $title'),
+                      content: Text(AppLocalizations.of(context)!.couldNotOpen(title)),
                       duration: const Duration(seconds: 2),
                     ),
                   );
@@ -355,7 +360,7 @@ class _QuickLinkCard extends StatelessWidget {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Cannot open $title'),
+                      content: Text(AppLocalizations.of(context)!.cannotOpen(title)),
                       duration: const Duration(seconds: 2),
                     ),
                   );
@@ -366,7 +371,7 @@ class _QuickLinkCard extends StatelessWidget {
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Error opening $title'),
+                    content: Text(AppLocalizations.of(context)!.errorOpening(title)),
                     duration: const Duration(seconds: 2),
                   ),
                 );
@@ -382,7 +387,7 @@ class _QuickLinkCard extends StatelessWidget {
             if (!launched && context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('Could not open $title'),
+                  content: Text(AppLocalizations.of(context)!.couldNotOpen(title)),
                   duration: const Duration(seconds: 2),
                 ),
               );

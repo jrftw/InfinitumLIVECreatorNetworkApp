@@ -1,0 +1,736 @@
+(Top-performing creators only)
+90-Day Completion Requirement:
+A 60-day cooldown period will apply before the creator is eligible to join another agency network.
+A TikTok LIVE Creator Network (agency) is an official partner program that helps creators grow, access exclusive TikTok campaigns, and get support with account issues, events, and bonuses.
+API Response Status: ${response.statusCode}
+API returned a List, converting to Map format
+Abide by Rules: Always follow Bigo LIVE\
+Able to go LIVE for at least 1 day a month
+Able to go LIVE for at least 12 valid days and 25 hours per month
+About
+About Infinitum
+AboutScreen
+Accessibility - any creator can apply and join free
+Accessibility – open to creators at all levels, from rookies to top performers.
+Account Ownership & Management
+Account Settings:
+Account Support:
+Accountability & Communication
+Achieve Monthly Sales Goals
+AdMob initialized successfully with app ID: $appId
+Adhere to Policies: Always comply with TikTok Shop terms to avoid penalties or suspensions.
+Affiliation:
+After 15 Days:
+After TikTok pays the creator their portion, the creator network receives a separate payout from TikTok based on TikTok\
+Age:
+Agency Removal Rights:
+Agency-Only Promotions – Exclusive bonus campaigns.
+All Infinitum-provided information, resources, materials, and internal communications are confidential.
+All creator compensation comes exclusively from TikTok LIVE gifts, governed by TikTok\
+All earnings are received directly through TikTok LIVE gifts.
+All services initialized successfully
+Already have access to TikTok Shop or manager
+An error occurred
+An error occurred while loading the page.
+Announced through official Infinitum channels (Discord, Email).
+Announcements
+Announcements preloaded successfully
+AnnouncementsScreen
+Any agreements regarding expenses or distribution of proceeds between the creator and Infinitum must be handled outside of TikTok.
+Any use of threats, defamatory statements, or hostile behavior to force early release is considered a violation of this agreement and will not accelerate removal.
+ApiService
+App Information
+Apply Now
+ApplyScreen
+Approximate Range:
+Ask for Support: Managers and the Infinitum team are available to assist with technical issues, LIVE strategies, or platform-related challenges.
+At Infinitum Imagery LLC we were officially founded on March 15, 2023 by ${AppConfig.founderHandle}, inspired by our founder\
+At Infinitum LIVE, creators unlock:
+At Infinitum LIVE, we believe in transparency and honesty. Too often, false claims and misinformation spread about what a Creator Network does. To set the record straight, here is exactly what we do not do across TikTok LIVE, TikTok Shop, Favorited, and Bigo.
+At Infinitum LIVE, your success is our success. 🚀
+At Infinitum, whether you\
+Attempts by other agencies, managers, or third parties to recruit our creators during their agreement will not change the terms of withdrawal or cooldown.
+Australia
+Auto
+Ban appeals, account recovery, and stream key access.
+Banner ad closed
+Banner ad failed to load
+Banner ad impression recorded
+Banner ad loaded successfully
+Banner ad opened
+BannerAdWidget
+Bans, Violations, & Reports
+Benefits
+Beta
+Bigo
+Bigo Agency Requirements:
+Bigo LIVE
+Bigo LIVE (USA Only)
+Bigo Merchandise Rewards
+Blocked navigation to untrusted URL: $navigationUrl
+Brand Partnership Guidance – Prep for sponsorships and partnerships.
+Brawls Campaigns – Weekly 2v2 battle campaigns.
+Build the Family: Invite others to join Bigo LIVE with Infinitum and earn referral bonuses for successful recruits.
+Business Hours
+By accepting this invitation, creators agree to the Network Relationship Rules, which may be updated periodically.
+By accepting this invitation, you acknowledge and agree to the terms above, which govern your participation in the Infinitum TikTok LIVE Creator Network. These terms are designed to ensure fairness, protect the stability of the network, and provide creators with a clear and consistent structure throughout their membership.
+Cache cleared
+Cached announcements expired
+Cached stats expired
+Can not already be linked to a TikTok seller account or another TikTok Shop Agency
+Canada
+Cannot launch URL: $url
+Cannot launch email: $email
+Cannot launch phone: $phoneNumber
+Cannot open this URL
+Cannot reach server. Please check your internet connection.
+Clapper
+Clear transparency about what we don\
+Click 
+Close
+Coaching & growth strategies
+Commission Withdrawal Assistance
+Commission Withdrawal Issues – Support for payout and commission delays.
+Commitment to Going LIVE Regularly
+Communication & Support
+Community & Events
+Community & events – weekly tournaments, incentive programs, exclusive competitions, and TikTok HQ opportunities.
+Community Growth Strategies
+Community Growth Strategies: Build a loyal fanbase.
+Community Growth Support for audience building.
+Community built on mentorship and mental health advocacy
+Company
+Compared to others, Infinitum leads with:
+Compensation:
+Complete Earnings Flow & Compensation Structure
+Compliance Education
+Compliance with Bigo Standards
+Compliance with TikTok Shop Rules
+Compliance with TikTok\
+Comprehensive Support
+Confidentiality Obligation:
+Connect with other creators
+Consistency Matters: Maintain regular participation in TikTok Shop activities such as product promotion, sales streams, and content uploads.
+Contact Email
+Contact Information
+Content Calendar Templates – Pre-built schedules to stay organized and consistent.
+Content Requirements:
+Context is required for in-app webview on mobile platforms
+Cookie Policy
+Copyright & Strike Guidance – Protect content, avoid muted streams, and file takedowns.
+Cost/Pricing
+Could not launch URL: $url
+Could not open application link
+Could not open in external browser
+Coupon Setup Assistance
+Coupon and Viewer Issues:
+Creator
+Creator Bonus Campaign Months:
+Creator Dashboard
+Creator Earnings Flow
+Creator Goes LIVE
+Creator Network
+Creator Network Does NOT Take a Cut
+Creator Network Does not take a cut or % anywhere. Creator always keeps their up to 53% from TikTok, payouts are all handled by TikTok
+Creator Network Statistics
+Creator Payout
+Creator Pre-Check
+Creator performance, metrics, valid activity
+Creators agree not to engage in or provide competitive services similar to Infinitum for a period of five (5) years following termination of this agreement.
+Creators agree not to publish or communicate negative or defamatory statements about Infinitum, its creators, or affiliates.
+Creators are expected to wait out the full withdrawal period and cooldown as agreed.
+Creators are responsible for reporting and paying any applicable taxes.
+Creators enrolled in the Diamond Incentive Program (D.I.P.) are subject to all program rules and performance standards.
+Creators keep 100% of their earnings.
+Creators may request removal at any time during the first 15 days of joining.
+Creators must complete required valid streaming days and hours (e.g., 12 valid days, 25+ hours per month) and meet diamond thresholds.
+Creators must maintain quality broadcasts, avoiding static camera images or non-interactive displays.
+Creators must provide screenshots or ranking proof where required.
+Creators who have earned 200,000+ Diamonds within the past six months are ineligible to transfer to another network under TikTok\
+Cross-Platform Growth – Expand audiences across TikTok, YouTube, and Instagram.
+Custom Reports – Benchmark your results against regional and national averages.
+DEBUG
+Dark
+Detailed Earnings Breakdown
+Detailed Statistics
+Device & Setup Recommendations – Affordable gear, lights, and mics.
+Diamond Drive Challenges – Large-scale competitions with top-tier rewards.
+Diamond Incentive Program (D.I.P.) – Earn payouts for valid days, diamonds, and LIVE hours.
+Diamond Threshold Restriction:
+Direct Help: Reach out to Infinitum support for assistance with violations, login problems, or account concerns.
+Direct TikTok integration
+Direct TikTok integration for faster support and official resources.
+Discord Community
+Discord Connection: Use Discord to stay in contact with your assigned manager.
+Does Infinitum take a cut of my TikTok diamonds?
+Doxxing Protection – Support if personal information is leaked.
+Duration:
+ERROR
+Each section below outlines your expectations, responsibilities, and opportunities as a member of Infinitum LIVE. These standards ensure professionalism, compliance, and growth while also protecting your long-term success.
+Early Access & Special Benefits
+Early LIVE Access – Go LIVE even with fewer than 1,000 followers.
+Early TikTok Feature Access – Test new platform features first.
+Earn Rewards: Invite new creators to Infinitum LIVE and receive referral bonuses once they successfully join and meet requirements.
+Earnings from Gifts & Subscriptions
+Eligibility Restrictions: Hosts cannot join if banned, underage, or already affiliated with another network.
+Eligibility:
+Elite & High follower creator event invitations
+Email address:
+Encouraged Consistency: While Bigo has flexible activity rules, consistent streaming significantly improves visibility and rewards.
+Ending a Relationship: A 30-day notice period applies after the first 15 days of joining. Cooldown restrictions also apply.
+Engagement Focus: The more frequently and consistently you stream, the better your growth potential on the platform.
+Error comparing versions: $version vs $otherVersion
+Error displaying banner ad
+Error fetching announcements: ${e.toString()}
+Error fetching creator statistics
+Error launching URL: $url
+Error launching email: $email
+Error launching phone: $phoneNumber
+Error loading banner ad
+Error opening URL in external browser: $url
+Error opening application link
+Error opening in external browser
+Error opening link
+Error validating URL: $url
+Established: 3/15/2022
+Events & Reminders
+Exception Requests: If personal obligations or emergencies affect your ability to participate, notify us for review.
+Exception Requests: If serious obligations (e.g., military duty, work schedules, illness, family emergencies, natural disasters) prevent you from meeting requirements, submit a documented exception request. Each case will be reviewed individually.
+Exception: 
+Exceptions:
+Exclusive Analytics & Tools
+Exclusive Event Invitations
+Exclusive Infinitum Agency Tools
+Exclusive Resources and Updates
+Exclusive Support
+Exclusive Support – Online Chat Support (8 AM–8 PM EST, Mon–Fri: Phone, Text, Discord DMs, Email, WhatsApp).
+Exclusive Swag – TikTok & Infinitum merchandise rewards.
+Exclusive analytics & tools – InfiniVIEW dashboard to track diamonds, bonuses, and LIVE performance in real time.
+Exclusive bonuses, campaigns, and rewards
+Exclusive tools and tracking apps.
+Expand the Shop: Recruit other sellers and earn referral rewards when they successfully join under Infinitum.
+Expectations & Responsibilities for Favorited Agency Members
+Expectations & Responsibilities for Infinitum Bigo LIVE Members
+Expectations & Responsibilities for Infinitum LIVE Creator Network Members
+Expectations & Responsibilities for Infinitum TikTok Shop Members
+Extracted URL from array: $extractedUrl
+Failed host lookup
+Failed to Load Page
+Failed to cache announcements
+Failed to cache stats
+Failed to clear cache
+Failed to fetch announcements: HTTP ${response.statusCode}
+Failed to fetch creator stats: HTTP ${response.statusCode}
+Failed to get cached announcements
+Failed to get cached stats
+Failed to initialize AdMob
+Failed to initialize PreloadService
+Failed to initialize Version Manager
+Failed to initialize services
+Failed to initialize theme preferences
+Failed to load announcements
+Failed to load announcements: HTTP ${response.statusCode}
+Failed to load creator statistics: HTTP ${response.statusCode}
+Failed to load page. Please check your internet connection.
+Failed to load statistics
+Failed to load statistics. Please try again later.
+Failed to parse announcements JSON
+Failed to parse announcements data: ${e.toString()}
+Failed to preload announcements
+Failed to preload data
+Failed to preload statistics
+Failed to preload stats
+Failed to save theme mode preference
+Familiar with and committed to following TikTok Community Guidelines
+Fast Manager Support
+Fast account & safety support
+Fast problem resolution.
+Favorited
+Favorited (USA Only)
+Favorited Agency Requirements:
+Favorited Creators
+Favorited LIVE
+Favorited LIVE (USA Only)
+Favorited LIVE Creators
+Favorited Merchandise Rewards
+Feature Previews
+Feature Previews: Be first to test Favorited updates.
+Fetching announcements from API: ${AppConfig.announcementsUrl}
+Fetching creator statistics from API
+Final Acceptance
+Final Note
+First 15 Days:
+Flexible Fee Structure: Choose 2%–50% of earnings based on your preference.
+Flexible Streaming: No strict requirements, but consistency will increase your reach and income.
+Flutter Error: ${details.exception}
+Follow TikTok Community Guidelines
+Followers:
+Following the initial 15 days, creators may request removal by providing a 30-day notice period.
+Founded
+Free Gifts – Exclusive creator rewards through Infinitum\
+Free Scheduled Tournaments – Compete for recognition and bonuses.
+Full coaching and strategic support.
+Full support system – ban appeals, account recovery, and official stream key access.
+Game Plan Creation – Personalized content roadmaps with follow-up check-ins.
+Get Help: Managers are available to provide strategies for boosting sales when needed.
+Gifts, Products, & Engagement
+Gifts, Products, & Followers
+Gifts, subs, diamonds
+Global Matches – Compete worldwide.
+Goal Tracking – Personalized milestone setting with progress checkpoints.
+Group Meetings – Regular strategy sessions with managers and peers.
+Grow the Team: Invite friends or new creators to Favorited LIVE and earn referral bonuses.
+Guideline Adherence:
+Hacked Account Recovery
+Hacked Account Recovery – Escalation and assistance if your account is compromised.
+Hashtag & SEO Strategy – Trending keywords, captions, and TikTok search optimization.
+HomeScreen
+How Infinitum Compares
+How do I join Infinitum LIVE?
+IMPORTANT
+INFO
+Important Clarifications
+InfiniVIEW Android App – Full mobile support for Android devices.
+InfiniVIEW Android App: Download for Android
+InfiniVIEW helps creators track diamonds, bonuses, and performance.
+InfiniVIEW iOS App – Manage performance on iPhone/iPad.
+InfiniVIEW iOS App: Download for iOS
+Infinitum Imagery LLC
+Infinitum LIVE
+Infinitum LIVE Creator Network
+Infinitum LIVE Creator Network (Infinitum_US) is recognized as one of, if not the best TikTok LIVE agencies worldwide, serving creators across the United States, Canada, United Kingdom, Australia, and New Zealand. As an official TikTok Creator Network partner, Infinitum combines authenticity, innovation, and a creator-first model that is 100% free to join.
+Infinitum LIVE Creator Network (Infinitum_US) stands out as one of, if not the best TikTok LIVE agencies in the United States, Canada, United Kingdom, Australia and New Zealand, combining official TikTok partnership status with a free, creator-first model. Infinitum has quickly grown into a leading TikTok LIVE Creator Network by offering:
+Infinitum LIVE Creator Network is an official third-party partner with TikTok. Infinitum Imagery LLC has been granted permission by TikTok to use the TikTok name and branding in its applications and products. This partnership is established to better serve and train creators within the TikTok creator ecosystem.
+Infinitum LIVE Creator Network – The #1 TikTok LIVE Agency
+Infinitum LIVE is a top TikTok LIVE Creator Network and TikTok agency helping creators across the USA, Canada, United Kingdom, Australia, and New Zealand.
+Infinitum LIVE never takes a cut of your TikTok LIVE diamonds. 100% of your TikTok earnings stay with you.
+Infinitum Talent Agreement – For TikTok LIVE
+Infinitum does not issue direct payments; TikTok is the sole distributor of funds.
+Infinitum does not provide direct payments.
+Infinitum does not release creators early under pressure or solicitation from outside parties.
+Infinitum encourages respectful communication and remains available to provide support during the transition process, but all removals must follow the agreed timeline.
+Infinitum has quickly become a leading TikTok LIVE Creator Network by offering unmatched benefits, including:
+Infinitum is not obligated to approve an early release beyond these agreed terms.
+Infinitum offers more than just onboarding — we provide coaching, analytics, wellness support, exclusive campaigns, and real community recognition to help creators grow long-term.
+Infinitum reserves the right to remove a creator at any time, at its sole discretion. This may include blocking access to participation where necessary.
+Infinitum – Confidentiality & Non-Disclosure
+Infinitum – Invitation Terms and Agreements
+Infinitum – Non-Compete Agreement
+Infinitum – Talent Agreement & D.I.P. Bonus
+Infinitum\
+Infinitum_US, Infinitum_UK, Infinitum_AU – United States, Canada, United Kingdom, Australia, New Zealand, LATAM, Philippines
+Information Sharing:
+Initializing WebView for URL: ${widget.url}
+Instagram
+Integrity & Loyalty
+Integrity & Protection
+Interest:
+Invalid URL format (array): $url
+Invalid URL scheme: $url
+Invalid data format received: ${e.message}
+Invitation Term
+Invitations to elite events and HQ visits.
+JSON format error while fetching announcements
+Join the Discord Community
+Key Information First – Priority updates on TikTok news and Infinitum campaigns.
+Key Point
+LATAM
+LIVE Access Flexibility
+LIVE Activity
+LIVE Monitoring & Feedback with real-time insights.
+LIVE Streaming Commitment:
+LIVE and Video Violation Help
+Last Updated
+Learn about our services and benefits across all platforms
+Learn how TikTok LIVE Creator Network pay model works
+Led by real creators who understand TikTok LIVE growth.
+Legal & Privacy
+Light
+Loading... $_loadingProgress%
+Location:
+Login & Access Issues – Fast help with TikTok account access problems.
+Login Help
+Low Viewer/Traffic Support – Strategies to grow engagement and build consistent viewership.
+Loyalty & Integrity
+Loyalty & Protection
+MMM d, yyyy
+Main
+Manager & Director Compensation
+Manager Contact: Use Discord to connect with your assigned manager quickly.
+Manager Guidance: Infinitum managers are available to support you with Bigo-related issues, including violations, performance tips, or account concerns.
+Managers & Directors
+Managers / Directors
+Managers and directors are paid from the network\
+March 15, 2023
+Membership is valid for three (3) years from the date of acceptance.
+Mental Health Resources – Burnout prevention and wellness guidance.
+Mental health advocacy & mentorship – a supportive community that values creators beyond just numbers.
+Minimum 12 Valid Days Per Month: You must stream at least 12 separate days each month.
+Minimum 25 Hours Per Month: You must complete at least 25 cumulative streaming hours.
+Miscellaneous
+Monthly Bonuses – Extra milestone-based payouts (restrictions apply).
+Monthly Performance Reviews – Analyze diamonds, hours, and engagement growth.
+Must be based in the US or Canada
+Must be based in the United States Of America, Canada, United Kingdom or Australia
+Must have a high-quality profile picture
+Must have a minimum of 0 followers
+Must have a minimum of 10 followers
+Must have a public account (cannot be private)
+Must have at least 4 videos posted
+Must have at least 5,000 followers
+Navigated to Pay Explained screen
+Navigated to Requirements screen
+Navigated to Talent Agreement screen
+Navigated to What Is Your Role screen
+Navigated to What We Do Not Do screen
+Navigated to What We Do screen
+Navigated to home screen
+Navigated to index: $index
+Neptune
+Network
+Network Acceptance:
+Network Earnings Source
+Network Events & Campaigns
+Network Payout Factors
+Network error. Please check your internet connection and try again.
+Network-wide engagement metrics
+Network\
+New Zealand
+No 24/7 Availability: Managers provide guidance, not personal assistant services.
+No Access to Report Data: We cannot see who reported or flagged your content.
+No Account Control: Your Favorited account remains yours.
+No Account Ownership: We never take control of your TikTok account. You remain the sole owner.
+No Account Takeover: You retain full control of your TikTok Shop.
+No Artificial Growth: We do not sell followers, likes, bots, viewers, or any form of fake engagement.
+No Artificial Growth: We do not sell followers, likes, or viewers.
+No Authority Over Bans: TikTok Shop enforces account actions.
+No Authority Over Bans: TikTok enforces bans and suspensions—not us.
+No Ban Control: Favorited enforces bans independently.
+No Branding Services: Merchandise, logos, and deals are not provided.
+No Branding or Cross-Platform Support: Logos, merchandise, or Instagram/YouTube accounts are not covered.
+No Content Creation: We do not make or post TikTok Shop videos.
+No Content Posting: We do not create or manage Favorited content.
+No Cross-Platform Control: YouTube, Instagram, and other accounts remain outside our scope.
+No Cross-Platform Oversight: Other platforms (YouTube, Instagram, etc.) are not managed.
+No Dedicated Manager for Every LIVE: Managers provide guidance but cannot attend all streams.
+No Dedicated Manager for Every LIVE: Managers support many creators and cannot join each stream.
+No Device Control: We do not monitor or manage your phone, computer, or personal devices.
+No Direct Content Management: We do not create, post, or edit TikTok videos for you.
+No Direct Payments: All payouts come from TikTok Shop.
+No Direct Platform Access: We do not provide a 
+No Dual Membership: Working with other agencies while under Infinitum violates your contract and will result in consequences.
+No Equipment Funding: We do not purchase or reimburse equipment.
+No Equipment Reimbursement: You fund your own tools.
+No Event Reminders: You must track and manage your schedule.
+No Event/Sale Reminders: You are responsible for scheduling and tracking sales.
+No Fake Sales/Views: We do not provide artificial viewer or sales boosting.
+No Fees or Commissions
+No Fees: Our services are free.
+No Financial Advice: We do not offer financial planning or tax prep.
+No Financial or Tax Advice: We do not manage, file, or prepare taxes for you. (Creators are independent contractors, not employees.)
+No Forced Exclusivity Without Consent: You are never locked in unless you choose to sign with us.
+No Fraudulent Services: We do not sell fake growth, bots, or empty promises.
+No Free Gifts for Battles/Rankings: Rewards are only offered through official network campaigns.
+No Free Inventory: Products must be sourced by you.
+No Free Products: We do not provide equipment or merchandise.
+No Free Products: We do not supply items for going LIVE.
+No Guarantee of Fame or Earnings: Growth depends on your effort, consistency, and content.
+No Guaranteed Sales Growth: Results depend on your content and effort.
+No Health/Mental Health Services: We do not provide therapy, counseling, or emergency support.
+No Hidden Clauses or Fees: All terms are transparent and provided in writing.
+No Hidden Fees: Our TikTok LIVE services are free for creators.
+No LIVE Moderation: You must appoint and manage your own moderators.
+No Legal Advice: Seek professionals for contracts or disputes.
+No Legal Advice: We do not provide legal or contractual counsel.
+No Legal or Contract Advice: Please consult a legal professional.
+No Manager for Every Sale: Managers provide general support, not live oversight.
+No Misrepresentation: We are a Creator Network partner—not TikTok, not Favorited, not Bigo.
+No Moderation Services: You are responsible for selecting moderators.
+No Payments for Going LIVE: Payouts come directly from TikTok, not from us.
+No Payments for Streaming: Earnings come directly from Favorited.
+No Personal Branding Services: We do not handle logos, merchandise, or sponsorship deals.
+No Personal Event Reminders: You are responsible for tracking events and LIVE schedules.
+No Platform Authority: We do not create or change TikTok, Favorited, Bigo, or Shop policies.
+No Promise of Instant Growth: Success takes time and effort.
+No Recruitment Promises: We do not promise income just for joining.
+No Reimbursement: We do not cover or refund equipment or material costs.
+No Report Data Access: We cannot see who reports you.
+No Report Data Access: We do not see who flagged your content.
+No Responsibility for Harassment or Safety Risks: We promote safe streaming but cannot prevent or control external harassment.
+No Retroactive Contract Changes: We cannot alter agreements without your consent.
+No Retroactive Contract Changes: Your terms cannot change without your written agreement.
+No Romance Guarantees: Still can\
+No Romance Guarantees: We cannot make anyone fall in love with you… yet.
+No Shop Moderation: You must manage your own moderators.
+No Special Appeal Access: We do not bypass TikTok\
+No Tax/Financial Advice: Revenue management and filing are your responsibility.
+No Violation Removal: Favorited handles its own guideline enforcement.
+No Violation Removal: We cannot appeal or erase violations.
+No Violation Removal: We cannot erase TikTok-issued content strikes.
+No announcements available
+No fees or commissions – creators always keep 100% of their TikTok LIVE earnings.
+No statistics available
+No. Infinitum LIVE never takes a percentage of your LIVE diamonds — you keep 100% of your TikTok LIVE earnings.
+Non-Disparagement:
+Not currently affiliated with another LIVE agency or manager
+Not currently affiliated with another TikTok LIVE agency or manager
+Official Account
+Onboarding
+One-on-one coaching – personalized training from real creators who know how to succeed on TikTok LIVE.
+Open in Browser
+Opened application link: $url
+Opening Discord community link
+Opening URL in in-app webview: $url
+Opening URL: $url
+Opening announcement link: $url
+Opening link: $url
+Our network operates under a structured withdrawal process designed to protect both creators and the community. This includes a 30-day notice period followed by a 60-day cooldown period, totaling 90 days.
+Overall performance of managed creators
+Page finished loading: $url
+Page started loading: $url
+Paid from network\
+Pay Explained
+Payments & Financials
+Payout Basis:
+Peer Collaboration Groups – Smaller teams for sharing strategies and support.
+Performance Monitoring
+Performance Monitoring: Regular LIVE feedback and evaluations.
+Performance Standards:
+Performance Standards: Strive to meet or exceed monthly sales targets.
+Personal Coaching & Training
+Philippines
+Pittsburgh, Pennsylvania, USA 🎉
+Pittsburgh, Pennsylvania, United States
+Platform & Behavior Standards
+Platform Error: $error
+Platform operations
+Please use your email client to contact us.
+Poaching & Outside Influence
+Poaching Awareness: Immediately report outside agencies attempting to recruit you.
+Portion of TikTok\
+Positive creator testimonials on TikTok and Reddit
+Positive testimonials – creators across TikTok and Reddit call Infinitum one of the most supportive agencies.
+PreloadService
+PreloadService initialized
+Preloading announcements...
+Preloading statistics...
+Priority Support: 8 AM–8 PM EST, Monday–Friday.
+Privacy Policy
+Professional Conduct: Treat all customers and sales interactions with respect and professionalism.
+Professionalism on Camera: Avoid excessive profanity, smoking/vaping, drinking, or other unprofessional conduct. Violations may result in removal.
+Professionalism on Camera: Refrain from inappropriate conduct such as excessive profanity, smoking, alcohol consumption, or offensive content.
+Professionalism on LIVE: Avoid behavior that may harm your image or Infinitum\
+Profile Optimization – Reviews to boost visibility, retention, and TikTok growth.
+Profile Quality:
+Proof of Performance:
+Proudly Founded and Thriving in the USA!
+Proudly founded & thriving in the USA! 🇺🇸📍
+Proudly founded, operated, and thriving in the heart of the United States! Based in ${AppConfig.location}.
+Proven success stories – members achieving milestones, growing audiences, and maximizing diamond earnings.
+Publicly available information, previously known knowledge, or independently developed resources are not considered confidential.
+Quick Links
+Rapid growth story (from 0 to nearly 2,000 creators within its first year)
+Rapid growth – from 0 to nearly 2,000 creators in its first year.
+Ready to join the #1 TikTok LIVE Creator Network?
+Real-time data from our creator network
+Receives portion of TikTok\
+Receives up to 53% of total earnings
+Recognition Awards – Monthly and quarterly creator spotlights.
+Recruiting Bonuses – Earn when referred creators hit milestones.
+RedNote
+Referral Opportunities
+Referral Program
+Referral Rewards
+Relationship Terms
+Reload
+Reloading WebView
+Remainder (~47%)
+Report Poaching Attempts: Provide evidence if another agency attempts to recruit you.
+Report Poaching Attempts: Share screenshots if other agencies contact you.
+Report Poaching: If another network approaches you, immediately notify us with screenshots or chat logs.
+Request timed out. Please check your internet connection and try again.
+Request timeout while fetching announcements
+Requests submitted within this period will be processed promptly with no restrictions.
+Requirements
+Respect the Rules: Follow all Favorited platform policies and community guidelines.
+Retained share of creator revenue
+Retains ~47% as platform fee
+Retention and compliance with TikTok policies
+Retry
+Revenue Growth Assistance:
+Review the terms and agreements for TikTok LIVE membership
+Rules for Network Relationships
+Safety Training – Education on handling trolls, stalkers, and harassment.
+Seasonal Campaigns – Holiday/trending campaigns with extra rewards.
+Send Gifts & Subscriptions
+Service Regions
+Settlement of Expenses and Proceeds
+Shop Activity & Engagement
+Shoutouts & Promotions – Featured on Infinitum TikTok, Instagram, and Facebook.
+Showed email info: $email
+Since our earliest beginnings in 2023, we have proudly built a strong reputation for identifying and nurturing top-tier talent, forging meaningful connections with essential industry partners. Our mission is to empower every aspiring star by equipping them with robust tools, targeted resources, and caring, personalized guidance—ensuring that each individual is fully supported in reaching their highest potential.
+SocketException
+Source of Earnings:
+Special Access – Red Carpet, BeautyCon, Fashion Week, and other TikTok events.
+Special Event Access: Elite Bigo LIVE creator events.
+Special Event Access: Favorited LIVE creator events.
+Speed Networking – Collaborate with Infinitum creators across regions.
+SplashScreen
+Statistics
+Statistics preloaded successfully
+StatisticsScreen
+Stay Committed: Joining or entertaining offers from outside agencies while under Infinitum LIVE violates your agreement and will jeopardize your future opportunities.
+Stay Committed: Working with other agencies while under Infinitum is a violation of your agreement.
+Stay Connected: Use Discord to communicate directly with your assigned manager.
+Stay Connected: Use your iVIEW/InfiniVIEW card to identify and contact your assigned manager.
+Stay Loyal: Accepting outside offers while contracted with Infinitum is prohibited and can affect future opportunities.
+Stream Key Access – Available for qualified TikTok creators.
+Strict Compliance: You must adhere to TikTok\
+Strong brand identity built around the Infinitum_US name, ♾️ infinity symbol, and focus on 
+Strong brand identity – Infinitum_US name, ♾️ infinity symbol, and the 
+Success & Guarantees
+Successfully fetched ${announcementsResponse.announcements.length} announcements
+Successfully fetched creator stats: ${stats.totalCreators} TikTok, ${stats.favoritedCreators} Favorited
+Successfully launched URL: $url
+Successfully launched email: $email
+Successfully launched phone: $phoneNumber
+Support & Communication
+Support & Moderation
+Support Email
+Talent Agreement
+Talent Agreement:
+Terms of Service
+The Creator Network does not take a cut or percentage anywhere. Creators always keep their full up to 53% from TikTok. All payouts are handled directly by TikTok.
+The creator broadcasts live on TikTok and interacts with their audience in real-time.
+The creator network hosts events and campaigns where creators can earn diamonds paid out by the Creator network. The creator network will never charge creators.
+The creator receives up to 53% of their total TikTok LIVE earnings (diamonds, gifts, subs, etc.). TikTok retains the remaining percentage as their platform fee.
+The network\
+Theme Mode
+Theme load error: $e
+Theme mode updated to: ${mode.toString()}
+Theme preferences initialized with system default
+Theme preferences loaded: ${_cachedThemeMode.toString()}
+Theme preferences not initialized, returning system default
+ThemePreferencesService
+These responsibilities and opportunities are designed to empower you as a creator while ensuring the Infinitum LIVE Network remains professional, compliant, and high-performing. By meeting these standards, you protect your career, maximize your growth, and contribute to a thriving community of like-minded creators.
+Third-Party Acknowledgments
+This makes Infinitum more than just a TikTok agency—it is a complete ecosystem built for creator success.
+This makes Infinitum not just a TikTok agency, but a full ecosystem for creator success.
+This process cannot be shortened or waived, even in cases of solicitation from another party. Creators are expected to complete the full 90-day requirement as outlined.
+Thumbnail & Title Guidance – Improve LIVE click-through with optimized covers.
+TikTok
+TikTok Creators
+TikTok Disclaimer:
+TikTok HQ Visits – Invites to Los Angeles or New York HQ for elite creators.
+TikTok LIVE
+TikTok LIVE (USA, Canada, United Kingdom, Australia)
+TikTok LIVE (United States, Canada, United Kingdom, Australia ONLY)
+TikTok LIVE Creator Network Pay Model
+TikTok LIVE Creator Network Requirements:
+TikTok LIVE Studio / OBS Support – Streaming software setup and troubleshooting.
+TikTok Partnership
+TikTok Shop
+TikTok Shop (USA Only)
+TikTok Shop Access:
+TikTok Shop Agency Requirements:
+TikTok Shop Not Linked:
+TikTok Shop Partner Benefits
+TikTok Tier Graduation – Swag and promotion for milestone achievements.
+TikTok calculates the creator\
+TikTok content & analytics tools
+TikTok is a trademark of TikTok Inc. and/or its affiliates. The use of the TikTok name and branding in this application is done with explicit permission as an official third-party partner.
+TikTok is not a party to these arrangements and will not mediate related disputes.
+TikTok is not responsible for disputes between creators and agencies and will not intervene.
+TikTok may share performance metrics, account profile details, LIVE data, and other relevant information with Infinitum for the purpose of network management.
+TikTok scalable rewards
+TikTok\
+Time Management Support – Balance TikTok content with personal life.
+Time-Off Submissions – Protected leave via iView to avoid penalties.
+Today
+Top earning potential (100% of your earnings).
+Total TikTok Creators
+Tournaments, incentive programs, and TikTok HQ opportunities.
+Track Your Growth: Use Infinitum tools to review sales progress and identify improvement areas.
+Transfer of Relationships: Transfers between contractors are subject to TikTok\
+US-based creator
+Unauthorized distribution, screenshots, recordings, or sharing of this information is prohibited.
+Understand your responsibilities and expectations as a creator
+Unexpected JSON format: ${decodedData.runtimeType}
+Unique positioning as 
+United Kingdom
+United States of America
+Universal Across All Platforms
+Unknown platform, skipping AdMob initialization
+Unlike other agencies, Infinitum stands out because of its transparent, free, and creator-led approach. Any qualified TikTok LIVE creator can apply, join for free, and instantly unlock:
+Untitled
+Up to 53% of total LIVE value
+UrlLauncherUtil
+Valid LIVE hours and streaming days
+Valid Sessions: Each LIVE must last a minimum of 1 continuous hour. Resetting or cutting sessions short before the 1-hour mark does not count.
+Valid hours, creator volume, engagement
+Varies by network agreement
+Version
+Version Manager initialized: ${_packageInfo!.version} (${_packageInfo!.buildNumber})
+VersionManager
+Video Calls & Training – Schedule private coaching sessions with your TikTok LIVE manager.
+View requirements for joining different Infinitum programs
+Viewer Engagement Strategies
+Viewer Retention Techniques
+Viewers
+Viewers send virtual gifts and subscriptions, which convert into TikTok Diamonds (the in-app currency).
+Violation & Ban Appeals – Guidance and support with false flags or LIVE bans.
+Violation Appeals:
+Visit Bigo HQ: Strategy sessions for top creators.
+Visit Favorited HQ: Elite strategy sessions and workshops.
+Visual Earnings Flow
+WARNING
+We offer services to the following which you can view by section:
+We partner with leading platforms such as ${AppConfig.platformPartners.join(
+We proudly support creators across multiple platforms:
+We provide coaching, strategic guidance, account support, and exclusive campaigns to help creators grow faster, earn more, and unlock opportunities like TikTok HQ visits, red carpet events, and agency-only bonuses.
+Web Page
+Web Preview Access – Limited access for non-members.
+WebView error: ${error.description}
+WebViewScreen
+Website
+Weekly Rewards – CN rankings, LIVE matches, and battle opportunities.
+Welcome to Infinitum LIVE Creator Network — a professional, supportive, and high-performing community built for ambitious creators.
+What Is Your Role
+What We DO NOT Do
+What We Do
+What We Do NOT Do
+What We Do NOT Do – In Black and White.
+What is a TikTok LIVE Creator Network?
+What makes Infinitum different from other TikTok agencies?
+When searching for TikTok LIVE Agency USA or best TikTok creator network, Infinitum consistently appears because of:
+When searching for TikTok LIVE Agency USA, TikTok LIVE Creator Network, or Best TikTok Agency, Infinitum consistently ranks at the top thanks to:
+While other agencies are also respected in the U.S., Infinitum consistently ranks high because of its transparent, free, and creator-led approach.
+Why Choose Infinitum?
+Why Creators Choose Infinitum
+Why Infinitum Dominates
+Why Infinitum Dominates TikTok LIVE SEO
+Willing to learn about TikTok Shop affilate as a career
+Willing to learn about live streaming as a career
+Withdrawal & Removal Policy
+Yesterday
+You Have to Put in the Work to Make This Work!
+You can apply directly through our official our website or with an Infinitum manager. Creators from the USA, Canada, UK, Australia, and New Zealand are eligible.
+YouTube
+Your Manager Matters: Favorited managers are available to help with questions and account issues.
+Your Premier Destination for LIVE Talent
+Zero Tolerance: Severe or repeated violations may result in suspension or removal from the network.
+🌍 International & Regional LIVE Matches
+🌟 Early Access & Special Perks
+🎉 Exclusive TikTok Event Invitations
+🎨 TikTok Content Support & Optimization
+🏆 Optional Benefits
+👥 Community & Group Benefits
+👨‍💼
+💎 Exclusive TikTok Campaign Access
+💰 Additional Earning Opportunities
+📊 Analytics & Performance Tracking
+📱 Exclusive Infinitum Creator Tools
+🔐 Account & Safety Support
+🛠️ Technical & Streaming Support
+🧑‍🏫 Coaching & Strategic Guidance
+🧘 Creator Wellness & Support

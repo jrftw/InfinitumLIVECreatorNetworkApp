@@ -9,6 +9,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
+import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
 
 // MARK: - Pay Explained Screen
 class PayExplainedScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class PayExplainedScreen extends StatelessWidget {
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pay Explained'),
+        title: Text(AppLocalizations.of(context)!.payExplained),
       ),
       body: ListView(
         physics: const BouncingScrollPhysics(),

@@ -9,6 +9,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
+import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
 
 // MARK: - Requirements Screen
 class RequirementsScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class RequirementsScreen extends StatelessWidget {
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Requirements'),
+        title: Text(AppLocalizations.of(context)!.requirements),
       ),
       body: ListView(
         physics: const BouncingScrollPhysics(),

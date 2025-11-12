@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/utils/url_launcher_util.dart';
 import 'package:infinitum_live_creator_network/widgets/app_logo_widget.dart';
+import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
 
 // MARK: - Apply Screen
 class ApplyScreen extends StatelessWidget {
@@ -22,7 +23,7 @@ class ApplyScreen extends StatelessWidget {
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Apply Now'),
+        title: Text(AppLocalizations.of(context)!.applyNow),
       ),
       body: ListView(
         padding: const EdgeInsets.all(16),
@@ -39,7 +40,7 @@ class ApplyScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Infinitum LIVE Creator Network',
+                    AppLocalizations.of(context)!.appName,
                     style: theme.textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -47,7 +48,7 @@ class ApplyScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'TikTok\'s #1 Top Agency Choice',
+                    AppLocalizations.of(context)!.tiktokTopAgencyChoice,
                     style: theme.textTheme.titleLarge?.copyWith(
                       color: theme.colorScheme.primary,
                       fontWeight: FontWeight.bold,
@@ -69,12 +70,12 @@ class ApplyScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Why Choose Infinitum?',
+                    AppLocalizations.of(context)!.whyChooseInfinitum,
                     style: theme.textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Infinitum LIVE Creator Network (Infinitum_US) stands out as one of, if not the best TikTok LIVE agencies in the United States, Canada, United Kingdom, Australia and New Zealand, combining official TikTok partnership status with a free, creator-first model. Infinitum has quickly grown into a leading TikTok LIVE Creator Network by offering:',
+                    AppLocalizations.of(context)!.whyChooseInfinitumDescription,
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 16),
@@ -82,37 +83,37 @@ class ApplyScreen extends StatelessWidget {
                   // Benefits List
                   _BenefitItem(
                     icon: Icons.money_off,
-                    title: 'No Fees or Commissions',
-                    description: 'Creators keep 100% of their earnings.',
+                    title: AppLocalizations.of(context)!.noFeesOrCommissions,
+                    description: AppLocalizations.of(context)!.noFeesOrCommissionsDescription,
                   ),
                   const SizedBox(height: 12),
                   _BenefitItem(
                     icon: Icons.support_agent,
-                    title: 'Comprehensive Support',
-                    description: 'Ban appeals, account recovery, and stream key access.',
+                    title: AppLocalizations.of(context)!.comprehensiveSupport,
+                    description: AppLocalizations.of(context)!.comprehensiveSupportDescription,
                   ),
                   const SizedBox(height: 12),
                   _BenefitItem(
                     icon: Icons.analytics,
-                    title: 'Exclusive Analytics & Tools',
-                    description: 'InfiniVIEW helps creators track diamonds, bonuses, and performance.',
+                    title: AppLocalizations.of(context)!.exclusiveAnalyticsTools,
+                    description: AppLocalizations.of(context)!.exclusiveAnalyticsToolsDescription,
                   ),
                   const SizedBox(height: 12),
                   _BenefitItem(
                     icon: Icons.school,
-                    title: 'Personal Coaching & Training',
-                    description: 'Led by real creators who understand TikTok LIVE growth.',
+                    title: AppLocalizations.of(context)!.personalCoachingTraining,
+                    description: AppLocalizations.of(context)!.personalCoachingTrainingDescription,
                   ),
                   const SizedBox(height: 12),
                   _BenefitItem(
                     icon: Icons.celebration,
-                    title: 'Community & Events',
-                    description: 'Tournaments, incentive programs, and TikTok HQ opportunities.',
+                    title: AppLocalizations.of(context)!.communityEvents,
+                    description: AppLocalizations.of(context)!.communityEventsDescription,
                   ),
                   
                   const SizedBox(height: 16),
                   Text(
-                    'This makes Infinitum not just a TikTok agency, but a full ecosystem for creator success.',
+                    AppLocalizations.of(context)!.infinitumEcosystem,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                       fontStyle: FontStyle.italic,
@@ -133,30 +134,30 @@ class ApplyScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'How Infinitum Compares',
+                    AppLocalizations.of(context)!.howInfinitumCompares,
                     style: theme.textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'While other agencies are also respected in the U.S., Infinitum consistently ranks high because of its transparent, free, and creator-led approach.',
+                    AppLocalizations.of(context)!.howInfinitumComparesDescription,
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'Compared to others, Infinitum leads with:',
+                    AppLocalizations.of(context)!.comparedToOthers,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 12),
                   _ComparisonPoint(
-                    text: 'Accessibility - any creator can apply and join free',
+                    text: AppLocalizations.of(context)!.accessibility,
                   ),
                   _ComparisonPoint(
-                    text: 'Direct TikTok integration',
+                    text: AppLocalizations.of(context)!.directTikTokIntegration,
                   ),
                   _ComparisonPoint(
-                    text: 'Community built on mentorship and mental health advocacy',
+                    text: AppLocalizations.of(context)!.communityMentorship,
                   ),
                 ],
               ),
@@ -173,26 +174,26 @@ class ApplyScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Why Infinitum Dominates',
+                    AppLocalizations.of(context)!.whyInfinitumDominates,
                     style: theme.textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'When searching for TikTok LIVE Agency USA or best TikTok creator network, Infinitum consistently appears because of:',
+                    AppLocalizations.of(context)!.whyInfinitumDominatesDescription,
                     style: theme.textTheme.bodyMedium,
                   ),
                   const SizedBox(height: 12),
                   _DominancePoint(
-                    text: 'Rapid growth story (from 0 to nearly 2,000 creators within its first year)',
+                    text: AppLocalizations.of(context)!.rapidGrowth,
                   ),
                   _DominancePoint(
-                    text: 'Positive creator testimonials on TikTok and Reddit',
+                    text: AppLocalizations.of(context)!.positiveTestimonials,
                   ),
                   _DominancePoint(
-                    text: 'Unique positioning as "run by creators, for creators"',
+                    text: AppLocalizations.of(context)!.uniquePositioning,
                   ),
                   _DominancePoint(
-                    text: 'Strong brand identity built around the Infinitum_US name, ♾️ infinity symbol, and focus on "infinite potential"',
+                    text: AppLocalizations.of(context)!.strongBrandIdentity,
                   ),
                 ],
               ),
@@ -207,7 +208,7 @@ class ApplyScreen extends StatelessWidget {
             child: ElevatedButton.icon(
               onPressed: () => _openApplicationLink(context),
               icon: const Icon(Icons.send),
-              label: const Text('Apply Now'),
+              label: Text(AppLocalizations.of(context)!.applyNow),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 textStyle: const TextStyle(
@@ -222,7 +223,7 @@ class ApplyScreen extends StatelessWidget {
           
           // MARK: - Footer Note
           Text(
-            'Ready to join the #1 TikTok LIVE Creator Network?',
+            AppLocalizations.of(context)!.readyToJoin,
             style: theme.textTheme.bodyLarge?.copyWith(
               fontWeight: FontWeight.w600,
             ),
@@ -230,7 +231,7 @@ class ApplyScreen extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Click "Apply Now" to get started with your creator journey.',
+            AppLocalizations.of(context)!.clickApplyNow,
             style: theme.textTheme.bodyMedium,
             textAlign: TextAlign.center,
           ),
@@ -255,7 +256,7 @@ class ApplyScreen extends StatelessWidget {
         Logger.logError('Could not launch URL: $url', tag: 'ApplyScreen');
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Could not open application link')),
+            SnackBar(content: Text(AppLocalizations.of(context)!.couldNotOpenApplicationLink)),
           );
         }
       }
@@ -263,7 +264,7 @@ class ApplyScreen extends StatelessWidget {
       Logger.logError('Error opening application link', error: e, tag: 'ApplyScreen');
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('An error occurred')),
+          SnackBar(content: Text(AppLocalizations.of(context)!.anErrorOccurred)),
         );
       }
     }

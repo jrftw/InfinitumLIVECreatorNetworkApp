@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 import 'package:infinitum_live_creator_network/core/logger.dart';
+import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
 
 // MARK: - WebView Screen
 class WebViewScreen extends StatefulWidget {
@@ -116,7 +117,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final displayTitle = widget.title ?? _getPageTitle();
+    final displayTitle = widget.title ?? _getPageTitle(context);
     
     // On web platform, redirect to external browser since webview_flutter doesn't support web
     if (kIsWeb) {
@@ -145,13 +146,13 @@ class _WebViewScreenState extends State<WebViewScreen> {
               Logger.logInfo('Reloading WebView', tag: 'WebViewScreen');
               _controller?.reload();
             },
-            tooltip: 'Reload',
+            tooltip: AppLocalizations.of(context)!.reload,
           ),
           // Open in external browser button
           IconButton(
             icon: const Icon(Icons.open_in_browser),
             onPressed: () => _openInExternalBrowser(context),
-            tooltip: 'Open in Browser',
+            tooltip: AppLocalizations.of(context)!.openInBrowser,
           ),
         ],
       ),
@@ -159,20 +160,20 @@ class _WebViewScreenState extends State<WebViewScreen> {
         children: [
           // WebView
           _errorMessage != null
-              ? _buildErrorView(theme)
+              ? _buildErrorView(context, theme)
               : _controller != null
                   ? WebViewWidget(controller: _controller!)
                   : const Center(child: CircularProgressIndicator()),
           
           // Loading indicator
-          if (_isLoading) _buildLoadingIndicator(theme),
+          if (_isLoading) _buildLoadingIndicator(context, theme),
         ],
       ),
     );
   }
   
   // MARK: - Loading Indicator
-  Widget _buildLoadingIndicator(ThemeData theme) {
+  Widget _buildLoadingIndicator(BuildContext context, ThemeData theme) {
     return Container(
       color: theme.scaffoldBackgroundColor,
       child: Column(
@@ -185,7 +186,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
           const SizedBox(height: 16),
           if (_loadingProgress < 100)
             Text(
-              'Loading... $_loadingProgress%',
+              AppLocalizations.of(context)!.loadingProgress(_loadingProgress),
               style: theme.textTheme.bodyMedium,
             ),
         ],
@@ -194,7 +195,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
   }
   
   // MARK: - Error View
-  Widget _buildErrorView(ThemeData theme) {
+  Widget _buildErrorView(BuildContext context, ThemeData theme) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24),
@@ -208,13 +209,13 @@ class _WebViewScreenState extends State<WebViewScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              'Failed to Load Page',
+              AppLocalizations.of(context)!.failedToLoadPage,
               style: theme.textTheme.headlineSmall,
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 8),
             Text(
-              _errorMessage ?? 'An error occurred while loading the page.',
+              _errorMessage ?? AppLocalizations.of(context)!.anErrorOccurredWhileLoadingThePage,
               style: theme.textTheme.bodyMedium,
               textAlign: TextAlign.center,
             ),
@@ -227,7 +228,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
                 _controller?.reload();
               },
               icon: const Icon(Icons.refresh),
-              label: const Text('Retry'),
+              label: Text(AppLocalizations.of(context)!.retry),
             ),
           ],
         ),
@@ -279,16 +280,18 @@ class _WebViewScreenState extends State<WebViewScreen> {
   }
   
   // MARK: - Helper Methods
-  String _getPageTitle() {
+  String _getPageTitle(BuildContext context) {
     try {
       final uri = Uri.parse(widget.url);
       final host = uri.host;
       if (host.isNotEmpty) {
         return host.replaceFirst('www.', '');
       }
-      return 'Web Page';
+      final l10n = AppLocalizations.of(context);
+      return l10n != null ? l10n.webPage : 'Web Page';
     } catch (e) {
-      return 'Web Page';
+      final l10n = AppLocalizations.of(context);
+      return l10n != null ? l10n.webPage : 'Web Page';
     }
   }
   
@@ -302,18 +305,18 @@ class _WebViewScreenState extends State<WebViewScreen> {
         );
         if (!launched && context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Could not open in external browser'),
-              duration: Duration(seconds: 2),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.couldNotOpenInExternalBrowser),
+              duration: const Duration(seconds: 2),
             ),
           );
         }
       } else {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Cannot open this URL'),
-              duration: Duration(seconds: 2),
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.cannotOpenThisUrl),
+              duration: const Duration(seconds: 2),
             ),
           );
         }
@@ -322,9 +325,9 @@ class _WebViewScreenState extends State<WebViewScreen> {
       Logger.logError('Error opening in external browser', error: e, tag: 'WebViewScreen');
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Error opening link'),
-            duration: Duration(seconds: 2),
+          SnackBar(
+            content: Text(AppLocalizations.of(context)!.errorOpeningLink),
+            duration: const Duration(seconds: 2),
           ),
         );
       }

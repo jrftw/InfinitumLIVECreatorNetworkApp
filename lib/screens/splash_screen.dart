@@ -11,14 +11,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/screens/home_screen.dart';
+import 'package:infinitum_live_creator_network/screens/terms_acceptance_screen.dart';
+import 'package:infinitum_live_creator_network/services/terms_acceptance_service.dart';
 import 'package:infinitum_live_creator_network/widgets/app_logo_widget.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
 
 // MARK: - Splash Screen
 class SplashScreen extends StatefulWidget {
   final ValueChanged<ThemeMode>? onThemeModeChanged;
+  final ValueChanged<Locale?>? onLocaleChanged;
   
-  const SplashScreen({super.key, this.onThemeModeChanged});
+  const SplashScreen({super.key, this.onThemeModeChanged, this.onLocaleChanged});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -70,14 +73,43 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   
   // MARK: - Navigation
   void _navigateToHome() {
-    // Navigate immediately - no artificial delay
-    // Data is pre-loaded in background, so app is ready instantly
-    Future.microtask(() {
-      if (mounted) {
+    // Check if terms are accepted first
+    Future.microtask(() async {
+      // Wait a moment for services to initialize
+      await Future.delayed(const Duration(milliseconds: 100));
+      
+      if (!mounted) return;
+      
+      final termsAccepted = TermsAcceptanceService.termsAccepted;
+      
+      if (!termsAccepted) {
+        // Show terms acceptance screen
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => TermsAcceptanceScreen(
+              onTermsAccepted: () {
+                // After terms are accepted, navigate to home
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) => HomeScreen(
+                      onThemeModeChanged: widget.onThemeModeChanged,
+                      onLocaleChanged: widget.onLocaleChanged,
+                    ),
+                  ),
+                );
+                Logger.logInfo('Navigated to home screen after terms acceptance', tag: 'SplashScreen');
+              },
+            ),
+          ),
+        );
+        Logger.logInfo('Navigated to terms acceptance screen', tag: 'SplashScreen');
+      } else {
+        // Terms already accepted, go directly to home
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => HomeScreen(
               onThemeModeChanged: widget.onThemeModeChanged,
+              onLocaleChanged: widget.onLocaleChanged,
             ),
           ),
         );
@@ -129,10 +161,19 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // Logo with enhanced shadow
-                          const AppLogoWidget(
-                            size: 200,
-                            showShadow: true,
+                          // Transparent logo for splash screen
+                          Image.asset(
+                            'assets/images/splash_logo.png',
+                            width: 200,
+                            height: 200,
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, error, stackTrace) {
+                              // Fallback to AppLogoWidget if transparent logo not found
+                              return const AppLogoWidget(
+                                size: 200,
+                                showShadow: true,
+                              );
+                            },
                           ),
                         ],
                       ),

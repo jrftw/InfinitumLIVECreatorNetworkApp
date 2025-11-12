@@ -9,6 +9,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
+import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
 
 // MARK: - Talent Agreement Screen
 class TalentAgreementScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class TalentAgreementScreen extends StatelessWidget {
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Talent Agreement'),
+        title: Text(AppLocalizations.of(context)!.talentAgreement),
       ),
       body: ListView(
         physics: const BouncingScrollPhysics(),

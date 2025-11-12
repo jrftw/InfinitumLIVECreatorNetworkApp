@@ -16,6 +16,7 @@ import 'package:infinitum_live_creator_network/utils/url_launcher_util.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:intl/intl.dart';
+import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
 
 // MARK: - Announcements Screen
 class AnnouncementsScreen extends StatefulWidget {
@@ -84,7 +85,7 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Announcements'),
+        title: Text(AppLocalizations.of(context)!.announcements),
       ),
       body: RefreshIndicator(
         onRefresh: _loadAnnouncements,
@@ -144,7 +145,7 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              _errorMessage ?? 'An error occurred',
+              _errorMessage ?? AppLocalizations.of(context)!.anErrorOccurred,
               style: theme.textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),
@@ -152,7 +153,7 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
             ElevatedButton.icon(
               onPressed: _loadAnnouncements,
               icon: const Icon(Icons.refresh),
-              label: const Text('Retry'),
+              label: Text(AppLocalizations.of(context)!.retry),
             ),
           ],
         ),
@@ -174,7 +175,7 @@ class _AnnouncementsScreenState extends State<AnnouncementsScreen> {
             ),
             const SizedBox(height: 16),
             Text(
-              'No announcements available',
+              AppLocalizations.of(context)!.noAnnouncementsAvailable,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           ],
@@ -235,7 +236,7 @@ class _AnnouncementCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
-                      'IMPORTANT',
+                      AppLocalizations.of(context)!.important,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -245,7 +246,7 @@ class _AnnouncementCard extends StatelessWidget {
                 if (announcement.isImportant) const SizedBox(width: 8),
                 if (announcement.date != null)
                   Text(
-                    _formatDate(announcement.date!),
+                    _formatDate(context, announcement.date!),
                     style: theme.textTheme.bodySmall,
                   ),
                 const Spacer(),
@@ -279,18 +280,19 @@ class _AnnouncementCard extends StatelessWidget {
     );
   }
   
-  String _formatDate(DateTime date) {
+  String _formatDate(BuildContext context, DateTime date) {
     final now = DateTime.now();
     final difference = now.difference(date);
     
+    final l10n = AppLocalizations.of(context)!;
     if (difference.inDays == 0) {
-      return 'Today';
+      return l10n.today;
     } else if (difference.inDays == 1) {
-      return 'Yesterday';
+      return l10n.yesterday;
     } else if (difference.inDays < 7) {
-      return '${difference.inDays} days ago';
+      return l10n.daysAgo(difference.inDays);
     } else {
-      return DateFormat('MMM d, yyyy').format(date);
+      return DateFormat(l10n.mmmDYyyy).format(date);
     }
   }
   

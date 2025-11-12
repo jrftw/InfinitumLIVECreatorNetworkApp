@@ -9,6 +9,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
+import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
 
 // MARK: - What Is Your Role Screen
 class WhatIsYourRoleScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class WhatIsYourRoleScreen extends StatelessWidget {
     
     return Scaffold(
       appBar: AppBar(
-        title: const Text('What Is Your Role'),
+        title: Text(AppLocalizations.of(context)!.whatIsYourRole),
       ),
       body: ListView(
         physics: const BouncingScrollPhysics(),
