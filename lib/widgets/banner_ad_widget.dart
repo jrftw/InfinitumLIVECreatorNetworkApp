@@ -7,7 +7,7 @@
  * Platform Compatibility: iOS, Android, Web (ads only show on mobile)
  */
 
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode;
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:infinitum_live_creator_network/core/app_config.dart';
@@ -139,8 +139,9 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
   
   // MARK: - Helper Methods
   String _getAdUnitId() {
-    // Use test ad unit ID if in debug mode or if showTestAds is true
-    if (widget.showTestAds || AppConfig.enableDebugLogging) {
+    // Use test ad unit ID if in debug mode or if showTestAds is explicitly true
+    // kDebugMode is automatically false in release builds, ensuring production uses real ads
+    if (widget.showTestAds || kDebugMode) {
       return AppConfig.testBannerAdUnitId;
     }
     
@@ -149,7 +150,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
       return AppConfig.testBannerAdUnitId;
     }
     
-    // Return platform-specific ad unit ID (only on mobile)
+    // Return platform-specific ad unit ID (only on mobile, in release builds)
     if (PlatformUtil.isIOS) {
       return AppConfig.iosBannerAdUnitId;
     } else if (PlatformUtil.isAndroid) {
