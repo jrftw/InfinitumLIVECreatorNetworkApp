@@ -69,21 +69,9 @@ class _AboutScreenState extends State<AboutScreen> {
                 }
                 widget.onThemeModeChanged?.call(mode);
                 setState(() {});
-              } else if (value.startsWith('lang_')) {
-                final localeString = value.replaceFirst('lang_', '');
-                Locale? locale;
-                if (localeString == 'system') {
-                  locale = null;
-                } else {
-                  final parts = localeString.split('_');
-                  if (parts.length == 2) {
-                    locale = Locale(parts[0], parts[1]);
-                  } else {
-                    locale = Locale(parts[0]);
-                  }
-                }
-                widget.onLocaleChanged?.call(locale);
-                setState(() {});
+              } else if (value == 'lang_selector') {
+                // Show language selector dialog
+                _showLanguageSelector(context);
               }
             },
             itemBuilder: (BuildContext context) {
@@ -91,59 +79,7 @@ class _AboutScreenState extends State<AboutScreen> {
               final l10n = AppLocalizations.of(context)!;
               
               return <PopupMenuEntry<String>>[
-                // Language section header
-                PopupMenuItem<String>(
-                  enabled: false,
-                  child: Text(
-                    l10n.language,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const PopupMenuDivider(),
-                // System language option
-                PopupMenuItem<String>(
-                  value: 'lang_system',
-                  child: Row(
-                    children: [
-                      const Icon(Icons.language, size: 20),
-                      const SizedBox(width: 12),
-                      Text(l10n.systemLanguage),
-                      if (currentLocale == null) const Spacer(),
-                      if (currentLocale == null)
-                        const Icon(Icons.check, size: 20),
-                    ],
-                  ),
-                ),
-                // Common languages
-                ...LanguagePreferencesService.commonLanguages.map((lang) {
-                  final isSelected = currentLocale != null &&
-                      currentLocale.languageCode == lang.locale.languageCode &&
-                      (currentLocale.countryCode == null ||
-                          currentLocale.countryCode == lang.locale.countryCode);
-                  final localeValue = lang.locale.countryCode != null
-                      ? 'lang_${lang.locale.languageCode}_${lang.locale.countryCode}'
-                      : 'lang_${lang.locale.languageCode}';
-                  
-                  return PopupMenuItem<String>(
-                    value: localeValue,
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 32), // Indent for alignment
-                        Expanded(
-                          child: Text(
-                            lang.displayName,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        if (isSelected) const Icon(Icons.check, size: 20),
-                      ],
-                    ),
-                  );
-                }),
-                const PopupMenuDivider(),
-                // Theme section header
+                // Theme section header (moved to top)
                 PopupMenuItem<String>(
                   enabled: false,
                   child: Text(
@@ -155,6 +91,20 @@ class _AboutScreenState extends State<AboutScreen> {
                 ),
                 const PopupMenuDivider(),
                 // Theme options
+                PopupMenuItem<String>(
+                  value: 'theme_system',
+                  child: Row(
+                    children: [
+                      const Icon(Icons.brightness_auto, size: 20),
+                      const SizedBox(width: 12),
+                      Text(l10n.auto),
+                      if (currentThemeMode == ThemeMode.system)
+                        const Spacer(),
+                      if (currentThemeMode == ThemeMode.system)
+                        const Icon(Icons.check, size: 20),
+                    ],
+                  ),
+                ),
                 PopupMenuItem<String>(
                   value: 'theme_light',
                   child: Row(
@@ -183,17 +133,26 @@ class _AboutScreenState extends State<AboutScreen> {
                     ],
                   ),
                 ),
+                const PopupMenuDivider(),
+                // Language selector (opens dialog)
                 PopupMenuItem<String>(
-                  value: 'theme_system',
+                  value: 'lang_selector',
                   child: Row(
                     children: [
-                      const Icon(Icons.brightness_auto, size: 20),
+                      const Icon(Icons.language, size: 20),
                       const SizedBox(width: 12),
-                      Text(l10n.auto),
-                      if (currentThemeMode == ThemeMode.system)
-                        const Spacer(),
-                      if (currentThemeMode == ThemeMode.system)
-                        const Icon(Icons.check, size: 20),
+                      Expanded(
+                        child: Text(l10n.language),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        _getCurrentLanguageDisplay(currentLocale, l10n),
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.primary,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      const Icon(Icons.arrow_forward_ios, size: 14),
                     ],
                   ),
                 ),
@@ -593,6 +552,112 @@ class _AboutScreenState extends State<AboutScreen> {
     );
   }
   
+  String _getCurrentLanguageDisplay(Locale? locale, AppLocalizations l10n) {
+    if (locale == null) {
+      return l10n.auto;
+    }
+    final option = LanguagePreferencesService.getLanguageOptionForLocale(locale);
+    if (option != null) {
+      return option.englishName;
+    }
+    return locale.languageCode.toUpperCase();
+  }
+  
+  void _showLanguageSelector(BuildContext context) {
+    final currentLocale = LanguagePreferencesService.locale;
+    final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    
+    // Create list of all language options including "Auto"
+    final allLanguages = [
+      _LanguageSelectorOption(
+        locale: null,
+        displayName: l10n.systemLanguage,
+        englishName: l10n.auto,
+      ),
+      ...LanguagePreferencesService.commonLanguages.map((lang) => 
+        _LanguageSelectorOption(
+          locale: lang.locale,
+          displayName: lang.displayName,
+          englishName: lang.englishName,
+        ),
+      ),
+    ];
+    
+    // Find current selection index
+    int selectedIndex = 0;
+    if (currentLocale != null) {
+      for (int i = 0; i < allLanguages.length; i++) {
+        final option = allLanguages[i];
+        if (option.locale != null &&
+            option.locale!.languageCode == currentLocale.languageCode &&
+            (option.locale!.countryCode == null ||
+                option.locale!.countryCode == currentLocale.countryCode)) {
+          selectedIndex = i;
+          break;
+        }
+      }
+    }
+    
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setDialogState) {
+            return AlertDialog(
+              title: Text(l10n.language),
+              content: SizedBox(
+                width: double.maxFinite,
+                child: DropdownButtonFormField<int>(
+                  value: selectedIndex,
+                  decoration: InputDecoration(
+                    labelText: l10n.language,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                  ),
+                  items: allLanguages.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final option = entry.value;
+                    return DropdownMenuItem<int>(
+                      value: index,
+                      child: Text(option.displayName),
+                    );
+                  }).toList(),
+                  onChanged: (int? newIndex) {
+                    if (newIndex != null) {
+                      setDialogState(() {
+                        selectedIndex = newIndex;
+                      });
+                      
+                      final selectedOption = allLanguages[newIndex];
+                      Locale? newLocale = selectedOption.locale;
+                      
+                      widget.onLocaleChanged?.call(newLocale);
+                      setState(() {});
+                      
+                      Navigator.of(context).pop();
+                    }
+                  },
+                ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(l10n.close),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+  
   void _launchEmail(BuildContext context, String email) {
     showDialog(
       context: context,
@@ -859,6 +924,19 @@ class _PayExplainedCardState extends State<_PayExplainedCard> {
       ),
     );
   }
+}
+
+// MARK: - Language Selector Option Helper
+class _LanguageSelectorOption {
+  final Locale? locale;
+  final String displayName;
+  final String englishName;
+  
+  _LanguageSelectorOption({
+    required this.locale,
+    required this.displayName,
+    required this.englishName,
+  });
 }
 
 // MARK: - Benefits Card Widget

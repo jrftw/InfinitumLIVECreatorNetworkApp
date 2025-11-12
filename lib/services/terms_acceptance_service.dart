@@ -16,6 +16,9 @@ class TermsAcceptanceService {
   static const String _termsAcceptedVersionKey = 'terms_accepted_version';
   static bool? _cachedTermsAccepted;
   static bool _initialized = false;
+  
+  // Public getter to check if service is initialized
+  static bool get isInitialized => _initialized;
 
   // Current version of terms - increment this if terms change
   static const String currentTermsVersion = '1.0.0';
