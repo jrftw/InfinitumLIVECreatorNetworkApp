@@ -12,6 +12,7 @@
 
 The app has most technical requirements in place, but several critical issues must be addressed before submission to ensure approval.
 
+
 ---
 
 ## ✅ COMPLIANT AREAS

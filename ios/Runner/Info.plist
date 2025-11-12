@@ -131,5 +131,7 @@
 	</dict>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-6815311336585204~1076958732</string>
 </dict>
 </plist>

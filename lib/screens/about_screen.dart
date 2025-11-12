@@ -15,6 +15,12 @@ import 'package:infinitum_live_creator_network/services/theme_preferences_servic
 import 'package:infinitum_live_creator_network/utils/url_launcher_util.dart';
 import 'package:infinitum_live_creator_network/widgets/app_logo_widget.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
+import 'package:infinitum_live_creator_network/screens/benefits/what_we_do_screen.dart';
+import 'package:infinitum_live_creator_network/screens/benefits/what_is_your_role_screen.dart';
+import 'package:infinitum_live_creator_network/screens/benefits/what_we_do_not_do_screen.dart';
+import 'package:infinitum_live_creator_network/screens/benefits/talent_agreement_screen.dart';
+import 'package:infinitum_live_creator_network/screens/benefits/requirements_screen.dart';
+import 'package:infinitum_live_creator_network/screens/benefits/pay_explained_screen.dart';
 
 // MARK: - About Screen
 class AboutScreen extends StatefulWidget {
@@ -171,6 +177,102 @@ class _AboutScreenState extends State<AboutScreen> {
                 ],
               ),
           ),
+          
+          const SizedBox(height: 16),
+          
+          // MARK: - Benefits Section
+          GlassCardWidget(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Benefits',
+                  style: theme.textTheme.headlineSmall,
+                ),
+                const SizedBox(height: 16),
+                _BenefitsCard(
+                  icon: Icons.info_outline,
+                  title: 'What We Do',
+                  description: 'Learn about our services and benefits across all platforms',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const WhatWeDoScreen(),
+                      ),
+                    );
+                    Logger.logInfo('Navigated to What We Do screen', tag: 'AboutScreen');
+                  },
+                  theme: theme.textTheme,
+                ),
+                const SizedBox(height: 12),
+                _BenefitsCard(
+                  icon: Icons.person_outline,
+                  title: 'What Is Your Role',
+                  description: 'Understand your responsibilities and expectations as a creator',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const WhatIsYourRoleScreen(),
+                      ),
+                    );
+                    Logger.logInfo('Navigated to What Is Your Role screen', tag: 'AboutScreen');
+                  },
+                  theme: theme.textTheme,
+                ),
+                const SizedBox(height: 12),
+                _BenefitsCard(
+                  icon: Icons.block,
+                  title: 'What We DO NOT Do',
+                  description: 'Clear transparency about what we don\'t provide',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const WhatWeDoNotDoScreen(),
+                      ),
+                    );
+                    Logger.logInfo('Navigated to What We Do Not Do screen', tag: 'AboutScreen');
+                  },
+                  theme: theme.textTheme,
+                ),
+                const SizedBox(height: 12),
+                _BenefitsCard(
+                  icon: Icons.description_outlined,
+                  title: 'Talent Agreement',
+                  description: 'Review the terms and agreements for TikTok LIVE membership',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const TalentAgreementScreen(),
+                      ),
+                    );
+                    Logger.logInfo('Navigated to Talent Agreement screen', tag: 'AboutScreen');
+                  },
+                  theme: theme.textTheme,
+                ),
+                const SizedBox(height: 12),
+                _BenefitsCard(
+                  icon: Icons.checklist_outlined,
+                  title: 'Requirements',
+                  description: 'View requirements for joining different Infinitum programs',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const RequirementsScreen(),
+                      ),
+                    );
+                    Logger.logInfo('Navigated to Requirements screen', tag: 'AboutScreen');
+                  },
+                  theme: theme.textTheme,
+                ),
+              ],
+            ),
+          ),
+          
+          const SizedBox(height: 16),
+          
+          // MARK: - Pay Explained Section
+          _PayExplainedCard(theme: theme.textTheme),
           
           const SizedBox(height: 16),
           
@@ -572,6 +674,173 @@ class _InfoRow extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+// MARK: - Pay Explained Card Widget
+class _PayExplainedCard extends StatefulWidget {
+  final TextTheme theme;
+  
+  const _PayExplainedCard({
+    required this.theme,
+  });
+  
+  @override
+  State<_PayExplainedCard> createState() => _PayExplainedCardState();
+}
+
+class _PayExplainedCardState extends State<_PayExplainedCard> {
+  @override
+  Widget build(BuildContext context) {
+    return GlassCardWidget(
+      padding: EdgeInsets.zero,
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const PayExplainedScreen(),
+                ),
+              );
+              Logger.logInfo('Navigated to Pay Explained screen', tag: 'AboutScreen');
+            },
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(
+                      Icons.payments_outlined,
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Pay Explained',
+                          style: widget.theme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Learn how TikTok LIVE Creator Network pay model works',
+                          style: widget.theme.bodySmall,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16,
+                    color: widget.theme.bodyMedium?.color?.withOpacity(0.5),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// MARK: - Benefits Card Widget
+class _BenefitsCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String description;
+  final VoidCallback onTap;
+  final TextTheme theme;
+  
+  const _BenefitsCard({
+    required this.icon,
+    required this.title,
+    required this.description,
+    required this.onTap,
+    required this.theme,
+  });
+  
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: theme.bodyMedium?.color?.withOpacity(0.05),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: theme.bodyMedium?.color?.withOpacity(0.1) ?? Colors.transparent,
+            width: 1,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: colorScheme.primary.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                icon,
+                color: colorScheme.primary,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title,
+                    style: theme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    description,
+                    style: theme.bodySmall,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+              color: theme.bodyMedium?.color?.withOpacity(0.5),
+            ),
+          ],
+        ),
       ),
     );
   }

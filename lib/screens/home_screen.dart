@@ -7,6 +7,7 @@
  * Platform Compatibility: iOS, Android, Web
  */
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:infinitum_live_creator_network/core/app_config.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
@@ -15,7 +16,9 @@ import 'package:infinitum_live_creator_network/screens/announcements_screen.dart
 import 'package:infinitum_live_creator_network/screens/statistics_screen.dart';
 import 'package:infinitum_live_creator_network/utils/url_launcher_util.dart';
 import 'package:infinitum_live_creator_network/widgets/app_logo_widget.dart';
+import 'package:infinitum_live_creator_network/widgets/banner_ad_widget.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
 // MARK: - Home Screen
 class HomeScreen extends StatefulWidget {
@@ -239,10 +242,13 @@ class _HomePage extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               _QuickLinkCard(
-                title: 'View Dashboard',
-                subtitle: 'Access your creator dashboard',
+                title: 'View Dashboard (iView)',
+                subtitle: 'Access your InfiniView Creator Dashboard',
                 icon: Icons.dashboard,
-                url: AppConfig.viewAppUrl,
+                url: !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS 
+                    ? AppConfig.infiniviewAppStoreUrl 
+                    : AppConfig.viewAppUrl,
+                useExternalBrowser: !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS, // Open App Store in external browser on iOS
               ),
               const SizedBox(height: 12),
               _QuickLinkCard(
@@ -288,6 +294,13 @@ class _HomePage extends StatelessWidget {
               ),
               
               const SizedBox(height: 32),
+              
+              // MARK: - Banner Ad
+              const BannerAdContainer(
+                margin: EdgeInsets.symmetric(vertical: 16),
+              ),
+              
+              const SizedBox(height: 16),
             ]),
           ),
         ),
@@ -302,12 +315,14 @@ class _QuickLinkCard extends StatelessWidget {
   final String subtitle;
   final IconData icon;
   final String url;
+  final bool useExternalBrowser;
   
   const _QuickLinkCard({
     required this.title,
     required this.subtitle,
     required this.icon,
     required this.url,
+    this.useExternalBrowser = false,
   });
   
   @override
@@ -318,18 +333,60 @@ class _QuickLinkCard extends StatelessWidget {
       child: GlassCardWidget(
         onTap: () async {
           Logger.logInfo('Opening URL: $url', tag: 'HomeScreen');
-          final launched = await UrlLauncherUtil.launchUrl(
-            url,
-            context: context,
-            title: title,
-          );
-          if (!launched && context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text('Could not open $title'),
-                duration: const Duration(seconds: 2),
-              ),
+          
+          // If useExternalBrowser is true, open in external browser (for App Store links)
+          if (useExternalBrowser) {
+            try {
+              final uri = Uri.parse(url);
+              if (await url_launcher.canLaunchUrl(uri)) {
+                final launched = await url_launcher.launchUrl(
+                  uri,
+                  mode: url_launcher.LaunchMode.externalApplication,
+                );
+                if (!launched && context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Could not open $title'),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                }
+              } else {
+                if (context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Cannot open $title'),
+                      duration: const Duration(seconds: 2),
+                    ),
+                  );
+                }
+              }
+            } catch (e) {
+              Logger.logError('Error opening URL in external browser: $url', error: e, tag: 'HomeScreen');
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Error opening $title'),
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              }
+            }
+          } else {
+            // Use normal URL launcher (opens in webview on mobile)
+            final launched = await UrlLauncherUtil.launchUrl(
+              url,
+              context: context,
+              title: title,
             );
+            if (!launched && context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Could not open $title'),
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+            }
           }
         },
         padding: const EdgeInsets.all(16),
@@ -363,17 +420,22 @@ class _QuickLinkCard extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     title,
                     style: theme.textTheme.bodyLarge?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
                     style: theme.textTheme.bodyMedium,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
               ),

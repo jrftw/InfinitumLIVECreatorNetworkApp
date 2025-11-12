@@ -67,6 +67,11 @@
         <meta-data
             android:name="com.infinitumimageryllc.app.terms_of_service"
             android:value="https://infinitumlive.com/terms" />
+        
+        <!-- AdMob App ID -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-6815311336585204~8763877068"/>
     </application>
 </manifest>
 

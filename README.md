@@ -69,13 +69,22 @@ Infinitum LIVE Creator Network is the official app for iOS, Android, and Web, pr
    flutter pub get
    ```
 
-3. **Run the app**
+3. **iOS Setup (Required for Xcode)**
+   ```bash
+   cd ios
+   pod install
+   cd ..
+   ```
+   **Note:** This installs CocoaPods dependencies including AdMob. You only need to do this once or when dependencies change.
+
+4. **Run the app**
    ```bash
    # Web
    flutter run -d chrome
    
    # iOS (requires Mac)
    flutter run -d ios
+   # Or open ios/Runner.xcworkspace in Xcode and run from there
    
    # Android
    flutter run -d android

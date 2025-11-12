@@ -3,13 +3,14 @@
  * Purpose: Main entry point for Infinitum LIVE Creator Network app
  * Author: Kevin Doyle Jr. / Infinitum Imagery LLC
  * Last Modified: 2025-01-27
- * Dependencies: flutter/material.dart, app_config.dart, screens/home_screen.dart
+ * Dependencies: flutter/material.dart, google_mobile_ads.dart, app_config.dart, screens/home_screen.dart
  * Platform Compatibility: iOS, Android, Web
  */
 
 import 'dart:async';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb, PlatformDispatcher;
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:infinitum_live_creator_network/core/app_config.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/core/version_manager.dart';
@@ -17,6 +18,7 @@ import 'package:infinitum_live_creator_network/screens/splash_screen.dart';
 import 'package:infinitum_live_creator_network/services/preload_service.dart';
 import 'package:infinitum_live_creator_network/services/theme_preferences_service.dart';
 import 'package:infinitum_live_creator_network/theme/app_theme.dart';
+import 'package:infinitum_live_creator_network/utils/platform_util.dart';
 
 // MARK: - Main Application Entry Point
 void main() {
@@ -51,6 +53,11 @@ void _initializeServices() {
   // Run async initialization without blocking
   Future.microtask(() async {
     try {
+      // Initialize AdMob (only on iOS and Android, not web)
+      if (PlatformUtil.isMobile) {
+        await _initializeAdMob();
+      }
+      
       await VersionManager.initialize();
       await ThemePreferencesService.initialize();
       await PreloadService().initialize();
@@ -65,6 +72,41 @@ void _initializeServices() {
       // Don't rethrow - app should continue even if services fail
     }
   });
+}
+
+// MARK: - AdMob Initialization
+Future<void> _initializeAdMob() async {
+  try {
+    // Skip if on web
+    if (kIsWeb) {
+      return;
+    }
+    
+    // Get the appropriate app ID based on platform
+    final appId = PlatformUtil.isIOS 
+        ? AppConfig.iosAdMobAppId 
+        : PlatformUtil.isAndroid 
+            ? AppConfig.androidAdMobAppId 
+            : null;
+    
+    if (appId == null) {
+      Logger.logInfo('Unknown platform, skipping AdMob initialization', tag: 'Main');
+      return;
+    }
+    
+    // Initialize Mobile Ads SDK
+    await MobileAds.instance.initialize();
+    
+    Logger.logInfo('AdMob initialized successfully with app ID: $appId', tag: 'Main');
+  } catch (e, stackTrace) {
+    Logger.logError(
+      'Failed to initialize AdMob',
+      error: e,
+      stackTrace: stackTrace,
+      tag: 'Main',
+    );
+    // Don't rethrow - app should continue even if AdMob fails
+  }
 }
 
 // MARK: - Data Preloading

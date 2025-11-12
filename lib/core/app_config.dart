@@ -25,6 +25,7 @@ class AppConfig {
   static const String websiteUrl = 'https://infinitumlive.com/';
   static const String onboardingUrl = 'https://infinitum-onboarding.web.app/';
   static const String viewAppUrl = 'https://view.infinitumlive.com/';
+  static const String infiniviewAppStoreUrl = 'https://apps.apple.com/us/app/infiniview/id6739147518';
   static const String supportEmail = 'support@infinitumlive.com';
   static const String officialAccount = '@infinitumcreatornetwork';
   
@@ -83,6 +84,20 @@ class AppConfig {
   
   // API Timeout
   static const Duration apiTimeout = Duration(seconds: 30);
+  
+  // MARK: - AdMob Configuration
+  // iOS AdMob App ID
+  static const String iosAdMobAppId = 'ca-app-pub-6815311336585204~1076958732';
+  // iOS Banner Ad Unit ID
+  static const String iosBannerAdUnitId = 'ca-app-pub-6815311336585204/8867533430';
+  
+  // Android AdMob App ID
+  static const String androidAdMobAppId = 'ca-app-pub-6815311336585204~8763877068';
+  // Android Banner Ad Unit ID
+  static const String androidBannerAdUnitId = 'ca-app-pub-6815311336585204/4928288422';
+  
+  // Test Ad Unit IDs (for development)
+  static const String testBannerAdUnitId = 'ca-app-pub-3940256099942544/6300978111';
 }
 
 // Suggestions For Features and Additions Later:
