@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<!-- Associated Domains: Enables Universal Links for deep linking to infinitumlive.com -->
+	<!-- This allows the app to open when users tap links to infinitumlive.com domains -->
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:infinitumlive.com</string>
