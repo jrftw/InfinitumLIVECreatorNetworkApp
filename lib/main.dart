@@ -10,6 +10,7 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb, PlatformDispatcher;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:infinitum_live_creator_network/core/app_config.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
@@ -22,6 +23,7 @@ import 'package:infinitum_live_creator_network/services/terms_acceptance_service
 import 'package:infinitum_live_creator_network/services/tracking_preferences_service.dart';
 import 'package:infinitum_live_creator_network/theme/app_theme.dart';
 import 'package:infinitum_live_creator_network/utils/platform_util.dart';
+import 'package:infinitum_live_creator_network/utils/tracking_permission_util.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
 
@@ -58,16 +60,26 @@ void _initializeServices() {
   // Run async initialization without blocking
   Future.microtask(() async {
     try {
-      // Initialize AdMob (only on iOS and Android, not web)
-      if (PlatformUtil.isMobile) {
-        await _initializeAdMob();
-      }
-      
+      // Initialize non-tracking services first
       await VersionManager.initialize();
       await ThemePreferencesService.initialize();
       await LanguagePreferencesService.initialize();
       await TermsAcceptanceService.initialize();
       await TrackingPreferencesService.initialize();
+      
+      // On iOS, wait for ATT permission to be determined before initializing AdMob
+      // This ensures compliance with Apple's requirement that ATT appears BEFORE tracking
+      if (PlatformUtil.isMobile) {
+        if (PlatformUtil.isIOS) {
+          // Wait for ATT status to be determined (either granted or denied)
+          // The ATT prompt is triggered in AppDelegate.swift on app launch
+          await _waitForATTStatusAndInitializeAdMob();
+        } else {
+          // Android doesn't require ATT, initialize AdMob immediately
+          await _initializeAdMob();
+        }
+      }
+      
       await PreloadService().initialize();
       Logger.logInfo('All services initialized successfully', tag: 'Main');
     } catch (e, stackTrace) {
@@ -80,6 +92,63 @@ void _initializeServices() {
       // Don't rethrow - app should continue even if services fail
     }
   });
+}
+
+// MARK: - ATT Status Waiting and AdMob Initialization
+/// Waits for ATT permission status to be determined, then initializes AdMob
+/// This ensures ATT prompt appears BEFORE any tracking/ad SDK initialization
+/// The ATT prompt is triggered automatically in AppDelegate.swift on app launch
+Future<void> _waitForATTStatusAndInitializeAdMob() async {
+  try {
+    // Check current ATT status via method channel
+    // The ATT prompt is triggered in AppDelegate.swift, so we wait for it to complete
+    const methodChannel = MethodChannel('com.infinitumimageryllc.infinitumlive/tracking');
+    
+    int? currentStatus;
+    try {
+      currentStatus = await methodChannel.invokeMethod<int>('getTrackingStatus');
+    } catch (e) {
+      Logger.logInfo('Method channel not ready yet, will wait for ATT status...', tag: 'Main');
+    }
+    
+    // If status is null or 0 (notDetermined), wait for user to respond to ATT prompt
+    if (currentStatus == null || currentStatus == 0) {
+      Logger.logInfo('ATT status not determined yet, waiting for user response...', tag: 'Main');
+      
+      // Wait up to 10 seconds for ATT status to be determined
+      // User typically responds within 1-2 seconds
+      for (int i = 0; i < 20; i++) {
+        await Future.delayed(const Duration(milliseconds: 500));
+        
+        // Check status again via method channel
+        try {
+          final status = await methodChannel.invokeMethod<int>('getTrackingStatus');
+          
+          if (status != null && status != 0) {
+            // Status determined (authorized=3, denied=2, or restricted=1)
+            Logger.logInfo('ATT status determined: $status', tag: 'Main');
+            break;
+          }
+        } catch (e) {
+          // Method channel might not be ready yet, continue waiting
+        }
+      }
+    } else {
+      Logger.logInfo('ATT status already determined: $currentStatus', tag: 'Main');
+    }
+    
+    // Now initialize AdMob (regardless of ATT status - AdMob handles denied status gracefully)
+    await _initializeAdMob();
+  } catch (e, stackTrace) {
+    Logger.logError(
+      'Error waiting for ATT status',
+      error: e,
+      stackTrace: stackTrace,
+      tag: 'Main',
+    );
+    // Still try to initialize AdMob even if ATT check fails
+    await _initializeAdMob();
+  }
 }
 
 // MARK: - AdMob Initialization
@@ -103,6 +172,8 @@ Future<void> _initializeAdMob() async {
     }
     
     // Initialize Mobile Ads SDK
+    // Note: On iOS, this should only be called AFTER ATT permission is requested
+    // AdMob will respect the user's ATT choice automatically
     await MobileAds.instance.initialize();
     
     Logger.logInfo('AdMob initialized successfully with app ID: $appId', tag: 'Main');

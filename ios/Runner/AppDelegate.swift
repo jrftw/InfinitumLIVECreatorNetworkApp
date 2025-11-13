@@ -41,6 +41,13 @@ import AppTrackingTransparency
               // AuthorizationStatus.authorized.rawValue = 3
               result(3)
             }
+          } else if call.method == "getTrackingStatus" {
+            if #available(iOS 14.5, *) {
+              let status = ATTrackingManager.trackingAuthorizationStatus
+              result(status.rawValue)
+            } else {
+              result(3) // authorized for iOS < 14.5
+            }
           } else {
             result(FlutterMethodNotImplemented)
           }
@@ -48,81 +55,84 @@ import AppTrackingTransparency
       }
     }
     
-    // Request tracking permission after a short delay to ensure app is fully initialized
-    // This ensures the permission dialog appears at the right time
-    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-      self.requestTrackingPermissionIfNeeded()
+    // Request tracking permission immediately when app launches
+    // This must happen BEFORE any ad SDK initialization to comply with Apple's requirements
+    // The prompt will appear automatically on first launch when status is .notDetermined
+    // Works on both iPhone and iPad (iPadOS 14.5+)
+    DispatchQueue.main.async {
+      // Small delay to ensure UI is ready, but request immediately
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        self.requestTrackingPermissionIfNeeded()
+      }
     }
     
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
   
   // MARK: - Tracking Permission Management
-  /// Requests tracking permission only once if not already determined
-  /// This ensures the user sees the permission dialog only once
-  /// Only requests if user has enabled tracking in app settings
+  /// Requests tracking permission if status is not determined
+  /// This ensures the ATT prompt appears on first launch before any tracking occurs
+  /// Works on both iPhone and iPad (iPadOS 14.5+)
+  /// Apple requires this to appear BEFORE any ad SDK initialization
   private func requestTrackingPermissionIfNeeded() {
     // Check if iOS 14.5+ is available (required for App Tracking Transparency)
     if #available(iOS 14.5, *) {
-      // Check if we've already requested permission before
-      let hasRequestedBefore = UserDefaults.standard.bool(forKey: "hasRequestedTrackingPermission")
-      
-      // Check user's tracking preference from SharedPreferences
-      // SharedPreferences uses "flutter." prefix on iOS
-      let trackingEnabled = UserDefaults.standard.object(forKey: "flutter.ad_tracking_enabled") as? Bool ?? nil
-      
-      // Only request if:
-      // 1. We haven't requested before
-      // 2. Status is not determined
-      // 3. User has enabled tracking (or preference is not set, default to requesting)
       let trackingStatus = ATTrackingManager.trackingAuthorizationStatus
       
-      let shouldRequest = !hasRequestedBefore && 
-                         trackingStatus == .notDetermined &&
-                         (trackingEnabled == nil || trackingEnabled == true)
-      
-      if shouldRequest {
+      // Only request if status is .notDetermined (first launch)
+      // This ensures the prompt appears exactly once per app installation
+      if trackingStatus == .notDetermined {
+        print("Requesting App Tracking Transparency permission (first launch)")
+        
         // Request tracking authorization
+        // This will show the system prompt with NSUserTrackingUsageDescription
         ATTrackingManager.requestTrackingAuthorization { status in
-          // Mark that we've requested permission
+          // Mark that we've requested permission (for logging purposes)
           UserDefaults.standard.set(true, forKey: "hasRequestedTrackingPermission")
           UserDefaults.standard.synchronize()
           
           // Update the user preference based on the result
-          // If user denied, set preference to false
+          // This is used by Flutter code to know if tracking is allowed
           if status == .denied {
             UserDefaults.standard.set(false, forKey: "flutter.ad_tracking_enabled")
             UserDefaults.standard.synchronize()
+            print("Tracking permission denied by user")
           } else if status == .authorized {
             UserDefaults.standard.set(true, forKey: "flutter.ad_tracking_enabled")
             UserDefaults.standard.synchronize()
+            print("Tracking permission authorized by user")
+          } else if status == .restricted {
+            UserDefaults.standard.set(false, forKey: "flutter.ad_tracking_enabled")
+            UserDefaults.standard.synchronize()
+            print("Tracking permission restricted (parental controls)")
           }
           
-          // Log the result (for debugging purposes)
-          switch status {
-          case .authorized:
-            print("Tracking permission authorized")
-          case .denied:
-            print("Tracking permission denied")
-          case .restricted:
-            print("Tracking permission restricted")
-          case .notDetermined:
-            print("Tracking permission not determined")
-          @unknown default:
-            print("Unknown tracking permission status")
+          // Notify Flutter that ATT status has been determined
+          // This allows Flutter to initialize AdMob after permission is granted/denied
+          DispatchQueue.main.async {
+            NotificationCenter.default.post(
+              name: NSNotification.Name("ATTrackingAuthorizationStatusChanged"),
+              object: nil,
+              userInfo: ["status": status.rawValue]
+            )
           }
         }
       } else {
-        // Permission already requested or determined, or user disabled tracking
-        if trackingEnabled == false {
-          print("Tracking permission request skipped - user disabled tracking in settings")
+        // Permission already determined (not first launch)
+        // Update preference based on current status
+        if trackingStatus == .authorized {
+          UserDefaults.standard.set(true, forKey: "flutter.ad_tracking_enabled")
         } else {
-          print("Tracking permission already requested or determined. Status: \(trackingStatus.rawValue)")
+          UserDefaults.standard.set(false, forKey: "flutter.ad_tracking_enabled")
         }
+        UserDefaults.standard.synchronize()
+        print("Tracking permission already determined. Status: \(trackingStatus.rawValue)")
       }
     } else {
       // iOS version doesn't support App Tracking Transparency
       // On iOS < 14.5, tracking is allowed by default
+      UserDefaults.standard.set(true, forKey: "flutter.ad_tracking_enabled")
+      UserDefaults.standard.synchronize()
       print("iOS version < 14.5, App Tracking Transparency not available")
     }
   }

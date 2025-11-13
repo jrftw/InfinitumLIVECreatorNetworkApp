@@ -57,6 +57,47 @@ class TrackingPermissionUtil {
       return null;
     }
   }
+
+  // MARK: - Get Tracking Status
+  /// Gets the current tracking permission status without requesting permission
+  /// Returns the authorization status:
+  /// 0 = notDetermined
+  /// 1 = restricted
+  /// 2 = denied
+  /// 3 = authorized
+  static Future<int?> getTrackingStatus() async {
+    // Only works on iOS
+    if (!PlatformUtil.isIOS) {
+      Logger.logInfo(
+        'Tracking status check skipped - not on iOS',
+        tag: 'TrackingPermissionUtil',
+      );
+      return null;
+    }
+
+    try {
+      final result = await _channel.invokeMethod<int>('getTrackingStatus');
+      Logger.logInfo(
+        'Tracking status retrieved: $result',
+        tag: 'TrackingPermissionUtil',
+      );
+      return result;
+    } on PlatformException catch (e) {
+      Logger.logError(
+        'Failed to get tracking status',
+        error: e,
+        tag: 'TrackingPermissionUtil',
+      );
+      return null;
+    } catch (e) {
+      Logger.logError(
+        'Unexpected error getting tracking status',
+        error: e,
+        tag: 'TrackingPermissionUtil',
+      );
+      return null;
+    }
+  }
 }
 
 // Suggestions For Features and Additions Later:

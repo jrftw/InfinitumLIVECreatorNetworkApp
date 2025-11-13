@@ -9,6 +9,21 @@
 		<string>applinks:infinitumlive.com</string>
 		<string>applinks:www.infinitumlive.com</string>
 	</array>
+	<!-- 
+		APP DATA COLLECTION DECLARATION FOR APP STORE REVIEW:
+		
+		This app is a central hub/portal application that:
+		- Does NOT collect user data (no phone numbers, emails, names, etc.)
+		- Does NOT require account creation or login
+		- Does NOT store personal information
+		- Does NOT have any forms or data input fields
+		- Only provides links to external websites and displays publicly available information
+		
+		All data collection (if any) occurs on external websites (infinitumlive.com) 
+		that users navigate to via links, not within this app itself.
+		
+		This app is 100% accessible without any authentication or data collection.
+	-->
 </dict>
 </plist>
 
