@@ -21,9 +21,11 @@ import 'package:infinitum_live_creator_network/services/theme_preferences_servic
 import 'package:infinitum_live_creator_network/services/language_preferences_service.dart';
 import 'package:infinitum_live_creator_network/services/terms_acceptance_service.dart';
 import 'package:infinitum_live_creator_network/services/tracking_preferences_service.dart';
+import 'package:infinitum_live_creator_network/services/app_info_dialog_service.dart';
 import 'package:infinitum_live_creator_network/theme/app_theme.dart';
 import 'package:infinitum_live_creator_network/utils/platform_util.dart';
 import 'package:infinitum_live_creator_network/utils/tracking_permission_util.dart';
+import 'package:infinitum_live_creator_network/widgets/app_info_dialog.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
 
@@ -66,6 +68,7 @@ void _initializeServices() {
       await LanguagePreferencesService.initialize();
       await TermsAcceptanceService.initialize();
       await TrackingPreferencesService.initialize();
+      await AppInfoDialogService.initialize();
       
       // On iOS, wait for ATT permission to be determined before initializing AdMob
       // This ensures compliance with Apple's requirement that ATT appears BEFORE tracking
@@ -77,6 +80,9 @@ void _initializeServices() {
         } else {
           // Android doesn't require ATT, initialize AdMob immediately
           await _initializeAdMob();
+          // Show app info dialog on Android after a short delay
+          await Future.delayed(const Duration(milliseconds: 1000));
+          _showAppInfoDialogIfNeeded();
         }
       }
       
@@ -139,6 +145,11 @@ Future<void> _waitForATTStatusAndInitializeAdMob() async {
     
     // Now initialize AdMob (regardless of ATT status - AdMob handles denied status gracefully)
     await _initializeAdMob();
+    
+    // Show app info dialog after ATT is handled (iOS only)
+    // Small delay to ensure UI is ready
+    await Future.delayed(const Duration(milliseconds: 500));
+    _showAppInfoDialogIfNeeded();
   } catch (e, stackTrace) {
     Logger.logError(
       'Error waiting for ATT status',
@@ -148,6 +159,9 @@ Future<void> _waitForATTStatusAndInitializeAdMob() async {
     );
     // Still try to initialize AdMob even if ATT check fails
     await _initializeAdMob();
+    // Still try to show dialog even if ATT check fails
+    await Future.delayed(const Duration(milliseconds: 500));
+    _showAppInfoDialogIfNeeded();
   }
 }
 
@@ -201,6 +215,36 @@ void _preloadData() {
   });
 }
 
+// MARK: - Global Navigator Key
+/// Global navigator key to access navigator from anywhere in the app
+/// Used to show dialogs after ATT is handled
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+// MARK: - Show App Info Dialog Helper
+/// Shows the app info dialog if it hasn't been shown before
+void _showAppInfoDialogIfNeeded() {
+  try {
+    final navigator = navigatorKey.currentState;
+    if (navigator != null && navigator.mounted) {
+      final context = navigator.context;
+      if (context != null) {
+        AppInfoDialog.showIfNeeded(context);
+      }
+    } else {
+      // Navigator not ready yet, try again after a delay
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        _showAppInfoDialogIfNeeded();
+      });
+    }
+  } catch (e) {
+    Logger.logError(
+      'Failed to show app info dialog',
+      error: e,
+      tag: 'Main',
+    );
+  }
+}
+
 // MARK: - Main App Widget
 class InfinitumLiveApp extends StatefulWidget {
   const InfinitumLiveApp({super.key});
@@ -250,6 +294,7 @@ class _InfinitumLiveAppState extends State<InfinitumLiveApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: AppConfig.appName,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,

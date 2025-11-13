@@ -476,6 +476,12 @@ class _AboutScreenState extends State<AboutScreen> {
                     label: AppLocalizations.of(context)!.creatorDashboard,
                     url: AppConfig.viewAppUrl,
                   ),
+                  const Divider(),
+                  _LinkItem(
+                    icon: Icons.assessment,
+                    label: 'Infinitum Status',
+                    url: 'https://infinitum-down-detector.web.app/',
+                  ),
                 ],
               ),
           ),
