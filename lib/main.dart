@@ -8,10 +8,13 @@
  */
 
 import 'dart:async';
-import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb, PlatformDispatcher;
+import 'dart:ui' show PlatformDispatcher;
+import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// Conditional import for AdMob - use stub on web, real package on mobile
+import 'package:infinitum_live_creator_network/core/admob_stub.dart'
+    if (dart.library.io) 'package:infinitum_live_creator_network/core/admob_mobile.dart';
 import 'package:infinitum_live_creator_network/core/app_config.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/core/version_manager.dart';
@@ -24,10 +27,9 @@ import 'package:infinitum_live_creator_network/services/tracking_preferences_ser
 import 'package:infinitum_live_creator_network/services/app_info_dialog_service.dart';
 import 'package:infinitum_live_creator_network/theme/app_theme.dart';
 import 'package:infinitum_live_creator_network/utils/platform_util.dart';
-import 'package:infinitum_live_creator_network/utils/tracking_permission_util.dart';
 import 'package:infinitum_live_creator_network/widgets/app_info_dialog.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // MARK: - Main Application Entry Point
 void main() {
@@ -105,6 +107,13 @@ void _initializeServices() {
 /// This ensures ATT prompt appears BEFORE any tracking/ad SDK initialization
 /// The ATT prompt is triggered automatically in AppDelegate.swift on app launch
 Future<void> _waitForATTStatusAndInitializeAdMob() async {
+  // Safety check: Only run on iOS
+  if (!PlatformUtil.isIOS || kIsWeb) {
+    Logger.logInfo('ATT status check skipped - not on iOS', tag: 'Main');
+    await _initializeAdMob();
+    return;
+  }
+  
   try {
     // Check current ATT status via method channel
     // The ATT prompt is triggered in AppDelegate.swift, so we wait for it to complete
@@ -227,9 +236,7 @@ void _showAppInfoDialogIfNeeded() {
     final navigator = navigatorKey.currentState;
     if (navigator != null && navigator.mounted) {
       final context = navigator.context;
-      if (context != null) {
-        AppInfoDialog.showIfNeeded(context);
-      }
+      AppInfoDialog.showIfNeeded(context);
     } else {
       // Navigator not ready yet, try again after a delay
       Future.delayed(const Duration(milliseconds: 1000), () {

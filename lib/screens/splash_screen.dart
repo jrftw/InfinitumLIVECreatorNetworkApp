@@ -9,6 +9,7 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/screens/home_screen.dart';
 import 'package:infinitum_live_creator_network/screens/terms_acceptance_screen.dart';
@@ -221,7 +222,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                           center: Alignment.topLeft,
                           radius: 1.5,
                           colors: [
-                            const Color(0xFF6366F1).withOpacity(pulseValue),
+                            Color.fromRGBO(99, 102, 241, pulseValue),
                             Colors.transparent,
                           ],
                         ),
@@ -316,9 +317,9 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                                     Color(0xFFEC4899), // Pink
                                   ],
                                 ).createShader(bounds),
-                                child: const Text(
-                                  'INFINITUM LIVE',
-                                  style: TextStyle(
+                                child: Text(
+                                  AppLocalizations.of(context)?.infinitumLive ?? 'INFINITUM LIVE',
+                                  style: const TextStyle(
                                     fontSize: 42,
                                     fontWeight: FontWeight.w900,
                                     letterSpacing: 4,
@@ -329,7 +330,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                               const SizedBox(height: 10),
                               // Subtitle
                               Text(
-                                'Creator Network',
+                                AppLocalizations.of(context)?.creatorNetwork ?? 'Creator Network',
                                 style: TextStyle(
                                   fontSize: 18,
                                   color: const Color(0xFF8B5CF6),
@@ -351,7 +352,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                                       height: 4,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        color: const Color(0xFF6366F1).withOpacity(0.2),
+                                        color: const Color.fromRGBO(99, 102, 241, 0.2),
                                       ),
                                       child: Stack(
                                         children: [
@@ -369,7 +370,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                                                 ),
                                                 boxShadow: [
                                                   BoxShadow(
-                                                    color: const Color(0xFF6366F1).withOpacity(0.6),
+                                                    color: const Color.fromRGBO(99, 102, 241, 0.6),
                                                     blurRadius: 20,
                                                   ),
                                                 ],

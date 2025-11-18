@@ -16,7 +16,7 @@ import 'package:infinitum_live_creator_network/utils/url_launcher_util.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:intl/intl.dart';
-import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // MARK: - Announcements Screen
 class AnnouncementsScreen extends StatefulWidget {

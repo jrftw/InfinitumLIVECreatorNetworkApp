@@ -9,7 +9,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
-import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // MARK: - Requirements Screen
 class RequirementsScreen extends StatelessWidget {

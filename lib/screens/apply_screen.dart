@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/utils/url_launcher_util.dart';
 import 'package:infinitum_live_creator_network/widgets/app_logo_widget.dart';
-import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // MARK: - Apply Screen
 class ApplyScreen extends StatelessWidget {

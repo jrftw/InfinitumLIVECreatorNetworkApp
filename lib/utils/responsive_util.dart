@@ -81,8 +81,24 @@ class ResponsiveUtil {
   }
 
   // MARK: - Platform Detection
-  static bool get isIOS => defaultTargetPlatform == TargetPlatform.iOS;
-  static bool get isAndroid => defaultTargetPlatform == TargetPlatform.android;
+  static bool get isIOS {
+    if (kIsWeb) return false;
+    try {
+      return defaultTargetPlatform == TargetPlatform.iOS;
+    } catch (e) {
+      return false;
+    }
+  }
+  
+  static bool get isAndroid {
+    if (kIsWeb) return false;
+    try {
+      return defaultTargetPlatform == TargetPlatform.android;
+    } catch (e) {
+      return false;
+    }
+  }
+  
   static bool get isWeb => kIsWeb;
   static bool get isMobilePlatform => isIOS || isAndroid;
 

@@ -258,57 +258,94 @@
     </div>
   </div>
   <script>
-    // Hide loading when Flutter loads
-    window.addEventListener('flutter-first-frame', function() {
+    var _flutter;
+    var _flutterLoader;
+    
+    // Function to hide loading screen
+    function _hideLoadingScreen() {
       const loading = document.getElementById('loading');
+      const splash = document.getElementById('splash');
       if (loading) {
         loading.style.display = 'none';
       }
+      if (splash) {
+        splash.style.display = 'none';
+      }
+      // Remove splash screen styling
+      if (typeof removeSplashFromWeb === 'function') {
+        removeSplashFromWeb();
+      }
+    }
+    
+    // Hide loading when Flutter first frame renders
+    window.addEventListener('flutter-first-frame', function() {
+      console.log('Flutter first frame rendered');
+      _hideLoadingScreen();
     });
     
+    // Also hide after a timeout as fallback (5 seconds max)
+    setTimeout(function() {
+      _hideLoadingScreen();
+    }, 5000);
+    
+    // Initialize Flutter when the page loads
     window.addEventListener('load', function(ev) {
-      if (typeof _flutter !== 'undefined' && _flutter.loader) {
-        _flutter.loader.loadEntrypoint({
-          onEntrypointLoaded: function(engineInitializer) {
-            engineInitializer.initializeEngine().then(function(appRunner) {
-              appRunner.runApp();
-            }).catch(function(error) {
-              console.error('Error initializing Flutter:', error);
-              const loading = document.getElementById('loading');
-              if (loading) {
-                loading.innerHTML = '<p style="color: red;">Error loading app. Please refresh.</p>';
-              }
-            });
-          }
-        });
+      console.log('Page loaded, initializing Flutter...');
+      _loadFlutterApp();
+    });
+    
+    function _loadFlutterApp() {
+      // Check if Flutter loader is available
+      if (typeof window._flutter !== 'undefined' && window._flutter.loader) {
+        _flutter = window._flutter;
+        _flutterLoader = _flutter.loader;
+        console.log('Flutter loader found, loading app...');
+        _startFlutterApp();
+      } else if (typeof _flutter !== 'undefined' && _flutter.loader) {
+        _flutterLoader = _flutter.loader;
+        console.log('Flutter loader found (alternative), loading app...');
+        _startFlutterApp();
       } else {
-        // Retry after a short delay
+        // Retry after a short delay if Flutter loader isn't ready
+        console.log('Flutter loader not ready, retrying...');
         setTimeout(function() {
-          if (typeof _flutter !== 'undefined' && _flutter.loader) {
-            _flutter.loader.loadEntrypoint({
-              onEntrypointLoaded: function(engineInitializer) {
-                engineInitializer.initializeEngine().then(function(appRunner) {
-                  appRunner.runApp();
-                }).catch(function(error) {
-                  console.error('Error initializing Flutter:', error);
-                  const loading = document.getElementById('loading');
-                  if (loading) {
-                    loading.innerHTML = '<p style="color: red;">Error loading app. Please refresh.</p>';
-                  }
-                });
-              }
-            });
-          } else {
-            const loading = document.getElementById('loading');
-            if (loading) {
-              loading.innerHTML = '<p style="color: red;">Failed to load Flutter. Please refresh.</p>';
-            }
-          }
+          _loadFlutterApp();
         }, 100);
       }
-    });
+    }
+    
+    function _startFlutterApp() {
+      try {
+        _flutterLoader.load({
+          onEntrypointLoaded: function(engineInitializer) {
+            console.log('Flutter entrypoint loaded, initializing engine...');
+            engineInitializer.initializeEngine().then(function(appRunner) {
+              console.log('Flutter engine initialized, running app...');
+              appRunner.runApp();
+            }).catch(function(error) {
+              console.error('Error initializing Flutter engine:', error);
+              _showError('Error initializing app. Please refresh the page.');
+            });
+          },
+          onError: function(error) {
+            console.error('Error loading Flutter entrypoint:', error);
+            _showError('Failed to load app. Please refresh the page.');
+          }
+        });
+      } catch (error) {
+        console.error('Error starting Flutter app:', error);
+        _showError('Failed to start app. Please refresh the page.');
+      }
+    }
+    
+    function _showError(message) {
+      const loading = document.getElementById('loading');
+      if (loading) {
+        loading.innerHTML = '<div style="color: red; text-align: center; padding: 20px;"><p>' + message + '</p><button onclick="location.reload()" style="margin-top: 10px; padding: 10px 20px; background: #6366F1; color: white; border: none; border-radius: 5px; cursor: pointer;">Refresh Page</button></div>';
+      }
+    }
   </script>
-  <script src="flutter.js" defer=""></script>
+  <script src="flutter.js" defer></script>
 
 
 

@@ -9,7 +9,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
-import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // MARK: - What Is Your Role Screen
 class WhatIsYourRoleScreen extends StatelessWidget {

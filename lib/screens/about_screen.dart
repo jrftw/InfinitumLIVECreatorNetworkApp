@@ -21,7 +21,7 @@ import 'package:infinitum_live_creator_network/screens/benefits/what_we_do_not_d
 import 'package:infinitum_live_creator_network/screens/benefits/talent_agreement_screen.dart';
 import 'package:infinitum_live_creator_network/screens/benefits/requirements_screen.dart';
 import 'package:infinitum_live_creator_network/screens/benefits/pay_explained_screen.dart';
-import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:infinitum_live_creator_network/services/language_preferences_service.dart';
 import 'package:infinitum_live_creator_network/services/tracking_preferences_service.dart';
 import 'package:infinitum_live_creator_network/utils/platform_util.dart';
@@ -479,7 +479,7 @@ class _AboutScreenState extends State<AboutScreen> {
                   const Divider(),
                   _LinkItem(
                     icon: Icons.assessment,
-                    label: 'Infinitum Status',
+                    label: l10n.infinitumStatus,
                     url: 'https://infinitum-down-detector.web.app/',
                   ),
                 ],
@@ -621,7 +621,6 @@ class _AboutScreenState extends State<AboutScreen> {
   void _showLanguageSelector(BuildContext context) {
     final currentLocale = LanguagePreferencesService.locale;
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
     
     // Create list of all language options including "Auto"
     final allLanguages = [
@@ -664,7 +663,7 @@ class _AboutScreenState extends State<AboutScreen> {
               content: SizedBox(
                 width: double.maxFinite,
                 child: DropdownButtonFormField<int>(
-                  value: selectedIndex,
+                  initialValue: selectedIndex,
                   decoration: InputDecoration(
                     labelText: l10n.language,
                     border: OutlineInputBorder(

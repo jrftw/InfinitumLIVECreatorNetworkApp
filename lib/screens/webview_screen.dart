@@ -9,10 +9,12 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+// Conditional import for WebView - use stub on web, real package on mobile
+import 'package:infinitum_live_creator_network/core/webview_stub.dart'
+    if (dart.library.io) 'package:infinitum_live_creator_network/core/webview_mobile.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 import 'package:infinitum_live_creator_network/core/logger.dart';
-import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // MARK: - WebView Screen
 class WebViewScreen extends StatefulWidget {

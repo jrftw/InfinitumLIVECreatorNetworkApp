@@ -19,7 +19,7 @@ import 'package:infinitum_live_creator_network/widgets/app_logo_widget.dart';
 import 'package:infinitum_live_creator_network/widgets/banner_ad_widget.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
-import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // MARK: - Home Screen
 class HomeScreen extends StatefulWidget {
