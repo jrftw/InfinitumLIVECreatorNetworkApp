@@ -12,7 +12,9 @@ import 'dart:ui' show PlatformDispatcher;
 import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// Conditional import for AdMob - use stub on web, real package on mobile
+import 'package:infinitum_live_creator_network/core/admob_stub.dart'
+    if (dart.library.io) 'package:infinitum_live_creator_network/core/admob_mobile.dart';
 import 'package:infinitum_live_creator_network/core/app_config.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/core/version_manager.dart';
@@ -106,6 +108,13 @@ void _initializeServices() {
 /// This ensures ATT prompt appears BEFORE any tracking/ad SDK initialization
 /// The ATT prompt is triggered automatically in AppDelegate.swift on app launch
 Future<void> _waitForATTStatusAndInitializeAdMob() async {
+  // Safety check: Only run on iOS
+  if (!PlatformUtil.isIOS || kIsWeb) {
+    Logger.logInfo('ATT status check skipped - not on iOS', tag: 'Main');
+    await _initializeAdMob();
+    return;
+  }
+  
   try {
     // Check current ATT status via method channel
     // The ATT prompt is triggered in AppDelegate.swift, so we wait for it to complete
