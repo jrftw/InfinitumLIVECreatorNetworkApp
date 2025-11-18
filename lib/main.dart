@@ -11,8 +11,11 @@ import 'dart:async';
 import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb, PlatformDispatcher;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:infinitum_live_creator_network/core/app_config.dart';
+
+// Conditional import: use real package on mobile, stub on web
+import 'package:google_mobile_ads/google_mobile_ads.dart' as google_mobile_ads
+    if (dart.library.html) 'package:infinitum_live_creator_network/main_stub.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/core/version_manager.dart';
 import 'package:infinitum_live_creator_network/screens/splash_screen.dart';
@@ -188,7 +191,7 @@ Future<void> _initializeAdMob() async {
     // Initialize Mobile Ads SDK
     // Note: On iOS, this should only be called AFTER ATT permission is requested
     // AdMob will respect the user's ATT choice automatically
-    await MobileAds.instance.initialize();
+    await google_mobile_ads.MobileAds.instance.initialize();
     
     Logger.logInfo('AdMob initialized successfully with app ID: $appId', tag: 'Main');
   } catch (e, stackTrace) {

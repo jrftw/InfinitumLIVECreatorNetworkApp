@@ -9,8 +9,11 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
+
+// Conditional import: use real package on mobile, stub on web
+import 'package:webview_flutter/webview_flutter.dart'
+    if (dart.library.html) 'package:infinitum_live_creator_network/screens/webview_screen_stub.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/l10n/app_localizations.dart';
 
