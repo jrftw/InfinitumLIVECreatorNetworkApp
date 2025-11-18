@@ -87,17 +87,7 @@ class VersionManager {
 
   // MARK: - Environment Detection Helpers
   static bool _isBetaEnvironment() {
-    // Check for TestFlight on iOS
-    if (defaultTargetPlatform == TargetPlatform.iOS) {
-      // TestFlight builds typically have specific bundle identifiers or can be detected
-      // This is a simplified check - in production, you might want more sophisticated detection
-      final packageName = _packageInfo?.packageName ?? '';
-      if (packageName.contains('beta') || packageName.contains('testflight')) {
-        return true;
-      }
-    }
-
-    // Check for beta web hosting
+    // Check for beta web hosting first (before platform checks)
     if (kIsWeb) {
       final uri = Uri.base;
       final host = uri.host.toLowerCase();
@@ -110,11 +100,33 @@ class VersionManager {
       }
     }
 
-    // Check for Android beta/internal testing
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      final packageName = _packageInfo?.packageName ?? '';
-      if (packageName.contains('beta') || packageName.contains('debug')) {
-        return true;
+    // Check for TestFlight on iOS (only if not web)
+    if (!kIsWeb) {
+      try {
+        if (defaultTargetPlatform == TargetPlatform.iOS) {
+          // TestFlight builds typically have specific bundle identifiers or can be detected
+          // This is a simplified check - in production, you might want more sophisticated detection
+          final packageName = _packageInfo?.packageName ?? '';
+          if (packageName.contains('beta') || packageName.contains('testflight')) {
+            return true;
+          }
+        }
+      } catch (e) {
+        // Platform detection failed, continue to next check
+      }
+    }
+
+    // Check for Android beta/internal testing (only if not web)
+    if (!kIsWeb) {
+      try {
+        if (defaultTargetPlatform == TargetPlatform.android) {
+          final packageName = _packageInfo?.packageName ?? '';
+          if (packageName.contains('beta') || packageName.contains('debug')) {
+            return true;
+          }
+        }
+      } catch (e) {
+        // Platform detection failed, continue
       }
     }
 
