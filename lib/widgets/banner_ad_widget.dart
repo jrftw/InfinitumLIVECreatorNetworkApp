@@ -9,7 +9,9 @@
 
 import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode;
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+// Conditional import for AdMob - use stub on web, real package on mobile
+import 'package:infinitum_live_creator_network/core/admob_stub.dart'
+    if (dart.library.io) 'package:infinitum_live_creator_network/core/admob_mobile.dart';
 import 'package:infinitum_live_creator_network/core/app_config.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/utils/platform_util.dart';
