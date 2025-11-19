@@ -10,6 +10,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:infinitum_live_creator_network/core/app_config.dart';
+import 'package:infinitum_live_creator_network/utils/platform_util.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/screens/about_screen.dart';
 import 'package:infinitum_live_creator_network/screens/announcements_screen.dart';
@@ -250,10 +251,10 @@ class _HomePage extends StatelessWidget {
                 title: AppLocalizations.of(context)!.viewDashboard,
                 subtitle: AppLocalizations.of(context)!.viewDashboardSubtitle,
                 icon: Icons.dashboard,
-                url: !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS 
+                url: PlatformUtil.isIOS 
                     ? AppConfig.infiniviewAppStoreUrl 
                     : AppConfig.viewAppUrl,
-                useExternalBrowser: !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS, // Open App Store in external browser on iOS
+                useExternalBrowser: PlatformUtil.isIOS, // Open App Store in external browser on iOS
               ),
               const SizedBox(height: 12),
               _QuickLinkCard(

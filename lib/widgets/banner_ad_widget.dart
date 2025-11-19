@@ -9,10 +9,13 @@
 
 import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode;
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:infinitum_live_creator_network/core/app_config.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/utils/platform_util.dart';
+
+// Conditional import: use real package on mobile, stub on web
+import 'package:google_mobile_ads/google_mobile_ads.dart'
+    if (dart.library.html) 'package:infinitum_live_creator_network/widgets/banner_ad_widget_stub.dart';
 
 // MARK: - Banner Ad Widget
 /// A reusable banner ad widget that displays Google AdMob banner ads
