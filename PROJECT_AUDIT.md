@@ -9,6 +9,8 @@ Platform Compatibility: Markdown viewers
 
 # Infinitum LIVE Creator Network App — Project Audit
 
+**2026-10-27 mass-repo submodule:** This checkout is now a git submodule of `jrftw/InfiniViewV3-InfiniCoreApi-BSGather` at folder `Infinitum LIVE Creator Network - App`. Origin remains `https://github.com/jrftw/InfinitumLIVECreatorNetworkApp.git`. No hub runtime, store, or InfiniView/Core contract change.
+
 **2026-10-27 adaptive UI + store readiness (local):** Hub chrome is platform-native: Cupertino tab bar on iOS, Material 3 navigation on Android, rail + max-width content on wide web. Surfaces, scroll physics, and page transitions follow the same split. App information includes **Built by Infinitum Pittsburgh**. Unused camera/location/contacts/mic/Bluetooth plist and Android permissions removed. PrivacyInfo.xcprivacy added (AdMob tracking + UserDefaults). Info.plist no longer claims the app collects no data while AdMob/ATT exist. Banner ad frames hide on web so empty grey bars do not show. Pay Explained garbled emoji replaced with icons. Listing copy: `Documentation/STORE_LISTING_1.0.1.md`. No Firebase Hosting project in this repo. Store ship still operator-owned. Chrome hub verified 2026-10-27: Home/Join/Network/InfiniView/About, What We Do, App Information Pittsburgh line.
 
 **2026-10-27 benefits copy + version 1.0.1 Build 1 (local):** About benefits screens (What we do, What is your role, What we do not do, Talent agreement, Requirements) now match current public apply pages and InfiniView onboarding. TikTok LIVE apply floor is 8 valid days / 20 hours (D.I.P. still 12/25+). Favorited requires under \$1,000 already earned and no existing Favorited agency. Broken emoji encoding removed. App version is **1.0.1+1** (Version 1.0.1 Build 1). Store binaries remain operator-owned.
@@ -24,10 +26,10 @@ Platform Compatibility: Markdown viewers
 | Field | Value |
 |-------|--------|
 | **Audit date** | 2026-10-27 |
-| **Last update date** | **2026-10-27** adaptive UI + store readiness + Built by Infinitum Pittsburgh. Prior: benefits screens + version **1.0.1+1**. Prior: InfiniView tab stats/UI, About tab, settings cog, InfiniView onboarding link. Prior: Chrome white-screen bootstrap fix. Prior: compatible package upgrade + unused dep removal + l10n generate-dir. Prior: hub overhaul (local source). Prior: checkout relocated into this workspace with no project audit. |
+| **Last update date** | **2026-10-27** registered as mass-repo submodule. Prior: adaptive UI + store readiness + Built by Infinitum Pittsburgh. Prior: benefits screens + version **1.0.1+1**. Prior: InfiniView tab stats/UI, About tab, settings cog, InfiniView onboarding link. Prior: Chrome white-screen bootstrap fix. Prior: compatible package upgrade + unused dep removal + l10n generate-dir. Prior: hub overhaul (local source). Prior: checkout relocated into this workspace with no project audit. |
 | **Package** | `infinitum_live_creator_network` `1.0.1+1` (`pubspec.yaml`) |
 | **Owner** | Kevin Doyle Jr. / Infinitum Imagery LLC |
-| **Origin** | `https://github.com/jrftw/InfinitumLIVECreatorNetworkApp.git` (separate from InfiniView) |
+| **Origin** | `https://github.com/jrftw/InfinitumLIVECreatorNetworkApp.git` (mass-repo submodule; still separate from InfiniView source) |
 | **Store** | iOS App Store id `6755161753` (operator-owned binary) |
 | **Reviewed scope** | `pubspec.yaml`, `pubspec.lock`, `l10n.yaml`, `lib/` screens/services/models/theme, `PROJECT_AUDIT.md` (this file) |
 | **Excluded** | `build/`, `.dart_tool/`, `ios/Pods`, generated l10n output, secret values |
