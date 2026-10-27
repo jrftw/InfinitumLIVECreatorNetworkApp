@@ -2,7 +2,7 @@
  * Filename: about_screen.dart
  * Purpose: Screen displaying company information and details
  * Author: Kevin Doyle Jr. / Infinitum Imagery LLC
- * Last Modified: 2025-01-27
+ * Last Modified: 2026-10-27
  * Dependencies: flutter/material.dart, app_config.dart, url_launcher
  * Platform Compatibility: iOS, Android, Web
  */
@@ -12,8 +12,10 @@ import 'package:infinitum_live_creator_network/core/app_config.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/core/version_manager.dart';
 import 'package:infinitum_live_creator_network/services/theme_preferences_service.dart';
+import 'package:infinitum_live_creator_network/utils/platform_util.dart';
 import 'package:infinitum_live_creator_network/utils/url_launcher_util.dart';
 import 'package:infinitum_live_creator_network/widgets/app_logo_widget.dart';
+import 'package:infinitum_live_creator_network/widgets/creator_network_settings_cog_button.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
 import 'package:infinitum_live_creator_network/screens/benefits/what_we_do_screen.dart';
 import 'package:infinitum_live_creator_network/screens/benefits/what_is_your_role_screen.dart';
@@ -21,18 +23,25 @@ import 'package:infinitum_live_creator_network/screens/benefits/what_we_do_not_d
 import 'package:infinitum_live_creator_network/screens/benefits/talent_agreement_screen.dart';
 import 'package:infinitum_live_creator_network/screens/benefits/requirements_screen.dart';
 import 'package:infinitum_live_creator_network/screens/benefits/pay_explained_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:infinitum_live_creator_network/services/language_preferences_service.dart';
+import 'package:infinitum_live_creator_network/l10n/generated/app_localizations.dart';
 import 'package:infinitum_live_creator_network/services/tracking_preferences_service.dart';
-import 'package:infinitum_live_creator_network/utils/platform_util.dart';
-import 'package:infinitum_live_creator_network/utils/tracking_permission_util.dart';
 
 // MARK: - About Screen
 class AboutScreen extends StatefulWidget {
   final ValueChanged<ThemeMode>? onThemeModeChanged;
   final ValueChanged<Locale?>? onLocaleChanged;
+  final bool showBackButton;
+  final Widget? settingsAction;
+  final VoidCallback? onOpenInfiniView;
   
-  const AboutScreen({super.key, this.onThemeModeChanged, this.onLocaleChanged});
+  const AboutScreen({
+    super.key,
+    this.onThemeModeChanged,
+    this.onLocaleChanged,
+    this.showBackButton = true,
+    this.settingsAction,
+    this.onOpenInfiniView,
+  });
   
   @override
   State<AboutScreen> createState() => _AboutScreenState();
@@ -51,167 +60,22 @@ class _AboutScreenState extends State<AboutScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final currentThemeMode = ThemePreferencesService.themeMode;
+    final l10n = AppLocalizations.of(context)!;
     
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: widget.showBackButton,
         title: Text(AppLocalizations.of(context)!.about),
         actions: [
-          // Settings menu with language and theme options
-          PopupMenuButton<String>(
-            icon: const Icon(Icons.settings),
-            tooltip: AppLocalizations.of(context)!.settings,
-            onSelected: (String value) {
-              // Handle selection
-              if (value.startsWith('theme_')) {
-                final modeString = value.replaceFirst('theme_', '');
-                ThemeMode mode;
-                switch (modeString) {
-                  case 'light':
-                    mode = ThemeMode.light;
-                    break;
-                  case 'dark':
-                    mode = ThemeMode.dark;
-                    break;
-                  case 'system':
-                  default:
-                    mode = ThemeMode.system;
-                    break;
-                }
-                widget.onThemeModeChanged?.call(mode);
-                setState(() {});
-              } else if (value == 'lang_selector') {
-                // Show language selector dialog
-                _showLanguageSelector(context);
-              } else if (value == 'toggle_tracking') {
-                // Toggle ad tracking
-                _toggleAdTracking(context);
-              }
-            },
-            itemBuilder: (BuildContext context) {
-              final currentLocale = LanguagePreferencesService.locale;
-              final l10n = AppLocalizations.of(context)!;
-              
-              return <PopupMenuEntry<String>>[
-                // Theme section header (moved to top)
-                PopupMenuItem<String>(
-                  enabled: false,
-                  child: Text(
-                    l10n.themeMode,
-                    style: theme.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const PopupMenuDivider(),
-                // Theme options
-                PopupMenuItem<String>(
-                  value: 'theme_system',
-                  child: Row(
-                    children: [
-                      const Icon(Icons.brightness_auto, size: 20),
-                      const SizedBox(width: 12),
-                      Text(l10n.auto),
-                      if (currentThemeMode == ThemeMode.system)
-                        const Spacer(),
-                      if (currentThemeMode == ThemeMode.system)
-                        const Icon(Icons.check, size: 20),
-                    ],
-                  ),
-                ),
-                PopupMenuItem<String>(
-                  value: 'theme_light',
-                  child: Row(
-                    children: [
-                      const Icon(Icons.light_mode, size: 20),
-                      const SizedBox(width: 12),
-                      Text(l10n.light),
-                      if (currentThemeMode == ThemeMode.light)
-                        const Spacer(),
-                      if (currentThemeMode == ThemeMode.light)
-                        const Icon(Icons.check, size: 20),
-                    ],
-                  ),
-                ),
-                PopupMenuItem<String>(
-                  value: 'theme_dark',
-                  child: Row(
-                    children: [
-                      const Icon(Icons.dark_mode, size: 20),
-                      const SizedBox(width: 12),
-                      Text(l10n.dark),
-                      if (currentThemeMode == ThemeMode.dark)
-                        const Spacer(),
-                      if (currentThemeMode == ThemeMode.dark)
-                        const Icon(Icons.check, size: 20),
-                    ],
-                  ),
-                ),
-                const PopupMenuDivider(),
-                // Language selector (opens dialog)
-                PopupMenuItem<String>(
-                  value: 'lang_selector',
-                  child: Row(
-                    children: [
-                      const Icon(Icons.language, size: 20),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Text(l10n.language),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        _getCurrentLanguageDisplay(currentLocale, l10n),
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      const Icon(Icons.arrow_forward_ios, size: 14),
-                    ],
-                  ),
-                ),
-                // Ad Tracking toggle (only on mobile platforms)
-                if (PlatformUtil.isMobile) ...[
-                  const PopupMenuDivider(),
-                  PopupMenuItem<String>(
-                    value: 'toggle_tracking',
-                    child: Row(
-                      children: [
-                        const Icon(Icons.ads_click, size: 20),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(l10n.adTracking),
-                              const SizedBox(height: 2),
-                              Text(
-                                l10n.adTrackingDescription,
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  fontSize: 11,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Switch(
-                          value: TrackingPreferencesService.trackingEnabled ?? false,
-                          onChanged: (value) {
-                            _toggleAdTracking(context, newValue: value);
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ];
-            },
-          ),
+          widget.settingsAction ??
+              CreatorNetworkSettingsCogButton(
+                onThemeModeChanged: widget.onThemeModeChanged,
+                onLocaleChanged: widget.onLocaleChanged,
+              ),
         ],
       ),
       body: ListView(
-        physics: const BouncingScrollPhysics(),
+        physics: PlatformUtil.creatorNetworkScrollPhysics(),
         padding: const EdgeInsets.all(16),
         children: [
           // MARK: - Company Header
@@ -279,6 +143,11 @@ class _AboutScreenState extends State<AboutScreen> {
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontStyle: FontStyle.italic,
                     ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    l10n.aboutHubVsInfiniView,
+                    style: theme.textTheme.bodyMedium,
                   ),
                 ],
               ),
@@ -466,21 +335,22 @@ class _AboutScreenState extends State<AboutScreen> {
                   ),
                   const Divider(),
                   _LinkItem(
-                    icon: Icons.person_add,
+                    icon: Icons.dashboard,
                     label: AppLocalizations.of(context)!.onboarding,
-                    url: AppConfig.onboardingUrl,
+                    url: AppConfig.viewAppUrl,
+                    onPressed: widget.onOpenInfiniView,
                   ),
                   const Divider(),
                   _LinkItem(
                     icon: Icons.dashboard,
-                    label: AppLocalizations.of(context)!.creatorDashboard,
+                    label: l10n.infiniViewTab,
                     url: AppConfig.viewAppUrl,
                   ),
                   const Divider(),
                   _LinkItem(
                     icon: Icons.assessment,
                     label: l10n.infinitumStatus,
-                    url: 'https://infinitum-down-detector.web.app/',
+                    url: AppConfig.statusPageUrl,
                   ),
                 ],
               ),
@@ -587,6 +457,14 @@ class _AboutScreenState extends State<AboutScreen> {
                     label: AppLocalizations.of(context)!.founded,
                     value: AppConfig.foundedDate,
                   ),
+                  const Divider(),
+                  Text(
+                    AppConfig.builtByInfinitumPittsburgh,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
                 ],
               ),
           ),
@@ -596,7 +474,7 @@ class _AboutScreenState extends State<AboutScreen> {
           // MARK: - Footer
           Center(
             child: Text(
-              '© ${DateTime.now().year} ${AppConfig.companyName}',
+              '\u00A9 ${DateTime.now().year} ${AppConfig.companyName}',
               style: theme.textTheme.bodySmall,
             ),
           ),
@@ -604,180 +482,6 @@ class _AboutScreenState extends State<AboutScreen> {
           const SizedBox(height: 16),
         ],
       ),
-    );
-  }
-  
-  String _getCurrentLanguageDisplay(Locale? locale, AppLocalizations l10n) {
-    if (locale == null) {
-      return l10n.auto;
-    }
-    final option = LanguagePreferencesService.getLanguageOptionForLocale(locale);
-    if (option != null) {
-      return option.englishName;
-    }
-    return locale.languageCode.toUpperCase();
-  }
-  
-  void _showLanguageSelector(BuildContext context) {
-    final currentLocale = LanguagePreferencesService.locale;
-    final l10n = AppLocalizations.of(context)!;
-    
-    // Create list of all language options including "Auto"
-    final allLanguages = [
-      _LanguageSelectorOption(
-        locale: null,
-        displayName: l10n.systemLanguage,
-        englishName: l10n.auto,
-      ),
-      ...LanguagePreferencesService.commonLanguages.map((lang) => 
-        _LanguageSelectorOption(
-          locale: lang.locale,
-          displayName: lang.displayName,
-          englishName: lang.englishName,
-        ),
-      ),
-    ];
-    
-    // Find current selection index
-    int selectedIndex = 0;
-    if (currentLocale != null) {
-      for (int i = 0; i < allLanguages.length; i++) {
-        final option = allLanguages[i];
-        if (option.locale != null &&
-            option.locale!.languageCode == currentLocale.languageCode &&
-            (option.locale!.countryCode == null ||
-                option.locale!.countryCode == currentLocale.countryCode)) {
-          selectedIndex = i;
-          break;
-        }
-      }
-    }
-    
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setDialogState) {
-            return AlertDialog(
-              title: Text(l10n.language),
-              content: SizedBox(
-                width: double.maxFinite,
-                child: DropdownButtonFormField<int>(
-                  initialValue: selectedIndex,
-                  decoration: InputDecoration(
-                    labelText: l10n.language,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                  ),
-                  items: allLanguages.asMap().entries.map((entry) {
-                    final index = entry.key;
-                    final option = entry.value;
-                    return DropdownMenuItem<int>(
-                      value: index,
-                      child: Text(option.displayName),
-                    );
-                  }).toList(),
-                  onChanged: (int? newIndex) {
-                    if (newIndex != null) {
-                      setDialogState(() {
-                        selectedIndex = newIndex;
-                      });
-                      
-                      final selectedOption = allLanguages[newIndex];
-                      Locale? newLocale = selectedOption.locale;
-                      
-                      widget.onLocaleChanged?.call(newLocale);
-                      setState(() {});
-                      
-                      Navigator.of(context).pop();
-                    }
-                  },
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: Text(l10n.close),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-  
-  // MARK: - Ad Tracking Toggle
-  void _toggleAdTracking(BuildContext context, {bool? newValue}) async {
-    final currentValue = TrackingPreferencesService.trackingEnabled ?? false;
-    final targetValue = newValue ?? !currentValue;
-    
-    // Update the preference
-    await TrackingPreferencesService.setTrackingEnabled(targetValue);
-    
-    // Update UI
-    setState(() {});
-    
-    // On iOS, if enabling tracking, request permission immediately
-    if (targetValue && PlatformUtil.isIOS) {
-      // Request tracking permission
-      final status = await TrackingPermissionUtil.requestTrackingPermission();
-      
-      // Update preference based on permission result
-      if (status != null) {
-        // Status: 0=notDetermined, 1=restricted, 2=denied, 3=authorized
-        if (status == 2) {
-          // User denied, update preference to false
-          await TrackingPreferencesService.setTrackingEnabled(false);
-          setState(() {});
-        } else if (status == 3) {
-          // User authorized, keep preference as true
-          await TrackingPreferencesService.setTrackingEnabled(true);
-          setState(() {});
-        }
-      }
-      
-      // Show info message
-      if (mounted) {
-        final l10n = AppLocalizations.of(context)!;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              status == 3 ? l10n.adTrackingEnabled : l10n.adTrackingDisabled,
-              style: const TextStyle(color: Colors.white),
-            ),
-            duration: const Duration(seconds: 2),
-            backgroundColor: status == 3 
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.secondary,
-          ),
-        );
-      }
-    } else if (!targetValue) {
-      // Show info that tracking is disabled
-      if (mounted) {
-        final l10n = AppLocalizations.of(context)!;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              l10n.adTrackingDisabled,
-              style: const TextStyle(color: Colors.white),
-            ),
-            duration: const Duration(seconds: 2),
-            backgroundColor: Theme.of(context).colorScheme.secondary,
-          ),
-        );
-      }
-    }
-    
-    Logger.logInfo(
-      'Ad tracking preference updated to: $targetValue',
-      tag: 'AboutScreen',
     );
   }
   
@@ -882,11 +586,13 @@ class _LinkItem extends StatelessWidget {
   final IconData icon;
   final String label;
   final String url;
+  final VoidCallback? onPressed;
   
   const _LinkItem({
     required this.icon,
     required this.label,
     required this.url,
+    this.onPressed,
   });
   
   @override
@@ -894,7 +600,13 @@ class _LinkItem extends StatelessWidget {
     final theme = Theme.of(context);
     
     return InkWell(
-      onTap: () => _openLink(context, url),
+      onTap: () {
+        if (onPressed != null) {
+          onPressed!();
+          return;
+        }
+        _openLink(context, url);
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Row(
@@ -1047,19 +759,6 @@ class _PayExplainedCardState extends State<_PayExplainedCard> {
       ),
     );
   }
-}
-
-// MARK: - Language Selector Option Helper
-class _LanguageSelectorOption {
-  final Locale? locale;
-  final String displayName;
-  final String englishName;
-  
-  _LanguageSelectorOption({
-    required this.locale,
-    required this.displayName,
-    required this.englishName,
-  });
 }
 
 // MARK: - Benefits Card Widget

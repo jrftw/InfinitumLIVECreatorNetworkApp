@@ -2,7 +2,7 @@
  * Filename: banner_ad_widget.dart
  * Purpose: Reusable banner ad widget for displaying Google AdMob banner ads
  * Author: Kevin Doyle Jr. / Infinitum Imagery LLC
- * Last Modified: 2025-01-27
+ * Last Modified: 2026-10-27
  * Dependencies: flutter/material.dart, google_mobile_ads.dart, platform_util.dart, app_config.dart, logger.dart
  * Platform Compatibility: iOS, Android, Web (ads only show on mobile)
  */
@@ -241,6 +241,14 @@ class BannerAdContainer extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    if (kIsWeb || !PlatformUtil.isMobile) {
+      Logger.logDebug(
+        'BannerAdContainer hidden on web/non-mobile',
+        tag: 'BannerAdContainer',
+      );
+      return const SizedBox.shrink();
+    }
+
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final adHeight = adSize?.height.toDouble() ?? AdSize.banner.height.toDouble();
@@ -248,12 +256,12 @@ class BannerAdContainer extends StatelessWidget {
     return Container(
       margin: margin ?? const EdgeInsets.symmetric(vertical: 8),
       padding: const EdgeInsets.symmetric(vertical: 8),
-      height: adHeight + 16, // Add padding height
+      height: adHeight + 16,
       decoration: BoxDecoration(
         color: backgroundColor ?? 
             (isDark 
-                ? Colors.white.withOpacity(0.05) 
-                : Colors.black.withOpacity(0.05)),
+                ? Colors.white.withValues(alpha: 0.05) 
+                : Colors.black.withValues(alpha: 0.05)),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Center(
@@ -261,7 +269,7 @@ class BannerAdContainer extends StatelessWidget {
           adSize: adSize,
           alignment: alignment,
           showTestAds: showTestAds,
-          margin: EdgeInsets.zero, // Remove margin when inside container
+          margin: EdgeInsets.zero,
         ),
       ),
     );

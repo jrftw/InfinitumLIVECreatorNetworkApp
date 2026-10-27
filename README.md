@@ -6,9 +6,9 @@
 ![Flutter](https://img.shields.io/badge/Flutter-3.0+-02569B?style=for-the-badge&logo=flutter)
 ![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20Android%20%7C%20Web-lightgrey?style=for-the-badge)
 
-**Your Premier Destination for LIVE Talent**
+**Official hub for Infinitum LIVE**
 
-Official mobile and web application for the Infinitum LIVE Creator Network
+Public no-login app for joining the network, staying connected, and getting InfiniView
 
 [Features](#-features) • [Installation](#-installation) • [Platforms](#-platforms) • [Links](#-links)
 
@@ -18,28 +18,24 @@ Official mobile and web application for the Infinitum LIVE Creator Network
 
 ## 📱 About
 
-Infinitum LIVE Creator Network is the official app for iOS, Android, and Web, providing creators with access to tools, resources, and personalized guidance. Built with Flutter for a seamless cross-platform experience.
+Infinitum LIVE Creator Network is the official **public hub** for iOS, Android, and Web. It is not InfiniView. People who search for Infinitum LIVE can find the network, apply to join, see live stats and announcements, and download InfiniView. There is no sign-up in this app.
 
 **Company:** Infinitum Imagery LLC  
 **Founded:** March 15, 2023  
-**Location:** Pittsburgh, Pennsylvania, United States
+**Location:** Pittsburgh, Pennsylvania, United States  
+**Version:** 1.0.1 Build 1 (`1.0.1+1`)
 
 ## ✨ Features
 
-### 🛠️ Tools & Services
-- **Merch Store** - Shop Infinitum LIVE apparel and merchandise
-- **Earnings Calculator** - Estimate your potential earnings as a creator
-- **Shadow Ban Checker** - Check if your account is shadow banned
+### Hub
+- **Join** — TikTok LIVE, Shop, and Favorited apply plus onboarding
+- **Network** — Live InfiniView public stats, InfiniCore announcements, Discord, calculator, merch
+- **InfiniView** — iOS, Android, and web links to the creator app
 
-### 🔗 Quick Links
-- **Creator Dashboard** - Access your personalized creator dashboard
-- **Onboarding** - Join the Infinitum LIVE Creator Network
-- **Website** - Visit infinitumlive.com
-
-### 📊 Additional Features
-- **Announcements** - Stay updated with the latest network announcements
-- **Statistics** - View creator network statistics and analytics
-- **About** - Learn about Infinitum LIVE and company information
+### Tools
+- **Merch Store** — Infinitum LIVE apparel
+- **Earnings calculator** — InfiniView public diamond calculator
+- **Shadow Ban Checker** — infinitumlive.com tool
 
 ### 🎨 User Experience
 - **Light/Dark/Auto Theme** - Full theme mode support with system preference detection
@@ -128,9 +124,9 @@ flutter build appbundle --release
 - `package_info_plus` - App version information
 
 ### UI Dependencies
-- `cached_network_image` - Image caching
 - `shimmer` - Loading placeholders
-- `flutter_svg` - SVG support
+- `webview_flutter` - In-app pages for allowlisted Infinitum URLs
+- `google_mobile_ads` - AdMob banners on iOS/Android only
 
 See [pubspec.yaml](pubspec.yaml) for the complete list.
 
@@ -197,7 +193,7 @@ The app automatically detects the environment:
 
 ### Official Links
 - **Website:** [infinitumlive.com](https://infinitumlive.com/)
-- **Onboarding:** [infinitum-onboarding.web.app](https://infinitum-onboarding.web.app/)
+- **Onboarding:** Starts in InfiniView at [view.infinitumlive.com](https://view.infinitumlive.com/)
 - **Creator Dashboard:** [view.infinitumlive.com](https://view.infinitumlive.com/)
 
 ### Tools & Services

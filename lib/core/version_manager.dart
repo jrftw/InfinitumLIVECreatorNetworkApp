@@ -2,13 +2,14 @@
  * Filename: version_manager.dart
  * Purpose: Manages app version information and environment detection (Dev/Beta/Production)
  * Author: Kevin Doyle Jr. / Infinitum Imagery LLC
- * Last Modified: 2025-01-27
- * Dependencies: package_info_plus, flutter/foundation.dart
+ * Last Modified: 2026-10-27
+ * Dependencies: package_info_plus, flutter/foundation.dart, app_config.dart, logger.dart
  * Platform Compatibility: iOS, Android, Web
  */
 
 import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:infinitum_live_creator_network/core/app_config.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 
 // MARK: - App Environment Enum
@@ -43,12 +44,12 @@ class VersionManager {
   // MARK: - Version Information
   static String get version {
     // Safe to call before initialization
-    return _packageInfo?.version ?? '1.0.0';
+    return _packageInfo?.version ?? AppConfig.appVersion;
   }
 
   static String get buildNumber {
     // Safe to call before initialization
-    return _packageInfo?.buildNumber ?? '1';
+    return _packageInfo?.buildNumber ?? AppConfig.appBuildNumber;
   }
 
   static String get appName {

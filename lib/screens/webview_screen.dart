@@ -2,7 +2,7 @@
  * Filename: webview_screen.dart
  * Purpose: In-app webview screen for displaying web content without leaving the app
  * Author: Kevin Doyle Jr. / Infinitum Imagery LLC
- * Last Modified: 2025-11-12
+ * Last Modified: 2026-10-27
  * Dependencies: flutter/material.dart, webview_flutter, logger.dart
  * Platform Compatibility: iOS, Android, Web
  */
@@ -14,7 +14,7 @@ import 'package:infinitum_live_creator_network/core/webview_stub.dart'
     if (dart.library.io) 'package:infinitum_live_creator_network/core/webview_mobile.dart';
 import 'package:url_launcher/url_launcher.dart' as url_launcher;
 import 'package:infinitum_live_creator_network/core/logger.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:infinitum_live_creator_network/l10n/generated/app_localizations.dart';
 
 // MARK: - WebView Screen
 class WebViewScreen extends StatefulWidget {
@@ -249,10 +249,17 @@ class _WebViewScreenState extends State<WebViewScreen> {
       final allowedDomains = [
         'infinitumlive.com',
         'www.infinitumlive.com',
+        'iview.infinitumlive.com',
         'infinitum-onboarding.web.app',
+        'infinitum-down-detector.web.app',
         'view.infinitumlive.com',
-        'raw.githubusercontent.com', // For API endpoints
-        'github.com', // For GitHub content
+        'apps.apple.com',
+        'play.google.com',
+        'discord.com',
+        'discord.gg',
+        'discordapp.com',
+        'raw.githubusercontent.com',
+        'github.com',
       ];
       
       // Check if host matches any allowed domain or is a subdomain

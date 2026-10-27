@@ -1,9 +1,9 @@
 /*
  * Filename: api_service.dart
- * Purpose: Service for fetching data from external APIs
+ * Purpose: Fetch public InfiniCore announcements and InfiniView network stats
  * Author: Kevin Doyle Jr. / Infinitum Imagery LLC
- * Last Modified: 2025-01-27
- * Dependencies: dart:async, dart:convert, http package, app_config.dart, logger.dart, models
+ * Last Modified: 2026-10-27
+ * Dependencies: dart:async, dart:convert, http, app_config.dart, logger.dart, models
  * Platform Compatibility: iOS, Android, Web
  */
 
@@ -20,132 +20,166 @@ class ApiService {
   static final ApiService _instance = ApiService._internal();
   factory ApiService() => _instance;
   ApiService._internal();
-  
+
   // MARK: - Fetch Announcements
+  /// Loads network-wide InfiniCore announcements, then GitHub JSON if Core fails.
   Future<AnnouncementsResponseModel> fetchAnnouncements() async {
     try {
-      Logger.logInfo('Fetching announcements from API: ${AppConfig.announcementsUrl}', tag: 'ApiService');
-      
-      final response = await http
-          .get(Uri.parse(AppConfig.announcementsUrl))
-          .timeout(AppConfig.apiTimeout);
-      
-      Logger.logInfo('API Response Status: ${response.statusCode}', tag: 'ApiService');
-      
-      if (response.statusCode == 200) {
-        try {
-          final decodedData = json.decode(response.body);
-          
-          // Handle case where API returns a List directly
-          Map<String, dynamic> jsonData;
-          if (decodedData is List) {
-            Logger.logInfo('API returned a List, converting to Map format', tag: 'ApiService');
-            jsonData = {'announcements': decodedData};
-          } else if (decodedData is Map<String, dynamic>) {
-            jsonData = decodedData;
-          } else {
-            throw FormatException('Unexpected JSON format: ${decodedData.runtimeType}');
-          }
-          
-          final announcementsResponse = AnnouncementsResponseModel.fromJson(jsonData);
-          
-          Logger.logInfo(
-            'Successfully fetched ${announcementsResponse.announcements.length} announcements',
-            tag: 'ApiService',
-          );
-          
-          return announcementsResponse;
-        } catch (e) {
-          Logger.logError(
-            'Failed to parse announcements JSON',
-            error: e,
-            tag: 'ApiService',
-          );
-          throw Exception('Failed to parse announcements data: ${e.toString()}');
-        }
-      } else {
+      return await _apiServiceFetchInfinicoreAnnouncements();
+    } catch (coreError, coreStack) {
+      Logger.logError(
+        'InfiniCore public announcements failed; trying GitHub fallback',
+        error: coreError,
+        stackTrace: coreStack,
+        tag: 'ApiService',
+      );
+      try {
+        return await _apiServiceFetchGithubLegacyAnnouncements();
+      } catch (githubError, githubStack) {
         Logger.logError(
-          'Failed to fetch announcements: HTTP ${response.statusCode}',
+          'GitHub announcement fallback also failed',
+          error: githubError,
+          stackTrace: githubStack,
           tag: 'ApiService',
         );
-        throw Exception('Failed to load announcements: HTTP ${response.statusCode}');
-      }
-    } on TimeoutException {
-      Logger.logError(
-        'Request timeout while fetching announcements',
-        tag: 'ApiService',
-      );
-      throw Exception('Request timed out. Please check your internet connection and try again.');
-    } on FormatException catch (e) {
-      Logger.logError(
-        'JSON format error while fetching announcements',
-        error: e,
-        tag: 'ApiService',
-      );
-      throw Exception('Invalid data format received: ${e.message}');
-    } catch (e, stackTrace) {
-      Logger.logError(
-        'Error fetching announcements: ${e.toString()}',
-        error: e,
-        stackTrace: stackTrace,
-        tag: 'ApiService',
-      );
-      
-      // Provide more user-friendly error messages
-      if (e.toString().contains('SocketException') || e.toString().contains('Network')) {
-        throw Exception('Network error. Please check your internet connection and try again.');
-      } else if (e.toString().contains('Failed host lookup')) {
-        throw Exception('Cannot reach server. Please check your internet connection.');
-      } else {
-        rethrow;
+        throw Exception(
+          'Unable to load announcements. Please check your connection and try again.',
+        );
       }
     }
   }
-  
+
+  Future<AnnouncementsResponseModel> _apiServiceFetchInfinicoreAnnouncements() async {
+    Logger.logInfo(
+      'Fetching InfiniCore public announcements: ${AppConfig.infinicorePublicAnnouncementsUrl}',
+      tag: 'ApiService',
+    );
+
+    final http.Response response = await http
+        .get(Uri.parse(AppConfig.infinicorePublicAnnouncementsUrl))
+        .timeout(AppConfig.apiTimeout);
+
+    Logger.logInfo(
+      'InfiniCore announcements HTTP ${response.statusCode}',
+      tag: 'ApiService',
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception(
+        'Failed to load announcements: HTTP ${response.statusCode}',
+      );
+    }
+
+    final dynamic decodedData = json.decode(response.body);
+    if (decodedData is! Map<String, dynamic>) {
+      throw const FormatException('InfiniCore announcements were not a JSON object');
+    }
+
+    final AnnouncementsResponseModel parsed =
+        AnnouncementsResponseModel.fromJson(decodedData);
+    Logger.logInfo(
+      'Fetched ${parsed.announcements.length} InfiniCore public announcements',
+      tag: 'ApiService',
+    );
+    return parsed;
+  }
+
+  Future<AnnouncementsResponseModel> _apiServiceFetchGithubLegacyAnnouncements() async {
+    Logger.logInfo(
+      'Fetching GitHub legacy announcements: ${AppConfig.githubLegacyAnnouncementsUrl}',
+      tag: 'ApiService',
+    );
+
+    final http.Response response = await http
+        .get(Uri.parse(AppConfig.githubLegacyAnnouncementsUrl))
+        .timeout(AppConfig.apiTimeout);
+
+    if (response.statusCode != 200) {
+      throw Exception(
+        'Failed to load GitHub announcements: HTTP ${response.statusCode}',
+      );
+    }
+
+    final dynamic decodedData = json.decode(response.body);
+    final AnnouncementsResponseModel parsed;
+    if (decodedData is List) {
+      parsed = AnnouncementsResponseModel.fromList(decodedData);
+    } else if (decodedData is Map<String, dynamic>) {
+      parsed = AnnouncementsResponseModel.fromJson(decodedData);
+    } else {
+      throw FormatException(
+        'Unexpected GitHub announcement JSON: ${decodedData.runtimeType}',
+      );
+    }
+
+    Logger.logInfo(
+      'Fetched ${parsed.announcements.length} GitHub fallback announcements',
+      tag: 'ApiService',
+    );
+    return parsed;
+  }
+
   // MARK: - Fetch Creator Statistics
-  Future<CreatorStatsModel> fetchCreatorStats() async {
+  Future<CreatorNetworkPublicStatsModel> fetchCreatorStats() async {
     try {
-      Logger.logInfo('Fetching creator statistics from API', tag: 'ApiService');
-      
-      final response = await http
-          .get(Uri.parse(AppConfig.creatorStatsUrl))
+      Logger.logInfo(
+        'Fetching InfiniView public network stats: ${AppConfig.infiniviewPublicNetworkStatsUrl}',
+        tag: 'ApiService',
+      );
+
+      final http.Response response = await http
+          .get(Uri.parse(AppConfig.infiniviewPublicNetworkStatsUrl))
           .timeout(AppConfig.apiTimeout);
-      
-      if (response.statusCode == 200) {
-        final jsonData = json.decode(response.body) as Map<String, dynamic>;
-        final stats = CreatorStatsModel.fromJson(jsonData);
-        
-        Logger.logInfo(
-          'Successfully fetched creator stats: ${stats.totalCreators} TikTok, ${stats.favoritedCreators} Favorited',
-          tag: 'ApiService',
-        );
-        
-        return stats;
-      } else {
+
+      if (response.statusCode != 200) {
         Logger.logError(
-          'Failed to fetch creator stats: HTTP ${response.statusCode}',
+          'Failed to fetch public network stats: HTTP ${response.statusCode}',
           tag: 'ApiService',
         );
-        throw Exception('Failed to load creator statistics: HTTP ${response.statusCode}');
+        throw Exception(
+          'Failed to load network statistics: HTTP ${response.statusCode}',
+        );
       }
+
+      final dynamic decodedData = json.decode(response.body);
+      if (decodedData is! Map<String, dynamic>) {
+        throw const FormatException('Public network stats were not a JSON object');
+      }
+
+      final CreatorNetworkPublicStatsModel stats =
+          CreatorNetworkPublicStatsModel.fromJson(decodedData);
+      Logger.logInfo(
+        'Fetched public network stats: roster=${stats.rosterCreatorCount} month=${stats.monthLabel}',
+        tag: 'ApiService',
+      );
+      return stats;
+    } on TimeoutException {
+      Logger.logError(
+        'Request timeout while fetching public network stats',
+        tag: 'ApiService',
+      );
+      throw Exception(
+        'Request timed out. Please check your internet connection and try again.',
+      );
     } catch (e, stackTrace) {
       Logger.logError(
-        'Error fetching creator statistics',
+        'Error fetching public network stats',
         error: e,
         stackTrace: stackTrace,
         tag: 'ApiService',
       );
+      if (e.toString().contains('SocketException') ||
+          e.toString().contains('Failed host lookup')) {
+        throw Exception(
+          'Cannot reach InfiniView stats. Please check your internet connection.',
+        );
+      }
       rethrow;
     }
   }
 }
 
 // Suggestions For Features and Additions Later:
-// - Add request caching to reduce API calls
-// - Implement retry logic with exponential backoff
-// - Add request/response interceptors for logging
-// - Create offline mode with local data storage
-// - Add API response validation and error handling
-// - Implement rate limiting to prevent excessive requests
-// - Add support for pagination for large data sets
-
+// - Add retry with backoff for InfiniCore 60/min public rate limit
+// - Send If-None-Match if InfiniCore later exposes an ETag on /public/announcements
+// - Cache HTTP 304 handling for the InfiniView public stats 60s Cache-Control

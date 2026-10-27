@@ -4,17 +4,7 @@
     <!-- Required Permissions -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    
-    <!-- Optional Permissions (not used but declared for transparency) -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:required="false"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:required="false"/>
-    <uses-permission android:name="android.permission.CAMERA" android:required="false"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:required="false"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:required="false" android:maxSdkVersion="32"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO" android:required="false"/>
-    <uses-permission android:name="android.permission.READ_CONTACTS" android:required="false"/>
-    <uses-permission android:name="android.permission.BLUETOOTH" android:required="false"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:required="false"/>
+    <uses-permission android:name="android.permission.AD_ID"/>
     
     <application
         android:label="Infinitum LIVE Creator Network"
@@ -63,7 +53,7 @@
             android:value="support@infinitumlive.com" />
         <meta-data
             android:name="com.infinitumimageryllc.app.privacy_policy"
-            android:value="https://infinitumlive.com/privacy" />
+            android:value="https://infinitumlive.com/privacy-policy/" />
         <meta-data
             android:name="com.infinitumimageryllc.app.terms_of_service"
             android:value="https://infinitumlive.com/terms" />

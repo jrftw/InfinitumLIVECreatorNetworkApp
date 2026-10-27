@@ -1,4 +1,13 @@
-<!DOCTYPE html><html lang="en"><head>
+<!DOCTYPE html>
+<!--
+Filename: index.html
+Purpose: Bootstrap the Infinitum LIVE Creator Network Flutter web hub.
+Author: Kevin Doyle Jr. / Infinitum Imagery LLC
+Last Modified: 2026-10-27
+Dependencies: Flutter web flutter_bootstrap.js, manifest.json, splash assets
+Platform Compatibility: Current Chrome, Edge, Safari, Firefox with WebGL
+-->
+<html lang="en"><head>
   <base href="$FLUTTER_BASE_HREF">
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
@@ -6,13 +15,13 @@
   <meta name="keywords" content="Infinitum LIVE, Creator Network, TikTok Agency, Live Streaming, Content Creators">
   <meta name="author" content="Infinitum Imagery LLC">
   <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#6366F1">
+  <meta name="theme-color" content="#5B4BC4">
   
   <!-- Apple iOS Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Infinitum LIVE">
-  <meta name="apple-itunes-app" content="app-id=APP_ID">
+  <meta name="apple-itunes-app" content="app-id=6755161753">
   
   <!-- Mobile Web App Meta Tags -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -258,94 +267,47 @@
     </div>
   </div>
   <script>
-    var _flutter;
-    var _flutterLoader;
-    
-    // Function to hide loading screen
-    function _hideLoadingScreen() {
-      const loading = document.getElementById('loading');
-      const splash = document.getElementById('splash');
-      if (loading) {
-        loading.style.display = 'none';
+    // MARK: - HTML boot overlay (keep visible until Flutter paints)
+    function creatorNetworkHubHideHtmlBootOverlay() {
+      const creatorNetworkHubLoading = document.getElementById('loading');
+      const creatorNetworkHubSplash = document.getElementById('splash');
+      if (creatorNetworkHubLoading) {
+        creatorNetworkHubLoading.style.display = 'none';
       }
-      if (splash) {
-        splash.style.display = 'none';
+      if (creatorNetworkHubSplash) {
+        creatorNetworkHubSplash.style.display = 'none';
       }
-      // Remove splash screen styling
       if (typeof removeSplashFromWeb === 'function') {
         removeSplashFromWeb();
       }
     }
-    
-    // Hide loading when Flutter first frame renders
-    window.addEventListener('flutter-first-frame', function() {
-      console.log('Flutter first frame rendered');
-      _hideLoadingScreen();
+
+    function creatorNetworkHubShowHtmlBootError(message) {
+      const creatorNetworkHubLoading = document.getElementById('loading');
+      if (!creatorNetworkHubLoading) {
+        return;
+      }
+      creatorNetworkHubLoading.innerHTML =
+        '<div style="color: #F8FAFC; text-align: center; padding: 24px; max-width: 420px;">' +
+        '<p>' + message + '</p>' +
+        '<button onclick="location.reload()" style="margin-top: 12px; padding: 10px 20px; background: #5B4BC4; color: white; border: none; border-radius: 8px; cursor: pointer;">Refresh Page</button>' +
+        '</div>';
+    }
+
+    window.addEventListener('flutter-first-frame', function () {
+      creatorNetworkHubHideHtmlBootOverlay();
     });
-    
-    // Also hide after a timeout as fallback (5 seconds max)
-    setTimeout(function() {
-      _hideLoadingScreen();
-    }, 5000);
-    
-    // Initialize Flutter when the page loads
-    window.addEventListener('load', function(ev) {
-      console.log('Page loaded, initializing Flutter...');
-      _loadFlutterApp();
-    });
-    
-    function _loadFlutterApp() {
-      // Check if Flutter loader is available
-      if (typeof window._flutter !== 'undefined' && window._flutter.loader) {
-        _flutter = window._flutter;
-        _flutterLoader = _flutter.loader;
-        console.log('Flutter loader found, loading app...');
-        _startFlutterApp();
-      } else if (typeof _flutter !== 'undefined' && _flutter.loader) {
-        _flutterLoader = _flutter.loader;
-        console.log('Flutter loader found (alternative), loading app...');
-        _startFlutterApp();
-      } else {
-        // Retry after a short delay if Flutter loader isn't ready
-        console.log('Flutter loader not ready, retrying...');
-        setTimeout(function() {
-          _loadFlutterApp();
-        }, 100);
+
+    window.setTimeout(function () {
+      const creatorNetworkHubLoading = document.getElementById('loading');
+      if (creatorNetworkHubLoading && creatorNetworkHubLoading.style.display !== 'none') {
+        creatorNetworkHubShowHtmlBootError(
+          'The hub is taking too long to start. Refresh the page, or quit Flutter (q) and run flutter run -d chrome again.'
+        );
       }
-    }
-    
-    function _startFlutterApp() {
-      try {
-        _flutterLoader.load({
-          onEntrypointLoaded: function(engineInitializer) {
-            console.log('Flutter entrypoint loaded, initializing engine...');
-            engineInitializer.initializeEngine().then(function(appRunner) {
-              console.log('Flutter engine initialized, running app...');
-              appRunner.runApp();
-            }).catch(function(error) {
-              console.error('Error initializing Flutter engine:', error);
-              _showError('Error initializing app. Please refresh the page.');
-            });
-          },
-          onError: function(error) {
-            console.error('Error loading Flutter entrypoint:', error);
-            _showError('Failed to load app. Please refresh the page.');
-          }
-        });
-      } catch (error) {
-        console.error('Error starting Flutter app:', error);
-        _showError('Failed to start app. Please refresh the page.');
-      }
-    }
-    
-    function _showError(message) {
-      const loading = document.getElementById('loading');
-      if (loading) {
-        loading.innerHTML = '<div style="color: red; text-align: center; padding: 20px;"><p>' + message + '</p><button onclick="location.reload()" style="margin-top: 10px; padding: 10px 20px; background: #6366F1; color: white; border: none; border-radius: 5px; cursor: pointer;">Refresh Page</button></div>';
-      }
-    }
+    }, 45000);
   </script>
-  <script src="flutter.js" defer></script>
+  <script src="flutter_bootstrap.js" async></script>
 
 
 

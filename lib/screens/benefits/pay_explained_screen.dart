@@ -9,7 +9,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:infinitum_live_creator_network/l10n/generated/app_localizations.dart';
 
 // MARK: - Pay Explained Screen
 class PayExplainedScreen extends StatelessWidget {
@@ -35,7 +35,11 @@ class PayExplainedScreen extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Text('🎥', style: TextStyle(fontSize: 32)),
+                    Icon(
+                      Icons.payments_outlined,
+                      size: 32,
+                      color: theme.colorScheme.primary,
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
@@ -114,7 +118,11 @@ class PayExplainedScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Text('💰', style: TextStyle(fontSize: 24)),
+              Icon(
+                Icons.payments_outlined,
+                size: 24,
+                color: const Color(0xFF5B4BC4),
+              ),
               const SizedBox(width: 12),
               Text(
                 'Creator Earnings Flow',
@@ -164,7 +172,11 @@ class PayExplainedScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Text('📊', style: TextStyle(fontSize: 24)),
+              Icon(
+                Icons.payments_outlined,
+                size: 24,
+                color: const Color(0xFF5B4BC4),
+              ),
               const SizedBox(width: 12),
               Text(
                 'Visual Earnings Flow',
@@ -174,7 +186,7 @@ class PayExplainedScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           _VisualFlowItem(
-            icon: '👥',
+            icon: Icons.people_outline,
             label: 'Viewers',
             description: 'Send Gifts & Subscriptions',
             textTheme: textTheme,
@@ -188,7 +200,7 @@ class PayExplainedScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           _VisualFlowItem(
-            icon: '🎥',
+            icon: Icons.person_outline,
             label: 'Creator',
             description: 'Receives up to 53% of total earnings',
             textTheme: textTheme,
@@ -202,7 +214,7 @@ class PayExplainedScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           _VisualFlowItem(
-            icon: '🏢',
+            icon: Icons.account_balance_outlined,
             label: 'TikTok',
             description: 'Retains ~47% as platform fee',
             textTheme: textTheme,
@@ -216,7 +228,7 @@ class PayExplainedScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           _VisualFlowItem(
-            icon: '🌐',
+            icon: Icons.hub_outlined,
             label: 'Creator Network',
             description: 'Receives portion of TikTok\'s retained share',
             textTheme: textTheme,
@@ -230,7 +242,7 @@ class PayExplainedScreen extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           _VisualFlowItem(
-            icon: '👨‍💼',
+            icon: Icons.groups_outlined,
             label: 'Managers & Directors',
             description: 'Paid from network\'s share',
             textTheme: textTheme,
@@ -249,7 +261,11 @@ class PayExplainedScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Text('📈', style: TextStyle(fontSize: 24)),
+              Icon(
+                Icons.payments_outlined,
+                size: 24,
+                color: const Color(0xFF5B4BC4),
+              ),
               const SizedBox(width: 12),
               Text(
                 'Detailed Earnings Breakdown',
@@ -303,7 +319,11 @@ class PayExplainedScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Text('🔍', style: TextStyle(fontSize: 24)),
+              Icon(
+                Icons.payments_outlined,
+                size: 24,
+                color: const Color(0xFF5B4BC4),
+              ),
               const SizedBox(width: 12),
               Text(
                 'Important Clarifications',
@@ -323,7 +343,11 @@ class PayExplainedScreen extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Text('✅', style: TextStyle(fontSize: 20)),
+                    Icon(
+                      Icons.info_outline,
+                      size: 20,
+                      color: const Color(0xFF5B4BC4),
+                    ),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -357,7 +381,11 @@ class PayExplainedScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Text('💰', style: TextStyle(fontSize: 24)),
+              Icon(
+                Icons.payments_outlined,
+                size: 24,
+                color: const Color(0xFF5B4BC4),
+              ),
               const SizedBox(width: 12),
               Text(
                 'Network Earnings Source',
@@ -384,7 +412,11 @@ class PayExplainedScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Text('📊', style: TextStyle(fontSize: 24)),
+              Icon(
+                Icons.payments_outlined,
+                size: 24,
+                color: const Color(0xFF5B4BC4),
+              ),
               const SizedBox(width: 12),
               Text(
                 'Network Payout Factors',
@@ -416,7 +448,11 @@ class PayExplainedScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Text('👨‍💼', style: TextStyle(fontSize: 24)),
+              Icon(
+                Icons.groups_outlined,
+                size: 24,
+                color: const Color(0xFF5B4BC4),
+              ),
               const SizedBox(width: 12),
               Text(
                 'Manager & Director Compensation',
@@ -443,7 +479,11 @@ class PayExplainedScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Text('🎉', style: TextStyle(fontSize: 24)),
+              Icon(
+                Icons.payments_outlined,
+                size: 24,
+                color: const Color(0xFF5B4BC4),
+              ),
               const SizedBox(width: 12),
               Text(
                 'Network Events & Campaigns',
@@ -480,7 +520,11 @@ class PayExplainedScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Text('⚠️', style: TextStyle(fontSize: 24)),
+                Icon(
+                Icons.payments_outlined,
+                size: 24,
+                color: const Color(0xFF5B4BC4),
+              ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Text(
@@ -566,7 +610,7 @@ class _FlowStep extends StatelessWidget {
 
 // MARK: - Visual Flow Item Widget
 class _VisualFlowItem extends StatelessWidget {
-  final String icon;
+  final IconData icon;
   final String label;
   final String description;
   final TextTheme textTheme;
@@ -591,7 +635,7 @@ class _VisualFlowItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Text(icon, style: const TextStyle(fontSize: 32)),
+          Icon(icon, size: 32, color: Theme.of(context).colorScheme.primary),
           const SizedBox(width: 16),
           Expanded(
             child: Column(

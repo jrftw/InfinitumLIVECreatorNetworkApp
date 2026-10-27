@@ -1,51 +1,92 @@
 /*
  * Filename: platform_util.dart
- * Purpose: Platform detection utility that works safely on all platforms including web
+ * Purpose: Platform and layout detection so iOS, Android, and web each get native chrome
  * Author: Kevin Doyle Jr. / Infinitum Imagery LLC
- * Last Modified: 2025-01-27
- * Dependencies: flutter/foundation.dart
+ * Last Modified: 2026-10-27
+ * Dependencies: flutter/foundation.dart, flutter/widgets.dart
  * Platform Compatibility: iOS, Android, Web
  */
 
-import 'package:flutter/foundation.dart' show kIsWeb, defaultTargetPlatform, TargetPlatform;
+import 'package:flutter/foundation.dart'
+    show kIsWeb, defaultTargetPlatform, TargetPlatform;
+import 'package:flutter/widgets.dart';
+import 'package:infinitum_live_creator_network/core/logger.dart';
 
 // MARK: - Platform Utility
-/// Utility class for safe platform detection that works on all platforms including web
+/// Safe platform detection. Web is never treated as iOS/Android even in Safari.
 class PlatformUtil {
   // MARK: - Platform Detection
-  /// Returns true if running on iOS (mobile only, not web)
+  /// True on native iOS only (not web).
   static bool get isIOS {
-    if (kIsWeb) return false;
+    if (kIsWeb) {
+      return false;
+    }
     try {
       return defaultTargetPlatform == TargetPlatform.iOS;
     } catch (e) {
+      Logger.logError('iOS platform check failed', error: e, tag: 'PlatformUtil');
       return false;
     }
   }
-  
-  /// Returns true if running on Android (mobile only, not web)
+
+  /// True on native Android only (not web).
   static bool get isAndroid {
-    if (kIsWeb) return false;
+    if (kIsWeb) {
+      return false;
+    }
     try {
       return defaultTargetPlatform == TargetPlatform.android;
     } catch (e) {
+      Logger.logError(
+        'Android platform check failed',
+        error: e,
+        tag: 'PlatformUtil',
+      );
       return false;
     }
   }
-  
-  /// Returns true if running on web
+
+  /// True in a browser.
   static bool get isWeb => kIsWeb;
-  
-  /// Returns true if running on mobile (iOS or Android, not web)
+
+  /// True on native iOS or Android.
   static bool get isMobile {
-    if (kIsWeb) return false;
+    if (kIsWeb) {
+      return false;
+    }
     return isIOS || isAndroid;
+  }
+
+  /// Cupertino chrome (tab bar, grouped surfaces) is native iOS only.
+  static bool get usesCupertinoChrome => isIOS;
+
+  /// Material 3 expressive chrome is native Android only.
+  static bool get usesMaterial3Chrome => isAndroid;
+
+  /// Web-native mix: rail/top nav, hover, no mobile-only glass.
+  static bool get usesWebChrome => isWeb;
+
+  /// Wide web layout (desktop/tablet browser).
+  static bool creatorNetworkIsWideWebLayout(BuildContext context) {
+    if (!kIsWeb) {
+      return false;
+    }
+    return MediaQuery.sizeOf(context).width >= 960;
+  }
+
+  /// Native-feeling scroll physics per platform.
+  static ScrollPhysics creatorNetworkScrollPhysics() {
+    if (isIOS) {
+      return const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      );
+    }
+    return const ClampingScrollPhysics(
+      parent: AlwaysScrollableScrollPhysics(),
+    );
   }
 }
 
 // Suggestions For Features and Additions Later:
-// - Add support for detecting specific device types
-// - Implement screen size detection utilities
-// - Add platform-specific feature detection
-// - Create platform-specific styling helpers
-
+// - Foldable hinge-aware layout once a foldable device is in the test matrix
+// - Detect iPad vs iPhone for expanded Cupertino split view

@@ -9,7 +9,7 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:infinitum_live_creator_network/l10n/generated/app_localizations.dart';
 import 'package:infinitum_live_creator_network/core/logger.dart';
 import 'package:infinitum_live_creator_network/screens/home_screen.dart';
 import 'package:infinitum_live_creator_network/screens/terms_acceptance_screen.dart';

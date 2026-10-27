@@ -2,7 +2,7 @@
  * Filename: app_info_dialog.dart
  * Purpose: Dialog widget displaying app information after ATT permission
  * Author: Kevin Doyle Jr. / Infinitum Imagery LLC
- * Last Modified: 2025-01-27
+ * Last Modified: 2026-10-27
  * Dependencies: flutter/material.dart, app_logo_widget.dart, app_info_dialog_service.dart
  * Platform Compatibility: iOS, Android, Web
  */
@@ -96,12 +96,21 @@ class AppInfoDialog extends StatelessWidget {
             
             // Info Message
             Text(
-              'This app "${AppConfig.appName}" is a central hub for Creator tools. Directly on this app there is no data collection, sign ups or account creations.',
+              'This app is the public Infinitum LIVE hub: join the network, stay connected if you are already a member, and get InfiniView. There is no sign-up or account in this app.',
               style: theme.textTheme.bodyLarge?.copyWith(
                 height: 1.5,
                 color: isDark
-                    ? Colors.white.withOpacity(0.9)
+                    ? Colors.white.withValues(alpha: 0.9)
                     : Colors.black87,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              AppConfig.builtByInfinitumPittsburgh,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: theme.colorScheme.primary,
               ),
               textAlign: TextAlign.center,
             ),

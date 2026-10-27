@@ -1,15 +1,17 @@
 /*
  * Filename: requirements_screen.dart
- * Purpose: Screen displaying requirements for joining different Infinitum programs
+ * Purpose: Public join requirements for Infinitum LIVE, Shop, Favorited, and Bigo programs
  * Author: Kevin Doyle Jr. / Infinitum Imagery LLC
- * Last Modified: 2025-01-27
- * Dependencies: flutter/material.dart, glass_card_widget.dart, logger.dart
+ * Last Modified: 2026-10-27
+ * Dependencies: flutter/material.dart, glass_card_widget.dart, logger.dart, app_config.dart
  * Platform Compatibility: iOS, Android, Web
  */
 
 import 'package:flutter/material.dart';
+import 'package:infinitum_live_creator_network/core/app_config.dart';
+import 'package:infinitum_live_creator_network/core/logger.dart';
+import 'package:infinitum_live_creator_network/l10n/generated/app_localizations.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // MARK: - Requirements Screen
 class RequirementsScreen extends StatelessWidget {
@@ -18,7 +20,11 @@ class RequirementsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+    Logger.logInfo(
+      'Opened Requirements screen (app ${AppConfig.appVersion} Build 1)',
+      tag: 'RequirementsScreen',
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.requirements),
@@ -27,30 +33,38 @@ class RequirementsScreen extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.all(16),
         children: [
-          // MARK: - TikTok LIVE Requirements
+          // MARK: - Join Path
+          GlassCardWidget(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'How joining works',
+                  style: theme.textTheme.headlineSmall,
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Apply on infinitumlive.com (or the Join tab). If you are eligible, Infinitum emails next steps. TikTok LIVE applicants submit a TikTok invitation code; TikTok must approve the network invitation. After acceptance, complete InfiniView Finish setup (web or the InfiniView app) to activate membership tools and your manager. This Creator Network hub has no login.',
+                  style: theme.textTheme.bodyMedium,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
           _buildTikTokLiveRequirements(theme.textTheme),
-          
           const SizedBox(height: 16),
-          
-          // MARK: - TikTok Shop Requirements
           _buildTikTokShopRequirements(theme.textTheme),
-          
           const SizedBox(height: 16),
-          
-          // MARK: - Favorited Requirements
           _buildFavoritedRequirements(theme.textTheme),
-          
           const SizedBox(height: 16),
-          
-          // MARK: - Bigo Requirements
           _buildBigoRequirements(theme.textTheme),
-          
           const SizedBox(height: 24),
         ],
       ),
     );
   }
-  
+
   // MARK: - TikTok LIVE Requirements Builder
   Widget _buildTikTokLiveRequirements(TextTheme textTheme) {
     return GlassCardWidget(
@@ -58,74 +72,72 @@ class RequirementsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              const Text('🎥', style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  'TikTok LIVE Creator Network Requirements:',
-                  style: textTheme.headlineSmall,
-                ),
-              ),
-            ],
+          _RequirementsProgramHeader(
+            icon: Icons.videocam_outlined,
+            title: 'TikTok LIVE Creator Network requirements',
+            textTheme: textTheme,
           ),
           const SizedBox(height: 20),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Age:',
             value: '18 years old or older',
-            textTheme: textTheme,
           ),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Location:',
-            value: 'Must be based in the United States Of America, Canada, United Kingdom or Australia',
-            textTheme: textTheme,
+            value:
+                'Currently accepting TikTok LIVE applications from the United States, Canada, United Kingdom, Australia, and New Zealand',
           ),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Interest:',
-            value: 'Willing to learn about live streaming as a career',
-            textTheme: textTheme,
+            value:
+                'Willing to treat live streaming as a career (full-time or part-time)',
           ),
-          _RequirementItem(
-            label: 'Guideline Adherence:',
-            value: 'Familiar with and committed to following TikTok Community Guidelines',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'Guideline adherence:',
+            value:
+                'Familiar with and committed to following TikTok Community Guidelines',
           ),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Affiliation:',
-            value: 'Not currently affiliated with another TikTok LIVE agency or manager',
-            textTheme: textTheme,
+            value:
+                'Not currently signed with another TikTok LIVE agency or manager. Backup accounts are not permitted.',
           ),
-          _RequirementItem(
-            label: 'LIVE Streaming Commitment:',
-            value: 'Able to go LIVE for at least 12 valid days and 25 hours per month',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'Apply commitment:',
+            value:
+                'Able to go LIVE at least 8 valid days and 20 valid hours per month. Full Diamond Incentive Program and campaign qualification typically require 12 valid days and 25+ hours as announced in InfiniView.',
           ),
-          _RequirementItem(
-            label: 'Account Settings:',
-            value: 'Must have a public account (cannot be private)',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'Account settings:',
+            value: 'Public TikTok account (cannot be private)',
           ),
-          _RequirementItem(
-            label: 'Profile Quality:',
-            value: 'Must have a high-quality profile picture',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'Profile quality:',
+            value: 'Professional, high-quality profile picture',
           ),
-          _RequirementItem(
-            label: 'Content Requirements:',
-            value: 'Must have at least 4 videos posted',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'Content:',
+            value: 'At least 4 videos posted',
           ),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Followers:',
-            value: 'Must have a minimum of 10 followers',
-            textTheme: textTheme,
+            value: 'At least 10 followers',
+          ),
+          const RequirementsItem(
+            label: 'Discord:',
+            value:
+                'A Discord account is required for Infinitum communication and support',
+          ),
+          const RequirementsItem(
+            label: 'After acceptance:',
+            value:
+                'Complete InfiniView Finish setup. Stream keys are not automatic. Advertising dual or multi-streaming on TikTok LIVE is not permitted.',
           ),
         ],
       ),
     );
   }
-  
+
   // MARK: - TikTok Shop Requirements Builder
   Widget _buildTikTokShopRequirements(TextTheme textTheme) {
     return GlassCardWidget(
@@ -133,74 +145,60 @@ class RequirementsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              const Text('🛒', style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  'TikTok Shop Agency Requirements:',
-                  style: textTheme.headlineSmall,
-                ),
-              ),
-            ],
+          _RequirementsProgramHeader(
+            icon: Icons.storefront_outlined,
+            title: 'TikTok Shop agency requirements',
+            textTheme: textTheme,
           ),
           const SizedBox(height: 20),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Location:',
-            value: 'US-based creator',
-            textTheme: textTheme,
+            value: 'United States–based creator',
           ),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Age:',
             value: '18 years old or older',
-            textTheme: textTheme,
           ),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Interest:',
-            value: 'Willing to learn about TikTok Shop affilate as a career',
-            textTheme: textTheme,
+            value:
+                'Willing to learn TikTok Shop affiliate selling as a career',
           ),
-          _RequirementItem(
-            label: 'Guideline Adherence:',
-            value: 'Familiar with and committed to following TikTok Community Guidelines',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'Guideline adherence:',
+            value:
+                'Familiar with and committed to following TikTok Community Guidelines and TikTok Shop policies',
           ),
-          _RequirementItem(
-            label: 'Account Settings:',
-            value: 'Must have a public account (cannot be private)',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'Account settings:',
+            value: 'Public TikTok account (cannot be private)',
           ),
-          _RequirementItem(
-            label: 'Profile Quality:',
-            value: 'Must have a high-quality profile picture',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'Profile quality:',
+            value: 'Professional, high-quality profile picture',
           ),
-          _RequirementItem(
-            label: 'Content Requirements:',
-            value: 'Must have at least 4 videos posted',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'Content:',
+            value: 'At least 4 videos posted',
           ),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Followers:',
-            value: 'Must have at least 5,000 followers',
-            textTheme: textTheme,
+            value: 'At least 5,000 followers',
           ),
-          _RequirementItem(
-            label: 'TikTok Shop Access:',
-            value: 'Already have access to TikTok Shop or manager',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'TikTok Shop access:',
+            value: 'Already have TikTok Shop access (or manager access)',
           ),
-          _RequirementItem(
-            label: 'TikTok Shop Not Linked:',
-            value: 'Can not already be linked to a TikTok seller account or another TikTok Shop Agency',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'Existing Shop link:',
+            value:
+                'Cannot already be linked to a TikTok seller account or another TikTok Shop agency',
           ),
         ],
       ),
     );
   }
-  
+
   // MARK: - Favorited Requirements Builder
   Widget _buildFavoritedRequirements(TextTheme textTheme) {
     return GlassCardWidget(
@@ -208,69 +206,62 @@ class RequirementsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              const Text('⭐', style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  'Favorited Agency Requirements:',
-                  style: textTheme.headlineSmall,
-                ),
-              ),
-            ],
+          _RequirementsProgramHeader(
+            icon: Icons.favorite_outline,
+            title: 'Favorited agency requirements',
+            textTheme: textTheme,
           ),
           const SizedBox(height: 20),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Age:',
             value: '18 years old or older',
-            textTheme: textTheme,
           ),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Location:',
-            value: 'Must be based in the US or Canada',
-            textTheme: textTheme,
+            value: 'Must be based in the United States or Canada',
           ),
-          _RequirementItem(
+          const RequirementsItem(
+            label: 'Platform earnings:',
+            value:
+                'Have made less than \$1,000 on Favorited already',
+          ),
+          const RequirementsItem(
             label: 'Interest:',
-            value: 'Willing to learn about live streaming as a career',
-            textTheme: textTheme,
+            value:
+                'Willing to treat live streaming as a career and go LIVE consistently',
           ),
-          _RequirementItem(
-            label: 'Guideline Adherence:',
-            value: 'Familiar with and committed to following TikTok Community Guidelines',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'Guideline adherence:',
+            value:
+                'Familiar with and committed to following Favorited community guidelines and Infinitum Favorited LIVE policy',
           ),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Affiliation:',
-            value: 'Not currently affiliated with another LIVE agency or manager',
-            textTheme: textTheme,
+            value:
+                'Cannot already be in a Favorited agency. Agencies on other platforms are permitted.',
           ),
-          _RequirementItem(
-            label: 'LIVE Streaming Commitment:',
-            value: 'Able to go LIVE for at least 1 day a month',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'LIVE streaming commitment:',
+            value:
+                'Must actively go LIVE on Favorited. Keep a consistent schedule and tell your audience when possible.',
           ),
-          _RequirementItem(
-            label: 'Account Settings:',
-            value: 'Must have a public account (cannot be private)',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'Account settings:',
+            value: 'Public account (cannot be private)',
           ),
-          _RequirementItem(
-            label: 'Profile Quality:',
-            value: 'Must have a high-quality profile picture',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'Profile quality:',
+            value: 'Professional, high-quality profile picture',
           ),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Followers:',
-            value: 'Must have a minimum of 0 followers',
-            textTheme: textTheme,
+            value: 'No follower minimum',
           ),
         ],
       ),
     );
   }
-  
+
   // MARK: - Bigo Requirements Builder
   Widget _buildBigoRequirements(TextTheme textTheme) {
     return GlassCardWidget(
@@ -278,63 +269,49 @@ class RequirementsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              const Text('🔥', style: TextStyle(fontSize: 24)),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Text(
-                  'Bigo Agency Requirements:',
-                  style: textTheme.headlineSmall,
-                ),
-              ),
-            ],
+          _RequirementsProgramHeader(
+            icon: Icons.live_tv_outlined,
+            title: 'Bigo agency requirements',
+            textTheme: textTheme,
           ),
           const SizedBox(height: 20),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Age:',
             value: '18 years old or older',
-            textTheme: textTheme,
           ),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Location:',
-            value: 'Must be based in the US or Canada',
-            textTheme: textTheme,
+            value: 'Must be based in the United States or Canada',
           ),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Interest:',
-            value: 'Willing to learn about live streaming as a career',
-            textTheme: textTheme,
+            value: 'Willing to treat live streaming as a career',
           ),
-          _RequirementItem(
-            label: 'Guideline Adherence:',
-            value: 'Familiar with and committed to following TikTok Community Guidelines',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'Guideline adherence:',
+            value:
+                'Familiar with and committed to following Bigo Community Guidelines',
           ),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Affiliation:',
-            value: 'Not currently affiliated with another LIVE agency or manager',
-            textTheme: textTheme,
+            value:
+                'Not currently affiliated with another Bigo LIVE agency or manager',
           ),
-          _RequirementItem(
-            label: 'LIVE Streaming Commitment:',
-            value: 'Able to go LIVE for at least 1 day a month',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'LIVE streaming commitment:',
+            value: 'Able to go LIVE at least 1 day a month',
           ),
-          _RequirementItem(
-            label: 'Account Settings:',
-            value: 'Must have a public account (cannot be private)',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'Account settings:',
+            value: 'Public account (cannot be private)',
           ),
-          _RequirementItem(
-            label: 'Profile Quality:',
-            value: 'Must have a high-quality profile picture',
-            textTheme: textTheme,
+          const RequirementsItem(
+            label: 'Profile quality:',
+            value: 'Professional, high-quality profile picture',
           ),
-          _RequirementItem(
+          const RequirementsItem(
             label: 'Followers:',
-            value: 'Must have a minimum of 0 followers',
-            textTheme: textTheme,
+            value: 'No follower minimum',
           ),
         ],
       ),
@@ -342,40 +319,60 @@ class RequirementsScreen extends StatelessWidget {
   }
 }
 
-// MARK: - Requirement Item Widget
-class _RequirementItem extends StatelessWidget {
-  final String label;
-  final String value;
+// MARK: - Requirements Program Header
+class _RequirementsProgramHeader extends StatelessWidget {
+  final IconData icon;
+  final String title;
   final TextTheme textTheme;
-  
-  const _RequirementItem({
-    required this.label,
-    required this.value,
+
+  const _RequirementsProgramHeader({
+    required this.icon,
+    required this.title,
     required this.textTheme,
   });
-  
+
   @override
   Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, size: 28, color: Theme.of(context).colorScheme.primary),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            title,
+            style: textTheme.headlineSmall,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// MARK: - Requirement Item Widget
+class RequirementsItem extends StatelessWidget {
+  final String label;
+  final String value;
+
+  const RequirementsItem({
+    super.key,
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Row(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 140,
-            child: Text(
-              label,
-              style: textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+          Text(
+            label,
+            style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.bold),
           ),
-          Expanded(
-            child: Text(
-              value,
-              style: textTheme.bodyMedium,
-            ),
-          ),
+          const SizedBox(height: 4),
+          Text(value, style: textTheme.bodyMedium),
         ],
       ),
     );
@@ -383,11 +380,6 @@ class _RequirementItem extends StatelessWidget {
 }
 
 // Suggestions For Features and Additions Later:
-// - Add requirement checklist functionality
-// - Implement requirement validation tool
-// - Add progress tracking for meeting requirements
-// - Create comparison table between different program requirements
-// - Add FAQ section for common requirement questions
-// - Implement requirement reminder notifications
-// - Add print/export requirements feature
-
+// - Load currently-accepting countries from a public Infinitum config feed
+// - Deep-link each program to its infinitumlive.com apply form
+// - Surface InfiniView Finish setup status only after a creator signs in to InfiniView

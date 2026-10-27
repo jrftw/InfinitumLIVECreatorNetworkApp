@@ -2,7 +2,7 @@
  * Filename: url_launcher_util.dart
  * Purpose: Utility functions for launching URLs and external links
  * Author: Kevin Doyle Jr. / Infinitum Imagery LLC
- * Last Modified: 2025-01-27
+ * Last Modified: 2026-10-27
  * Dependencies: url_launcher package, logger.dart, webview_screen.dart
  * Platform Compatibility: iOS, Android, Web
  */
@@ -35,7 +35,7 @@ class UrlLauncherUtil {
           final extractedUrl = match.group(0);
           if (extractedUrl != null) {
             Logger.logInfo('Extracted URL from array: $extractedUrl', tag: 'UrlLauncherUtil');
-            return launchUrl(extractedUrl, context: context, title: title, mode: mode);
+            return await launchUrl(extractedUrl, context: context, title: title, mode: mode);
           }
         }
         Logger.logError('Invalid URL format (array): $url', tag: 'UrlLauncherUtil');
@@ -49,14 +49,20 @@ class UrlLauncherUtil {
       }
       
       final uri = Uri.parse(cleanedUrl);
-      
-      // On web platform, use default browser behavior
-      if (kIsWeb) {
-        final launchMode = mode ?? url_launcher.LaunchMode.platformDefault;
+      final bool openExternally =
+          mode == url_launcher.LaunchMode.externalApplication ||
+              urlLauncherUtilRequiresExternalBrowser(cleanedUrl);
+
+      // On web, or for store/Discord links, use the system browser/app.
+      if (kIsWeb || openExternally) {
+        final launchMode = mode ?? url_launcher.LaunchMode.externalApplication;
         if (await url_launcher.canLaunchUrl(uri)) {
           final launched = await url_launcher.launchUrl(uri, mode: launchMode);
           if (launched) {
-            Logger.logInfo('Successfully launched URL: $url', tag: 'UrlLauncherUtil');
+            Logger.logInfo(
+              'Successfully launched URL externally: $url',
+              tag: 'UrlLauncherUtil',
+            );
           }
           return launched;
         } else {
@@ -65,7 +71,7 @@ class UrlLauncherUtil {
         }
       }
       
-      // On mobile platforms (iOS/Android), open in in-app webview
+      // On mobile platforms (iOS/Android), open trusted sites in-app.
       if (context != null) {
         Logger.logInfo('Opening URL in in-app webview: $url', tag: 'UrlLauncherUtil');
         Navigator.of(context).push(
@@ -144,12 +150,29 @@ class UrlLauncherUtil {
   }
 }
 
+// MARK: - External Browser Detection
+bool urlLauncherUtilRequiresExternalBrowser(String url) {
+  final Uri? uri = Uri.tryParse(url.trim());
+  if (uri == null || uri.host.isEmpty) {
+    return false;
+  }
+  final String host = uri.host.toLowerCase();
+  return host.contains('apps.apple.com') ||
+      host.contains('itunes.apple.com') ||
+      host.contains('play.google.com') ||
+      host.contains('market.android.com') ||
+      host == 'discord.gg' ||
+      host.endsWith('.discord.gg') ||
+      host == 'discord.com' ||
+      host.endsWith('.discord.com') ||
+      host == 'discordapp.com' ||
+      host.endsWith('.discordapp.com');
+}
+
 // Suggestions For Features and Additions Later:
 // - Add support for SMS links
 // - Implement deep linking handlers
-// - Add URL validation before launching
 // - Create custom URL scheme handlers
 // - Add analytics tracking for link clicks
 // - Implement link preview functionality
-// - Add support for in-app browser option
 

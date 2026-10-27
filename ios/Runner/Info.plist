@@ -15,9 +15,9 @@
 	<key>CFBundleName</key>
 	<string>infinitum_live_creator_network</string>
 	<key>CFBundleGetInfoString</key>
-	<string>Infinitum LIVE Creator Network - Official TikTok Partner Network for Creator Training and Support. This is a central hub/portal app that provides links and information. The app does not collect user data, does not require account creation, and does not store personal information.</string>
+	<string>Infinitum LIVE Creator Network - Official public hub for Infinitum LIVE. This app does not create an account. Optional Google AdMob banner ads may use tracking if App Tracking Transparency is allowed. Theme, language, and terms flags stay on device.</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2025 Infinitum Imagery LLC. All rights reserved. Infinitum LIVE Creator Network, Infinitum LIVE TikTok Agency, Infinitum_US, Infinitum_UK, Infinitum_AU, Infinitum_LATAM, Infinitum_PH, and Infinitum Limited Liability Company are trademarks and service marks of Infinitum Imagery LLC. This application is owned and operated by Infinitum Imagery LLC. TikTok, TikTok LIVE, and TikTok Shop are trademarks of TikTok Inc. and/or its affiliates. The use of TikTok branding in this application is done with explicit permission as an official third-party partner. Favorited and Bigo are trademarks of their respective owners. This application works with these platforms as an official partner.</string>
+	<string>Copyright © 2026 Infinitum Imagery LLC. All rights reserved. Infinitum LIVE Creator Network, Infinitum LIVE TikTok Agency, Infinitum_US, Infinitum_UK, Infinitum_AU, Infinitum_LATAM, Infinitum_PH, and Infinitum Limited Liability Company are trademarks and service marks of Infinitum Imagery LLC. This application is owned and operated by Infinitum Imagery LLC. TikTok, TikTok LIVE, and TikTok Shop are trademarks of TikTok Inc. and/or its affiliates. The use of TikTok branding in this application is done with explicit permission as an official third-party partner. Favorited and Bigo are trademarks of their respective owners. This application works with these platforms as an official partner.</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -75,27 +75,7 @@
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>UIStatusBarHidden</key>
-	<true/>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Infinitum LIVE Creator Network does not use location services. This permission is not required for app functionality.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Infinitum LIVE Creator Network does not use location services. This permission is not required for app functionality.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Infinitum LIVE Creator Network does not access the camera. This permission is not required for app functionality.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Infinitum LIVE Creator Network does not access your photo library. This permission is not required for app functionality.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Infinitum LIVE Creator Network does not access the microphone. This permission is not required for app functionality.</string>
-	<key>NSContactsUsageDescription</key>
-	<string>Infinitum LIVE Creator Network does not access your contacts. This permission is not required for app functionality. This app is a central hub/portal that does not collect user data, phone numbers, or any personal information.</string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Infinitum LIVE Creator Network does not use Bluetooth. This permission is not required for app functionality.</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Infinitum LIVE Creator Network does not use Bluetooth. This permission is not required for app functionality.</string>
-	<key>NSLocalNetworkUsageDescription</key>
-	<string>Infinitum LIVE Creator Network connects to infinitumlive.com and related services to provide creator network features, including announcements, statistics, and partnership information for TikTok, TikTok LIVE, TikTok Shop, Favorited, and Bigo creators. This app is a central hub/portal that does not collect, store, or require any user data or account creation.</string>
-	<key>NSBonjourServices</key>
-	<array/>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>https</string>
@@ -140,9 +120,9 @@
 	</dict>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.utilities</string>
-	<!-- App Data Collection Declaration: This app is a central hub/portal that does not collect, store, or require any user data, phone numbers, email addresses, or personal information. No accounts are created directly in this app. All data collection (if any) occurs on external websites that users navigate to via links. -->
+	<!-- Honest data statement: no accounts in this hub. Optional AdMob if ATT allowed. Local preferences only. -->
 	<key>NSAppDescription</key>
-	<string>Infinitum LIVE Creator Network is a central hub/portal app that provides links to external tools, services, and information. This app does NOT collect user data, does NOT require account creation, does NOT store personal information, and does NOT request phone numbers or email addresses. All application processes and data collection (if any) occur on external websites (infinitumlive.com) that users navigate to via links, not within this app.</string>
+	<string>Infinitum LIVE Creator Network is a public hub with no login. It does not create Infinitum or InfiniView accounts and does not request phone numbers or email addresses. Optional Google AdMob banner ads may use the advertising identifier if you allow App Tracking Transparency. Theme, language, and terms-acceptance flags are stored on device. Apply and onboarding happen on infinitumlive.com and in InfiniView.</string>
 	<key>GADApplicationIdentifier</key>
 	<string>ca-app-pub-6815311336585204~1076958732</string>
 	<key>SKAdNetworkItems</key>

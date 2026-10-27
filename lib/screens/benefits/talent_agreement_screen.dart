@@ -1,15 +1,17 @@
 /*
  * Filename: talent_agreement_screen.dart
- * Purpose: Screen displaying the Infinitum Talent Agreement details
+ * Purpose: Public summary of Infinitum TikTok LIVE invitation terms and talent agreement
  * Author: Kevin Doyle Jr. / Infinitum Imagery LLC
- * Last Modified: 2025-01-27
- * Dependencies: flutter/material.dart, glass_card_widget.dart, logger.dart
+ * Last Modified: 2026-10-27
+ * Dependencies: flutter/material.dart, glass_card_widget.dart, logger.dart, app_config.dart
  * Platform Compatibility: iOS, Android, Web
  */
 
 import 'package:flutter/material.dart';
+import 'package:infinitum_live_creator_network/core/app_config.dart';
+import 'package:infinitum_live_creator_network/core/logger.dart';
+import 'package:infinitum_live_creator_network/l10n/generated/app_localizations.dart';
 import 'package:infinitum_live_creator_network/widgets/glass_card_widget.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 // MARK: - Talent Agreement Screen
 class TalentAgreementScreen extends StatelessWidget {
@@ -18,7 +20,11 @@ class TalentAgreementScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+    Logger.logInfo(
+      'Opened Talent Agreement screen (app ${AppConfig.appVersion} Build 1)',
+      tag: 'TalentAgreementScreen',
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.talentAgreement),
@@ -34,120 +40,116 @@ class TalentAgreementScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Infinitum Talent Agreement – For TikTok LIVE',
+                  'Infinitum Talent Agreement — TikTok LIVE',
                   style: theme.textTheme.headlineMedium,
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Infinitum – Invitation Terms and Agreements',
+                  'Infinitum — Invitation Terms and Agreements',
                   style: theme.textTheme.titleMedium,
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '(United States, Canada, United Kingdom & Australia)',
+                  'TikTok LIVE applications are currently accepted from the United States, Canada, United Kingdom, Australia, and New Zealand. Infinitum_US, Infinitum_UK, Infinitum_AU, Infinitum_LATAM, and Infinitum_PH are Infinitum Imagery LLC network marks. This is a public summary of the invitation you accept on TikTok and with Infinitum; it is not a substitute for the invitation shown in TikTok.',
                   style: theme.textTheme.bodyMedium,
                 ),
               ],
             ),
           ),
-          
           const SizedBox(height: 16),
-          
-          // MARK: - Invitation Term Section
-          _buildInvitationTermSection(theme.textTheme),
-          
+          _buildTalentAgreementInfiniViewSection(theme.textTheme),
           const SizedBox(height: 16),
-          
-          // MARK: - Withdrawal & Removal Policy Section
-          _buildWithdrawalRemovalSection(theme.textTheme),
-          
+          _buildTalentAgreementInvitationTermSection(theme.textTheme),
           const SizedBox(height: 16),
-          
-          // MARK: - Poaching & Outside Influence Section
-          _buildPoachingSection(theme.textTheme),
-          
+          _buildTalentAgreementWithdrawalSection(theme.textTheme),
           const SizedBox(height: 16),
-          
-          // MARK: - Settlement of Expenses Section
-          _buildSettlementSection(theme.textTheme),
-          
+          _buildTalentAgreementPoachingSection(theme.textTheme),
           const SizedBox(height: 16),
-          
-          // MARK: - Relationship Terms Section
-          _buildRelationshipTermsSection(theme.textTheme),
-          
+          _buildTalentAgreementSettlementSection(theme.textTheme),
           const SizedBox(height: 16),
-          
-          // MARK: - D.I.P. Bonus Section
-          _buildDIPBonusSection(theme.textTheme),
-          
+          _buildTalentAgreementRelationshipSection(theme.textTheme),
           const SizedBox(height: 16),
-          
-          // MARK: - Confidentiality Section
-          _buildConfidentialitySection(theme.textTheme),
-          
+          _buildTalentAgreementDipSection(theme.textTheme),
           const SizedBox(height: 16),
-          
-          // MARK: - Non-Compete Section
-          _buildNonCompeteSection(theme.textTheme),
-          
+          _buildTalentAgreementConfidentialitySection(theme.textTheme),
           const SizedBox(height: 16),
-          
-          // MARK: - Final Acceptance Section
-          _buildFinalAcceptanceSection(theme.textTheme),
-          
+          _buildTalentAgreementNonCompeteSection(theme.textTheme),
+          const SizedBox(height: 16),
+          _buildTalentAgreementFinalAcceptanceSection(theme.textTheme),
           const SizedBox(height: 24),
         ],
       ),
     );
   }
-  
-  // MARK: - Invitation Term Section Builder
-  Widget _buildInvitationTermSection(TextTheme textTheme) {
+
+  // MARK: - InfiniView Membership Tools
+  Widget _buildTalentAgreementInfiniViewSection(TextTheme textTheme) {
     return GlassCardWidget(
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Invitation Term',
+            'InfiniView after you join',
             style: textTheme.headlineSmall,
           ),
           const SizedBox(height: 12),
-          _AgreementItem(
+          Text(
+            'After TikTok accepts the network invitation, complete InfiniView Finish setup (view.infinitumlive.com or the InfiniView iOS/Android app). InfiniView is the member app for manager contact, bonuses, diamonds, hours, time-off, and appeals. This Creator Network hub does not sign you into InfiniView.',
+            style: textTheme.bodyMedium,
+          ),
+        ],
+      ),
+    );
+  }
+
+  // MARK: - Invitation Term Section Builder
+  Widget _buildTalentAgreementInvitationTermSection(TextTheme textTheme) {
+    return GlassCardWidget(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Invitation term',
+            style: textTheme.headlineSmall,
+          ),
+          const SizedBox(height: 12),
+          TalentAgreementItem(
             title: 'Duration:',
-            content: 'Membership is valid for three (3) years from the date of acceptance.',
+            content:
+                'Membership is valid for three (3) years from the date of acceptance.',
             textTheme: textTheme,
           ),
         ],
       ),
     );
   }
-  
+
   // MARK: - Withdrawal & Removal Policy Section Builder
-  Widget _buildWithdrawalRemovalSection(TextTheme textTheme) {
+  Widget _buildTalentAgreementWithdrawalSection(TextTheme textTheme) {
     return GlassCardWidget(
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Withdrawal & Removal Policy',
+            'Withdrawal & removal policy',
             style: textTheme.headlineSmall,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
-            title: 'First 15 Days:',
-            items: [
+          TalentAgreementSubsection(
+            title: 'First 15 days:',
+            items: const [
               'Creators may request removal at any time during the first 15 days of joining.',
               'Requests submitted within this period will be processed promptly with no restrictions.',
             ],
             textTheme: textTheme,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
-            title: 'After 15 Days:',
-            items: [
+          TalentAgreementSubsection(
+            title: 'After 15 days:',
+            items: const [
               'Following the initial 15 days, creators may request removal by providing a 30-day notice period.',
               'A 60-day cooldown period will apply before the creator is eligible to join another agency network.',
               'Infinitum is not obligated to approve an early release beyond these agreed terms.',
@@ -155,26 +157,26 @@ class TalentAgreementScreen extends StatelessWidget {
             textTheme: textTheme,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
-            title: 'Diamond Threshold Restriction:',
-            items: [
+          TalentAgreementSubsection(
+            title: 'Diamond threshold restriction:',
+            items: const [
               'Creators who have earned 200,000+ Diamonds within the past six months are ineligible to transfer to another network under TikTok\'s Creator Network onboarding guidelines.',
             ],
             textTheme: textTheme,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
-            title: '90-Day Completion Requirement:',
-            items: [
+          TalentAgreementSubsection(
+            title: '90-day completion requirement:',
+            items: const [
               'Our network operates under a structured withdrawal process designed to protect both creators and the community. This includes a 30-day notice period followed by a 60-day cooldown period, totaling 90 days.',
               'This process cannot be shortened or waived, even in cases of solicitation from another party. Creators are expected to complete the full 90-day requirement as outlined.',
             ],
             textTheme: textTheme,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
-            title: 'Agency Removal Rights:',
-            items: [
+          TalentAgreementSubsection(
+            title: 'Agency removal rights:',
+            items: const [
               'Infinitum reserves the right to remove a creator at any time, at its sole discretion. This may include blocking access to participation where necessary.',
             ],
             textTheme: textTheme,
@@ -183,16 +185,16 @@ class TalentAgreementScreen extends StatelessWidget {
       ),
     );
   }
-  
+
   // MARK: - Poaching & Outside Influence Section Builder
-  Widget _buildPoachingSection(TextTheme textTheme) {
+  Widget _buildTalentAgreementPoachingSection(TextTheme textTheme) {
     return GlassCardWidget(
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Poaching & Outside Influence',
+            'Poaching & outside influence',
             style: textTheme.headlineSmall,
           ),
           const SizedBox(height: 12),
@@ -201,24 +203,32 @@ class TalentAgreementScreen extends StatelessWidget {
             style: textTheme.bodyMedium,
           ),
           const SizedBox(height: 12),
-          _BulletPoint('Attempts by other agencies, managers, or third parties to recruit our creators during their agreement will not change the terms of withdrawal or cooldown.'),
-          _BulletPoint('Creators are expected to wait out the full withdrawal period and cooldown as agreed.'),
-          _BulletPoint('Any use of threats, defamatory statements, or hostile behavior to force early release is considered a violation of this agreement and will not accelerate removal.'),
-          _BulletPoint('Infinitum encourages respectful communication and remains available to provide support during the transition process, but all removals must follow the agreed timeline.'),
+          const TalentAgreementBulletPoint(
+            'Attempts by other agencies, managers, or third parties to recruit our creators during their agreement will not change the terms of withdrawal or cooldown.',
+          ),
+          const TalentAgreementBulletPoint(
+            'Creators are expected to wait out the full withdrawal period and cooldown as agreed.',
+          ),
+          const TalentAgreementBulletPoint(
+            'Any use of threats, defamatory statements, or hostile behavior to force early release is considered a violation of this agreement and will not accelerate removal.',
+          ),
+          const TalentAgreementBulletPoint(
+            'Infinitum encourages respectful communication and remains available to provide support during the transition process, but all removals must follow the agreed timeline.',
+          ),
         ],
       ),
     );
   }
-  
+
   // MARK: - Settlement of Expenses Section Builder
-  Widget _buildSettlementSection(TextTheme textTheme) {
+  Widget _buildTalentAgreementSettlementSection(TextTheme textTheme) {
     return GlassCardWidget(
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Settlement of Expenses and Proceeds',
+            'Settlement of expenses and proceeds',
             style: textTheme.headlineSmall,
           ),
           const SizedBox(height: 12),
@@ -235,54 +245,54 @@ class TalentAgreementScreen extends StatelessWidget {
       ),
     );
   }
-  
+
   // MARK: - Relationship Terms Section Builder
-  Widget _buildRelationshipTermsSection(TextTheme textTheme) {
+  Widget _buildTalentAgreementRelationshipSection(TextTheme textTheme) {
     return GlassCardWidget(
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Relationship Terms',
+            'Relationship terms',
             style: textTheme.headlineSmall,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
+          TalentAgreementSubsection(
             title: 'Talent Agreement:',
-            items: [
+            items: const [
               'Creators enrolled in the Diamond Incentive Program (D.I.P.) are subject to all program rules and performance standards.',
             ],
             textTheme: textTheme,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
-            title: 'Network Acceptance:',
-            items: [
+          TalentAgreementSubsection(
+            title: 'Network acceptance:',
+            items: const [
               'By accepting this invitation, creators agree to the Network Relationship Rules, which may be updated periodically.',
             ],
             textTheme: textTheme,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
-            title: 'TikTok Disclaimer:',
-            items: [
+          TalentAgreementSubsection(
+            title: 'TikTok disclaimer:',
+            items: const [
               'TikTok is not responsible for disputes between creators and agencies and will not intervene.',
             ],
             textTheme: textTheme,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
-            title: 'Information Sharing:',
-            items: [
+          TalentAgreementSubsection(
+            title: 'Information sharing:',
+            items: const [
               'TikTok may share performance metrics, account profile details, LIVE data, and other relevant information with Infinitum for the purpose of network management.',
             ],
             textTheme: textTheme,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
+          TalentAgreementSubsection(
             title: 'Compensation:',
-            items: [
+            items: const [
               'Infinitum does not provide direct payments.',
               'All creator compensation comes exclusively from TikTok LIVE gifts, governed by TikTok\'s Virtual Items Policy.',
             ],
@@ -290,59 +300,65 @@ class TalentAgreementScreen extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Text(
-            'Rules for Network Relationships',
+            'Rules for network relationships',
             style: textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 12),
-          _BulletPoint('Eligibility Restrictions: Hosts cannot join if banned, underage, or already affiliated with another network.'),
-          _BulletPoint('Transfer of Relationships: Transfers between contractors are subject to TikTok\'s rules and Infinitum\'s approval.'),
-          _BulletPoint('Ending a Relationship: A 30-day notice period applies after the first 15 days of joining. Cooldown restrictions also apply.'),
+          const TalentAgreementBulletPoint(
+            'Eligibility restrictions: Hosts cannot join if banned, underage, or already affiliated with another network.',
+          ),
+          const TalentAgreementBulletPoint(
+            'Transfer of relationships: Transfers between contractors are subject to TikTok\'s rules and Infinitum\'s approval.',
+          ),
+          const TalentAgreementBulletPoint(
+            'Ending a relationship: A 30-day notice period applies after the first 15 days of joining. Cooldown restrictions also apply.',
+          ),
         ],
       ),
     );
   }
-  
+
   // MARK: - D.I.P. Bonus Section Builder
-  Widget _buildDIPBonusSection(TextTheme textTheme) {
+  Widget _buildTalentAgreementDipSection(TextTheme textTheme) {
     return GlassCardWidget(
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Infinitum – Talent Agreement & D.I.P. Bonus',
+            'Infinitum — Talent Agreement & D.I.P. bonus',
             style: textTheme.headlineSmall,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
-            title: 'Creator Bonus Campaign Months:',
-            items: [
-              'Announced through official Infinitum channels (Discord, Email).',
+          TalentAgreementSubsection(
+            title: 'Creator bonus campaign months:',
+            items: const [
+              'Announced through official Infinitum channels (Discord, Email, and InfiniView).',
             ],
             textTheme: textTheme,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
+          TalentAgreementSubsection(
             title: 'Eligibility:',
-            items: [
-              'Creators must complete required valid streaming days and hours (e.g., 12 valid days, 25+ hours per month) and meet diamond thresholds.',
+            items: const [
+              'Creators must complete required valid streaming days and hours (for example 12 valid days and 25+ hours per month) and meet diamond thresholds announced for that campaign. Apply-time commitment on the public pre-check is at least 8 valid days and 20 hours; D.I.P. and campaign qualification can require more.',
             ],
             textTheme: textTheme,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
-            title: 'Proof of Performance:',
-            items: [
+          TalentAgreementSubsection(
+            title: 'Proof of performance:',
+            items: const [
               'Creators must provide screenshots or ranking proof where required.',
             ],
             textTheme: textTheme,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
+          TalentAgreementSubsection(
             title: 'Compensation:',
-            items: [
+            items: const [
               'All earnings are received directly through TikTok LIVE gifts.',
               'Infinitum does not issue direct payments; TikTok is the sole distributor of funds.',
               'Creators are responsible for reporting and paying any applicable taxes.',
@@ -350,9 +366,9 @@ class TalentAgreementScreen extends StatelessWidget {
             textTheme: textTheme,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
-            title: 'Performance Standards:',
-            items: [
+          TalentAgreementSubsection(
+            title: 'Performance standards:',
+            items: const [
               'Compliance with TikTok\'s Community Guidelines is mandatory. This includes restrictions on smoking, vaping, excessive cursing, or inappropriate content during streams.',
               'Creators must maintain quality broadcasts, avoiding static camera images or non-interactive displays.',
             ],
@@ -362,39 +378,39 @@ class TalentAgreementScreen extends StatelessWidget {
       ),
     );
   }
-  
+
   // MARK: - Confidentiality Section Builder
-  Widget _buildConfidentialitySection(TextTheme textTheme) {
+  Widget _buildTalentAgreementConfidentialitySection(TextTheme textTheme) {
     return GlassCardWidget(
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Infinitum – Confidentiality & Non-Disclosure',
+            'Infinitum — Confidentiality & non-disclosure',
             style: textTheme.headlineSmall,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
-            title: 'Confidentiality Obligation:',
-            items: [
+          TalentAgreementSubsection(
+            title: 'Confidentiality obligation:',
+            items: const [
               'All Infinitum-provided information, resources, materials, and internal communications are confidential.',
               'Unauthorized distribution, screenshots, recordings, or sharing of this information is prohibited.',
             ],
             textTheme: textTheme,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
+          TalentAgreementSubsection(
             title: 'Exceptions:',
-            items: [
+            items: const [
               'Publicly available information, previously known knowledge, or independently developed resources are not considered confidential.',
             ],
             textTheme: textTheme,
           ),
           const SizedBox(height: 16),
-          _AgreementSubsection(
-            title: 'Non-Disparagement:',
-            items: [
+          TalentAgreementSubsection(
+            title: 'Non-disparagement:',
+            items: const [
               'Creators agree not to publish or communicate negative or defamatory statements about Infinitum, its creators, or affiliates.',
             ],
             textTheme: textTheme,
@@ -403,16 +419,16 @@ class TalentAgreementScreen extends StatelessWidget {
       ),
     );
   }
-  
+
   // MARK: - Non-Compete Section Builder
-  Widget _buildNonCompeteSection(TextTheme textTheme) {
+  Widget _buildTalentAgreementNonCompeteSection(TextTheme textTheme) {
     return GlassCardWidget(
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Infinitum – Non-Compete Agreement',
+            'Infinitum — Non-compete agreement',
             style: textTheme.headlineSmall,
           ),
           const SizedBox(height: 12),
@@ -424,16 +440,16 @@ class TalentAgreementScreen extends StatelessWidget {
       ),
     );
   }
-  
+
   // MARK: - Final Acceptance Section Builder
-  Widget _buildFinalAcceptanceSection(TextTheme textTheme) {
+  Widget _buildTalentAgreementFinalAcceptanceSection(TextTheme textTheme) {
     return GlassCardWidget(
       padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Final Acceptance',
+            'Final acceptance',
             style: textTheme.headlineSmall,
           ),
           const SizedBox(height: 12),
@@ -448,17 +464,18 @@ class TalentAgreementScreen extends StatelessWidget {
 }
 
 // MARK: - Agreement Item Widget
-class _AgreementItem extends StatelessWidget {
+class TalentAgreementItem extends StatelessWidget {
   final String title;
   final String content;
   final TextTheme textTheme;
-  
-  const _AgreementItem({
+
+  const TalentAgreementItem({
+    super.key,
     required this.title,
     required this.content,
     required this.textTheme,
   });
-  
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -484,17 +501,18 @@ class _AgreementItem extends StatelessWidget {
 }
 
 // MARK: - Agreement Subsection Widget
-class _AgreementSubsection extends StatelessWidget {
+class TalentAgreementSubsection extends StatelessWidget {
   final String title;
   final List<String> items;
   final TextTheme textTheme;
-  
-  const _AgreementSubsection({
+
+  const TalentAgreementSubsection({
+    super.key,
     required this.title,
     required this.items,
     required this.textTheme,
   });
-  
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -507,36 +525,37 @@ class _AgreementSubsection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        ...items.map((item) => Padding(
-          padding: const EdgeInsets.only(bottom: 6),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('• ', style: textTheme.bodyMedium),
-              Expanded(
-                child: Text(
-                  item,
-                  style: textTheme.bodyMedium,
+        ...items.map(
+          (item) => Padding(
+            padding: const EdgeInsets.only(bottom: 6),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('• ', style: textTheme.bodyMedium),
+                Expanded(
+                  child: Text(
+                    item,
+                    style: textTheme.bodyMedium,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        )),
+        ),
       ],
     );
   }
 }
 
 // MARK: - Bullet Point Widget
-class _BulletPoint extends StatelessWidget {
+class TalentAgreementBulletPoint extends StatelessWidget {
   final String text;
-  
-  const _BulletPoint(this.text);
-  
+
+  const TalentAgreementBulletPoint(this.text, {super.key});
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
@@ -556,11 +575,6 @@ class _BulletPoint extends StatelessWidget {
 }
 
 // Suggestions For Features and Additions Later:
-// - Add agreement acceptance checkbox functionality
-// - Implement agreement version tracking
-// - Add print/export agreement feature
-// - Create agreement signature capture
-// - Add agreement history/change log
-// - Implement search functionality within agreement
-// - Add bookmark feature for important sections
-
+// - Link to the live TikTok invitation copy when TikTok exposes a public URL
+// - Track which agreement version a creator accepted inside InfiniView only
+// - Translate this public summary after legal review

@@ -24,12 +24,12 @@ if (flutterVersionCode == null) {
 
 def flutterVersionName = localProperties.getProperty('flutter.versionName')
 if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
+        flutterVersionName = '1.0.1'
 }
 
 android {
     namespace "com.infinitumimageryllc.infinitum_live_creator_network"
-    compileSdkVersion 34
+    compileSdkVersion 35
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -48,7 +48,7 @@ android {
     defaultConfig {
         applicationId "com.infinitumimageryllc.infinitum_live_creator_network"
         minSdkVersion flutter.minSdkVersion
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

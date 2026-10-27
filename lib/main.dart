@@ -9,6 +9,7 @@
 
 import 'dart:async';
 import 'dart:ui' show PlatformDispatcher;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kDebugMode, kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,7 +30,7 @@ import 'package:infinitum_live_creator_network/theme/app_theme.dart';
 import 'package:infinitum_live_creator_network/utils/platform_util.dart';
 import 'package:infinitum_live_creator_network/widgets/app_info_dialog.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:infinitum_live_creator_network/l10n/generated/app_localizations.dart';
 
 // MARK: - Main Application Entry Point
 void main() {
@@ -304,8 +305,8 @@ class _InfinitumLiveAppState extends State<InfinitumLiveApp> {
       navigatorKey: navigatorKey,
       title: AppConfig.appName,
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
+      theme: AppTheme.themeFor(brightness: Brightness.light),
+      darkTheme: AppTheme.themeFor(brightness: Brightness.dark),
       themeMode: _themeMode,
       // Localization support
       locale: _locale,
@@ -476,9 +477,8 @@ class _InfinitumLiveAppState extends State<InfinitumLiveApp> {
       ],
       // Performance optimizations
       builder: (context, child) {
-        return MediaQuery(
+        Widget wrapped = MediaQuery(
           data: MediaQuery.of(context).copyWith(
-            // Enable smooth scrolling
             textScaler: MediaQuery.of(context).textScaler.clamp(
               minScaleFactor: 0.8,
               maxScaleFactor: 1.2,
@@ -486,6 +486,19 @@ class _InfinitumLiveAppState extends State<InfinitumLiveApp> {
           ),
           child: child!,
         );
+        if (PlatformUtil.isIOS) {
+          wrapped = CupertinoTheme(
+            data: CupertinoThemeData(
+              primaryColor: AppTheme.primaryColor,
+              brightness: Theme.of(context).brightness,
+              barBackgroundColor: Theme.of(context)
+                  .scaffoldBackgroundColor
+                  .withValues(alpha: 0.92),
+            ),
+            child: wrapped,
+          );
+        }
+        return wrapped;
       },
       home: SplashScreen(
         onThemeModeChanged: _updateThemeMode,
