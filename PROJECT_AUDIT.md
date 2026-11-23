@@ -146,3 +146,8 @@ flutter run -d chrome
 # - Public newsroom feed (`destination=live`) if the hub should show InfiniNews
 # - Drop unused iOS permission declarations at the next store submit
 # - Translate new hub ARB keys beyond English
+
+
+## November 23, 2026 — final local validation supplement
+
+The November 23 InfiniView ecosystem audit found that the startup widget test bypassed the normal terms-service initialization and left a fake timer pending. The fixture now initializes synthetic SharedPreferences and the existing terms service, then verifies navigation to the first-run terms screen without accepting terms. The single-test suite passes. No runtime source or preference key changed. Analyzer: zero errors/warnings, 42 informational findings. Real provider/ad/device acceptance remains open. See [the production audit](../Infiniview-V3-Unified-App/docs/audits/INFINIVIEW_PRODUCTION_AUDIT.md).

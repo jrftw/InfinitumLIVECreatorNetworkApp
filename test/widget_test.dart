@@ -7,15 +7,26 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:infinitum_live_creator_network/services/terms_acceptance_service.dart';
+import 'package:infinitum_live_creator_network/screens/terms_acceptance_screen.dart';
 
 import 'package:infinitum_live_creator_network/main.dart';
 
 void main() {
   testWidgets('App launches successfully', (WidgetTester tester) async {
+    // Mirror normal startup prerequisites without invoking ads or network services.
+    SharedPreferences.setMockInitialValues({});
+    await TermsAcceptanceService.initialize();
+
     // Build our app and trigger a frame.
     await tester.pumpWidget(const InfinitumLiveApp());
 
     // Verify that the app builds without errors
     expect(find.byType(MaterialApp), findsOneWidget);
+    await tester.pumpAndSettle();
+    expect(find.byType(TermsAcceptanceScreen), findsOneWidget);
+    expect(TermsAcceptanceService.termsAccepted, isFalse);
+    expect(tester.takeException(), isNull);
   });
 }
